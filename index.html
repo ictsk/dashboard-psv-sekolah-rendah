@@ -19,6 +19,9 @@
     <!-- Canvas Confetti for Gamification Rewards -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <!-- Google Identity Services untuk SSO DELIMA (Sign-In With Google, disekat kepada domain moe-dl.edu.my) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- Tailwind Configuration for Custom Themes -->
     <script>
         tailwind.config = {
@@ -85,8 +88,30 @@
 </head>
 <body class="bg-[#fcf8f2] text-slate-900 font-sans min-h-screen selection:bg-yellow-300 selection:text-slate-900 transition-colors duration-300">
 
+    <!-- PINTU GERBANG SSO DELIMA (Google Sign-In disekat kepada @moe-dl.edu.my) -->
+    <div id="delima-login-gate" class="fixed inset-0 z-[200] bg-slate-950 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md border-4 border-slate-950 rounded-3xl shadow-brutal-lg p-8 text-center space-y-5">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-indigo-500 border-4 border-slate-950 flex items-center justify-center text-white text-3xl">
+                <i class="fa-solid fa-palette"></i>
+            </div>
+            <div>
+                <h1 class="font-black text-xl comic-font text-slate-900">SeniKreatif SK</h1>
+                <p class="text-xs text-slate-500 font-medium mt-1">Sila log masuk menggunakan akaun DELIMA rasmi (@moe-dl.edu.my) untuk teruskan.</p>
+            </div>
+
+            <!-- Butang Google Sign-In dijana secara automatik oleh Google Identity Services -->
+            <div id="g_id_signin" class="flex justify-center min-h-[44px] items-center">
+                <span class="text-[10px] text-slate-400 font-bold animate-pulse">Memuatkan butang log masuk...</span>
+            </div>
+
+            <div id="delima-login-error" class="hidden p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-xs font-bold text-left"></div>
+
+            <p class="text-[10px] text-slate-400 font-medium pt-2 border-t-2 border-dashed border-slate-200">Portal ini disediakan khusus untuk warga SK Krangan (guru & murid). Hubungi Penyelaras Digital jika menghadapi masalah log masuk.</p>
+        </div>
+    </div>
+
     <!-- App Container -->
-    <div class="flex flex-col lg:flex-row min-h-screen">
+    <div id="app-shell" class="hidden flex flex-col lg:flex-row min-h-screen">
 
         <!-- Dynamic Responsive Sidebar -->
         <aside class="w-full lg:w-72 bg-amber-100 border-b-4 lg:border-b-0 lg:border-r-4 border-slate-950 p-6 flex flex-col justify-between shrink-0">
@@ -159,6 +184,9 @@
                         <i class="fa-solid fa-gift text-slate-950 text-xl"></i>
                     </div>
                 </div>
+                <button onclick="signOutDelima()" class="mt-2 w-full py-1.5 text-[10px] font-black text-slate-500 hover:text-rose-600 flex items-center justify-center gap-1.5 transition-colors">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Keluar DELIMA
+                </button>
             </div>
         </aside>
 
@@ -591,7 +619,7 @@
                                     <p class="text-[10px] text-slate-600">Simpan hasil kerja anda ke galeri untuk tontonan murid-murid lain.</p>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <input type="text" id="gallery-author-name" placeholder="Nama Pelukis / Kelas" class="p-2 border-2 border-slate-950 text-xs font-bold rounded-lg bg-white w-40 focus:outline-none focus:ring-0">
+                                    <input type="text" id="gallery-author-name" placeholder="Nama Pelukis / Kelas" maxlength="60" class="p-2 border-2 border-slate-950 text-xs font-bold rounded-lg bg-white w-40 focus:outline-none focus:ring-0">
                                     <button onclick="publishToVirtualGallery()" class="py-2 px-4 bg-slate-950 hover:bg-slate-800 text-white text-xs font-black rounded-lg border-2 border-slate-950 shadow-brutal-sm active:translate-y-0.5">
                                         Hantar Karya 🖼️
                                     </button>
@@ -619,11 +647,11 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-black text-slate-700 mb-1 comic-font">Nama Guru</label>
-                                <input type="text" id="rph-guru" value="Cikgu Kreatif" class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0">
+                                <input type="text" id="rph-guru" value="" placeholder="Nama Guru" class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0">
                             </div>
                             <div>
                                 <label class="block text-xs font-black text-slate-700 mb-1 comic-font">Tarikh PdPc</label>
-                                <input type="date" id="rph-tarikh" value="2026-06-16" class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0">
+                                <input type="date" id="rph-tarikh" value="" class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0">
                             </div>
                         </div>
 
@@ -853,6 +881,206 @@
         let isDrawing = false;
         let lastX = 0;
         let lastY = 0;
+
+        // === STORAGE_KEYS: kunci localStorage untuk kekalkan data merentasi sesi ===
+        const STORAGE_KEYS = {
+            GALLERY: 'senikreatif_gallery_v1',
+            SCORE: 'senikreatif_score_v1',
+            SESSION: 'senikreatif_delima_session_v1'
+        };
+
+        // ==========================================================================
+        // === SSO DELIMA (Google Sign-In disekat kepada domain @moe-dl.edu.my) ===
+        // ==========================================================================
+        // LANGKAH SEDIAKAN CLIENT ID (buat sekali sahaja):
+        // 1. Buka https://console.cloud.google.com/ -> cipta/pilih projek.
+        // 2. APIs & Services > OAuth consent screen -> isi maklumat asas portal ini.
+        // 3. APIs & Services > Credentials > Create Credentials > OAuth client ID
+        //    -> Application type: "Web application".
+        // 4. Di bahagian "Authorized JavaScript origins", tambah domain tempat portal
+        //    ini dihoskan, contoh: https://skkrangan.github.io
+        // 5. Salin "Client ID" yang dijana dan gantikan nilai GOOGLE_CLIENT_ID di bawah.
+        const SSO_CONFIG = {
+            GOOGLE_CLIENT_ID: "461006347462-0u6pkgq244v9lhusk797h6rl89ir81nv.apps.googleusercontent.com",
+            ALLOWED_DOMAIN: "moe-dl.edu.my",
+            SESSION_HOURS: 8 // sesi log masuk sah selama berapa jam sebelum perlu log masuk semula
+        };
+
+        // Nyahkod payload JWT (id_token) tanpa perlu panggil API luar -- selari dengan
+        // sekatan DELIMA yang menyekat fetch cross-origin ke domain luar.
+        // PENTING: ini SEMAKAN DI SISI KLIEN SAHAJA (tiada pengesahan tandatangan kriptografi).
+        // Sesuai untuk kegunaan dalaman sekolah, tetapi bukan tahap keselamatan sistem kewangan/rasmi.
+        function decodeJwtPayload(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+                    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                ).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("Gagal nyahkod token DELIMA:", e);
+                return null;
+            }
+        }
+
+        function showLoginError(message) {
+            const errBox = document.getElementById('delima-login-error');
+            if (errBox) {
+                errBox.innerText = message;
+                errBox.classList.remove('hidden');
+            }
+        }
+
+        function hideLoginError() {
+            const errBox = document.getElementById('delima-login-error');
+            if (errBox) errBox.classList.add('hidden');
+        }
+
+        function grantAccessAndShowApp(profile) {
+            const gate = document.getElementById('delima-login-gate');
+            const shell = document.getElementById('app-shell');
+            if (gate) gate.classList.add('hidden');
+            if (shell) shell.classList.remove('hidden');
+
+            try {
+                sessionStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
+                    name: profile.name || '',
+                    email: profile.email || '',
+                    picture: profile.picture || '',
+                    ts: Date.now()
+                }));
+            } catch (e) {
+                console.warn("Gagal simpan sesi DELIMA:", e);
+            }
+
+            // Auto-isi Nama Guru dalam Penjana RPH menggunakan nama akaun DELIMA jika kosong
+            try {
+                const guruInput = document.getElementById('rph-guru');
+                if (guruInput && !guruInput.value && profile.name) {
+                    guruInput.value = profile.name;
+                    updateRPHPreview();
+                }
+            } catch (e) { /* abaikan jika elemen belum sedia */ }
+        }
+
+        // Dipanggil oleh Google Identity Services selepas pengguna pilih akaun
+        function handleCredentialResponse(response) {
+            hideLoginError();
+            const payload = decodeJwtPayload(response.credential);
+
+            if (!payload || !payload.email) {
+                showLoginError("Gagal mengesahkan akaun. Sila cuba log masuk semula.");
+                return;
+            }
+
+            const email = String(payload.email).toLowerCase();
+            const hd = payload.hd ? String(payload.hd).toLowerCase() : '';
+            const isDelimaDomain = email.endsWith('@' + SSO_CONFIG.ALLOWED_DOMAIN) || hd === SSO_CONFIG.ALLOWED_DOMAIN;
+
+            if (!isDelimaDomain) {
+                showLoginError(`Akaun "${payload.email}" bukan akaun DELIMA rasmi sekolah (@${SSO_CONFIG.ALLOWED_DOMAIN}). Sila log masuk dengan akaun sekolah anda.`);
+                if (window.google && google.accounts && google.accounts.id) {
+                    google.accounts.id.disableAutoSelect();
+                }
+                return;
+            }
+
+            grantAccessAndShowApp(payload);
+        }
+
+        // Semak sama ada sudah ada sesi sah yang belum tamat tempoh dalam tab semasa
+        function checkExistingSession() {
+            try {
+                const raw = sessionStorage.getItem(STORAGE_KEYS.SESSION);
+                if (!raw) return false;
+                const session = JSON.parse(raw);
+                const ageHours = (Date.now() - (session.ts || 0)) / (1000 * 60 * 60);
+                if (ageHours < SSO_CONFIG.SESSION_HOURS && session.email) {
+                    grantAccessAndShowApp(session);
+                    return true;
+                }
+            } catch (e) {
+                console.warn("Sesi tersimpan tidak sah:", e);
+            }
+            return false;
+        }
+
+        function signOutDelima() {
+            try {
+                sessionStorage.removeItem(STORAGE_KEYS.SESSION);
+                if (window.google && google.accounts && google.accounts.id) {
+                    google.accounts.id.disableAutoSelect();
+                }
+            } catch (e) { /* abaikan */ }
+            window.location.reload();
+        }
+
+        function initGoogleSignIn() {
+            if (SSO_CONFIG.GOOGLE_CLIENT_ID.startsWith('GANTI_DENGAN')) {
+                showLoginError("SSO DELIMA belum dikonfigurasi. Guru: sila tetapkan GOOGLE_CLIENT_ID di dalam kod (lihat komen SSO_CONFIG).");
+                return;
+            }
+            if (!window.google || !google.accounts || !google.accounts.id) {
+                // Google Identity Services belum siap dimuatkan, cuba lagi sebentar
+                setTimeout(initGoogleSignIn, 300);
+                return;
+            }
+
+            google.accounts.id.initialize({
+                client_id: SSO_CONFIG.GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse,
+                hd: SSO_CONFIG.ALLOWED_DOMAIN
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById('g_id_signin'),
+                { theme: 'outline', size: 'large', text: 'signin_with', locale: 'ms', shape: 'pill' }
+            );
+        }
+
+        // === UTIL: escape HTML untuk elak suntikan XSS pada input pengguna (nama/tajuk) ===
+        function escapeHtml(rawText) {
+            if (rawText === null || rawText === undefined) return '';
+            return String(rawText)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // === PERSISTENCE: simpan & muat semula skor bintang & galeri dari localStorage ===
+        function saveStateToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEYS.SCORE, JSON.stringify(scoreStarsCount));
+                localStorage.setItem(STORAGE_KEYS.GALLERY, JSON.stringify(galleryMockDatabase));
+            } catch (e) {
+                console.warn("Gagal menyimpan data ke localStorage (mungkin storan penuh atau disekat):", e);
+            }
+        }
+
+        function loadStateFromStorage() {
+            try {
+                const savedScore = localStorage.getItem(STORAGE_KEYS.SCORE);
+                if (savedScore !== null) {
+                    const parsedScore = JSON.parse(savedScore);
+                    if (typeof parsedScore === 'number' && !isNaN(parsedScore)) {
+                        scoreStarsCount = parsedScore;
+                    }
+                }
+
+                const savedGallery = localStorage.getItem(STORAGE_KEYS.GALLERY);
+                if (savedGallery !== null) {
+                    const parsedGallery = JSON.parse(savedGallery);
+                    if (Array.isArray(parsedGallery) && parsedGallery.length > 0) {
+                        galleryMockDatabase = parsedGallery;
+                    }
+                }
+            } catch (e) {
+                console.warn("Gagal memuat data tersimpan, guna nilai lalai:", e);
+            }
+        }
 
         // Simulated Virtual Gallery Mock Database
         let galleryMockDatabase = [
@@ -1802,6 +2030,7 @@
                 scoreStarsCount += amount;
                 const scoreCounter = document.getElementById('score-counter');
                 if (scoreCounter) scoreCounter.innerText = `${scoreStarsCount} ⭐`;
+                saveStateToStorage();
             } catch (e) {
                 console.log(e);
             }
@@ -2013,7 +2242,7 @@
         function publishToVirtualGallery() {
             try {
                 const authorEl = document.getElementById('gallery-author-name');
-                const author = authorEl.value.trim() || "Artis Cilik";
+                const rawAuthor = authorEl.value.trim().slice(0, 60) || "Artis Cilik";
                 const canvas = document.getElementById('paintCanvas');
                 
                 if (!canvas) return;
@@ -2021,12 +2250,12 @@
                 const artworkImageURL = canvas.toDataURL();
                 
                 const activeProjEl = document.getElementById('canvas-active-project');
-                const activeProjectTitle = activeProjEl ? activeProjEl.innerText.split(':')[1] || "Lakaran Bebas" : "Lakaran Bebas";
+                const rawTitle = activeProjEl ? (activeProjEl.innerText.split(':')[1] || "Lakaran Bebas") : "Lakaran Bebas";
 
                 const newArtwork = {
-                    id: galleryMockDatabase.length + 1,
-                    title: activeProjectTitle.trim(),
-                    author: author,
+                    id: Date.now(),
+                    title: rawTitle.trim().slice(0, 100),
+                    author: rawAuthor,
                     image: artworkImageURL,
                     rating: 5,
                     likes: 1
@@ -2038,6 +2267,7 @@
                 addScoreStars(20); 
                 triggerConfettiSparkle();
                 playSynthSound('success');
+                saveStateToStorage();
 
                 authorEl.value = '';
                 showTab('galeri');
@@ -2180,6 +2410,37 @@
             }
         }
 
+        // Set nilai lalai Nama Guru & Tarikh secara dinamik (bukan hardcode) semasa dimuatkan
+        function setDefaultRPHValues() {
+            try {
+                const dateInput = document.getElementById('rph-tarikh');
+                if (dateInput && !dateInput.value) {
+                    const today = new Date();
+                    const yyyy = today.getFullYear();
+                    const mm = String(today.getMonth() + 1).padStart(2, '0');
+                    const dd = String(today.getDate()).padStart(2, '0');
+                    dateInput.value = `${yyyy}-${mm}-${dd}`;
+                }
+
+                const guruInput = document.getElementById('rph-guru');
+                if (guruInput && !guruInput.value) {
+                    let savedName = '';
+                    try {
+                        savedName = localStorage.getItem('senikreatif_guru_name_v1') || '';
+                    } catch (e) { /* storan tidak tersedia */ }
+                    guruInput.value = savedName;
+                }
+
+                guruInput?.addEventListener('change', () => {
+                    try {
+                        localStorage.setItem('senikreatif_guru_name_v1', guruInput.value.trim());
+                    } catch (e) { /* storan tidak tersedia */ }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
         function printRPH() {
             try {
                 const printContents = document.getElementById('rph-print-sheet').innerHTML;
@@ -2216,15 +2477,20 @@
                         starsHTML += `<i class="fa-solid fa-star ${i <= item.rating ? 'text-yellow-400' : 'text-slate-200'} text-[11px]"></i>`;
                     }
 
+                    // NOTA KESELAMATAN: title & author di-escape (escapeHtml) sebelum disuntik ke innerHTML
+                    // untuk mengelakkan serangan XSS daripada input pengguna (nama pelukis / tajuk karya).
+                    const safeTitle = escapeHtml(item.title);
+                    const safeAuthor = escapeHtml(item.author);
+
                     const itemHTML = `
                         <div class="bg-white rounded-3xl border-4 border-slate-950 shadow-brutal overflow-hidden group hover:-translate-y-1 transition-all">
                             <div class="aspect-square bg-slate-100 relative overflow-hidden border-b-4 border-slate-950">
-                                <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 duration-300">
-                                <span class="absolute top-3 left-3 bg-indigo-900 border-2 border-slate-950 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">${item.title}</span>
+                                <img src="${item.image}" alt="${safeTitle}" class="w-full h-full object-cover group-hover:scale-105 duration-300">
+                                <span class="absolute top-3 left-3 bg-indigo-900 border-2 border-slate-950 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">${safeTitle}</span>
                             </div>
                             <div class="p-4 space-y-2 text-left">
-                                <h5 class="font-extrabold text-xs comic-font text-slate-800 tracking-tight leading-tight">${item.title}</h5>
-                                <p class="text-[10px] text-slate-500 font-bold">Karya Oleh: <span class="text-slate-800">${item.author}</span></p>
+                                <h5 class="font-extrabold text-xs comic-font text-slate-800 tracking-tight leading-tight">${safeTitle}</h5>
+                                <p class="text-[10px] text-slate-500 font-bold">Karya Oleh: <span class="text-slate-800">${safeAuthor}</span></p>
                                 
                                 <div class="flex items-center justify-between pt-1 border-t border-dashed border-slate-200">
                                     <div class="flex items-center space-x-0.5">
@@ -2251,6 +2517,7 @@
                     item.likes++;
                     renderVirtualGallery();
                     playSynthSound('success');
+                    saveStateToStorage();
                 }
             } catch (e) {
                 console.log(e);
@@ -2419,11 +2686,23 @@
         // --- STREAMING_CHUNK: Event Listeners Permulaan PdPc Bersih... ---
         window.addEventListener('DOMContentLoaded', () => {
             try {
+                // SSO DELIMA: semak sesi sedia ada dahulu; jika tiada, papar butang log masuk.
+                const alreadySignedIn = checkExistingSession();
+                if (!alreadySignedIn) {
+                    initGoogleSignIn();
+                }
+
+                loadStateFromStorage();
+
                 renderCards('semua');
                 renderSyllabusList();
                 renderVideoPlaylist();
                 renderVirtualGallery();
                 initCanvas();
+                setDefaultRPHValues();
+
+                const scoreCounter = document.getElementById('score-counter');
+                if (scoreCounter) scoreCounter.innerText = `${scoreStarsCount} ⭐`;
 
                 window.addEventListener('resize', () => {
                     if (activeTab === 'canvas') {
