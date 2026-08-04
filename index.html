@@ -22,6 +22,12 @@
     <!-- Google Identity Services untuk SSO DELIMA (Sign-In With Google, disekat kepada domain moe-dl.edu.my) -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+    <!-- PWA: Manifest & meta tag supaya portal boleh "Add to Home Screen" dan diguna offline -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+
     <!-- Tailwind Configuration for Custom Themes -->
     <script>
         tailwind.config = {
@@ -2684,8 +2690,21 @@
         }
 
         // --- STREAMING_CHUNK: Event Listeners Permulaan PdPc Bersih... ---
+        // === PWA: Daftar Service Worker untuk sokongan offline ===
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./service-worker.js').then((reg) => {
+                    console.log('Service Worker berjaya didaftarkan:', reg.scope);
+                }).catch((err) => {
+                    console.warn('Pendaftaran Service Worker gagal (portal tetap boleh diguna dalam talian):', err);
+                });
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             try {
+                registerServiceWorker();
+
                 // SSO DELIMA: semak sesi sedia ada dahulu; jika tiada, papar butang log masuk.
                 const alreadySignedIn = checkExistingSession();
                 if (!alreadySignedIn) {
