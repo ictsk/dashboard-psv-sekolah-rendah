@@ -583,7 +583,7 @@
 
                             <!-- Canvas Interactive Drawing Area -->
                             <div class="relative w-full aspect-[4/3] max-w-full rounded-2xl border-4 border-slate-950 shadow-brutal overflow-hidden bg-slate-50 cursor-crosshair">
-                                <canvas id="paintCanvas" class="absolute inset-0 w-full h-full"></canvas>
+                                <canvas id="paintCanvas" class="absolute inset-0 w-full h-full touch-none" style="touch-action: none;"></canvas>
                             </div>
 
                             <!-- Tool Palette (Brush, Size, and Paint colors) -->
@@ -702,6 +702,29 @@
                             <input type="text" id="rph-bahan" value="Piring kertas, gam, gunting, benang bulu kambing warna" class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0">
                         </div>
 
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-black text-slate-700 mb-1 comic-font">Bilangan Murid Hadir</label>
+                                <input type="text" id="rph-kehadiran" placeholder="Contoh: 28 / 30 murid" class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0">
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t-2 border-dashed border-slate-300 space-y-3">
+                            <h4 class="font-bold text-sm comic-font text-slate-800">📋 Refleksi PdPc (isi selepas sesi selesai)</h4>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-black text-emerald-700 mb-1 comic-font">✅ Kekuatan</label>
+                                <textarea id="rph-kekuatan" rows="2" placeholder="Contoh: Murid menunjukkan minat tinggi terhadap teknik seni tekad." class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0"></textarea>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-black text-rose-700 mb-1 comic-font">⚠️ Kelemahan</label>
+                                <textarea id="rph-kelemahan" rows="2" placeholder="Contoh: Sebahagian murid mengambil masa lebih lama untuk mengikat benang." class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0"></textarea>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-black text-indigo-700 mb-1 comic-font">🔄 Cadangan Penambahbaikan</label>
+                                <textarea id="rph-penambahbaikan" rows="2" placeholder="Contoh: Sediakan contoh siap lebih awal untuk rujukan pantas murid." class="w-full p-2.5 border-2 border-slate-950 text-xs rounded-xl focus:ring-0"></textarea>
+                            </div>
+                        </div>
+
                         <div class="pt-2 flex gap-3">
                             <button onclick="updateRPHPreview()" class="py-2.5 px-5 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-black rounded-xl border-2 border-slate-950 shadow-brutal-sm active:translate-y-0.5">Kemaskini Pratinjau</button>
                             <button onclick="printRPH()" class="py-2.5 px-5 bg-lime-300 hover:bg-lime-400 text-slate-950 text-xs font-black rounded-xl border-2 border-slate-950 shadow-brutal-sm active:translate-y-0.5">Cetak RPH / PDF 🖨️</button>
@@ -748,6 +771,10 @@
                                         <td class="p-2 bg-slate-50 font-bold border-r border-slate-300">ALAT & BAHAN</td>
                                         <td class="p-2 font-medium text-slate-600" id="preview-rph-bahan">Piring kertas, gam, gunting, benang bulu kambing warna</td>
                                     </tr>
+                                    <tr class="border-b border-slate-300">
+                                        <td class="p-2 bg-slate-50 font-bold border-r border-slate-300">BILANGAN MURID HADIR</td>
+                                        <td class="p-2 font-medium text-slate-600" id="preview-rph-kehadiran">-</td>
+                                    </tr>
                                     <tr>
                                         <td class="p-2 bg-slate-50 font-bold border-r border-slate-300">OBJEKTIF PEMBELAJARAN</td>
                                         <td class="p-2 font-medium leading-relaxed" id="preview-rph-objektif">Pada akhir pembelajaran, murid dapat melukis lakaran asas motif motif hiasan tradisional bunga kemboja dan mengenali teknik lusi pakan anyaman ringkas.</td>
@@ -764,6 +791,26 @@
                                     <li>Guru memantau langkah-langkah penghasilan dan membimbing murid mengenai teknik utama.</li>
                                     <li>Sesi apresiasi seni: Beberapa karya terpilih murid dikongsikan ke Galeri Maya / Papan kenyataan kelas.</li>
                                 </ol>
+                            </div>
+
+                            <div class="mt-6 space-y-3">
+                                <h5 class="font-bold text-xs uppercase border-b border-slate-900 pb-1 text-slate-950">Refleksi PdPc</h5>
+                                <table class="w-full text-[11px] text-slate-800 border-collapse border border-slate-300">
+                                    <tbody>
+                                        <tr class="border-b border-slate-300">
+                                            <td class="w-1/3 p-2 bg-emerald-50 font-bold border-r border-slate-300">Kekuatan</td>
+                                            <td class="p-2 font-medium leading-relaxed" id="preview-rph-kekuatan">-</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-300">
+                                            <td class="p-2 bg-rose-50 font-bold border-r border-slate-300">Kelemahan</td>
+                                            <td class="p-2 font-medium leading-relaxed" id="preview-rph-kelemahan">-</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 bg-indigo-50 font-bold border-r border-slate-300">Cadangan Penambahbaikan</td>
+                                            <td class="p-2 font-medium leading-relaxed" id="preview-rph-penambahbaikan">-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                             <div class="mt-6 pt-6 border-t border-dashed border-slate-300 flex justify-between items-center text-[10px] text-slate-400 font-bold">
@@ -887,6 +934,7 @@
         let isDrawing = false;
         let lastX = 0;
         let lastY = 0;
+        let currentDelimaUser = null; // { name, email } -- diisi selepas log masuk DELIMA berjaya
 
         // === STORAGE_KEYS: kunci localStorage untuk kekalkan data merentasi sesi ===
         const STORAGE_KEYS = {
@@ -894,6 +942,71 @@
             SCORE: 'senikreatif_score_v1',
             SESSION: 'senikreatif_delima_session_v1'
         };
+
+        // ==========================================================================
+        // === BACKEND GOOGLE SHEET (data galeri & skor dikongsi merentasi peranti) ===
+        // ==========================================================================
+        // LANGKAH SEDIAKAN: lihat komen penuh di dalam fail Code.gs yang disertakan.
+        // Selepas deploy Apps Script sebagai Web App, tampal URL & API secret di sini.
+        const BACKEND_CONFIG = {
+            SCRIPT_URL: "GANTI_DENGAN_URL_APPS_SCRIPT_ANDA",
+            API_SECRET: "GANTI_DENGAN_API_SECRET_ANDA",
+            ENABLED: false // ditukar kepada true secara automatik jika SCRIPT_URL telah ditetapkan
+        };
+        BACKEND_CONFIG.ENABLED = !BACKEND_CONFIG.SCRIPT_URL.startsWith('GANTI_DENGAN');
+
+        // Panggilan GET ke backend (baca sahaja, tiada apiSecret diperlukan)
+        async function backendGet(action, params) {
+            if (!BACKEND_CONFIG.ENABLED) return null;
+            try {
+                const query = new URLSearchParams({ action, ...params }).toString();
+                const res = await fetch(`${BACKEND_CONFIG.SCRIPT_URL}?${query}`);
+                const data = await res.json();
+                return data.ok ? data : null;
+            } catch (e) {
+                console.warn(`Backend GET (${action}) gagal -- guna data tempatan sahaja:`, e);
+                return null;
+            }
+        }
+
+        // Panggilan POST ke backend. PENTING: Content-Type dikekalkan sebagai
+        // text/plain (bukan application/json) untuk elak "preflight" OPTIONS
+        // yang tidak disokong sepenuhnya oleh Google Apps Script.
+        async function backendPost(action, payload) {
+            if (!BACKEND_CONFIG.ENABLED) return null;
+            try {
+                const res = await fetch(BACKEND_CONFIG.SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action, apiSecret: BACKEND_CONFIG.API_SECRET, ...payload })
+                });
+                const data = await res.json();
+                return data.ok ? data : null;
+            } catch (e) {
+                console.warn(`Backend POST (${action}) gagal -- perubahan disimpan tempatan sahaja:`, e);
+                return null;
+            }
+        }
+
+        // Selepas log masuk: tarik galeri & skor terkini dari Google Sheet (jika ada internet)
+        async function syncFromBackendAfterLogin() {
+            if (!BACKEND_CONFIG.ENABLED || !currentDelimaUser) return;
+
+            const galleryResult = await backendGet('listGallery', {});
+            if (galleryResult && Array.isArray(galleryResult.items) && galleryResult.items.length > 0) {
+                galleryMockDatabase = galleryResult.items.map((it) => ({ ...it, isLocalOnly: false }));
+                renderVirtualGallery();
+                saveStateToStorage();
+            }
+
+            const scoreResult = await backendGet('getScore', { email: currentDelimaUser.email });
+            if (scoreResult && typeof scoreResult.score === 'number') {
+                scoreStarsCount = scoreResult.score;
+                const scoreCounter = document.getElementById('score-counter');
+                if (scoreCounter) scoreCounter.innerText = `${scoreStarsCount} ⭐`;
+                saveStateToStorage();
+            }
+        }
 
         // ==========================================================================
         // === SSO DELIMA (Google Sign-In disekat kepada domain @moe-dl.edu.my) ===
@@ -949,6 +1062,18 @@
             if (gate) gate.classList.add('hidden');
             if (shell) shell.classList.remove('hidden');
 
+            // PEMBETULAN PENTING: Kanvas lukisan (initCanvas) dijalankan semasa
+            // DOMContentLoaded, iaitu SEBELUM log masuk selesai -- pada masa itu
+            // #app-shell masih tersembunyi (display:none), jadi kanvas terperangkap
+            // pada saiz 0x0 (getBoundingClientRect kosong pada elemen tersembunyi).
+            // Sebaik sahaja shell kelihatan di sini, paksa kira semula saiz kanvas
+            // supaya ia sedia dilukis walaupun pengguna belum sempat klik tab Kanvas.
+            setTimeout(() => {
+                try { resizeCanvasToContainer(); } catch (e) { console.warn('Resize kanvas awal gagal:', e); }
+            }, 150);
+
+            currentDelimaUser = { name: profile.name || '', email: (profile.email || '').toLowerCase() };
+
             try {
                 sessionStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
                     name: profile.name || '',
@@ -959,6 +1084,10 @@
             } catch (e) {
                 console.warn("Gagal simpan sesi DELIMA:", e);
             }
+
+            // Tarik data terkini dari Google Sheet (galeri & skor peribadi) jika ada internet.
+            // Tidak menyekat UI -- portal terus boleh diguna dengan data tempatan semasa menunggu.
+            syncFromBackendAfterLogin();
 
             // Auto-isi Nama Guru dalam Penjana RPH menggunakan nama akaun DELIMA jika kosong
             try {
@@ -1096,7 +1225,8 @@
                 author: "Danial (5 Pintar)",
                 image: "https://placehold.co/600x400/3b82f6/ffffff?text=Angsa+Capan+Danial",
                 rating: 5,
-                likes: 12
+                likes: 12,
+                isLocalOnly: true
             },
             {
                 id: 2,
@@ -1104,7 +1234,8 @@
                 author: "Zulaikha (6 Cerdas)",
                 image: "https://placehold.co/600x400/a78bfa/ffffff?text=Wau+Batik+Zulaikha",
                 rating: 4,
-                likes: 8
+                likes: 8,
+                isLocalOnly: true
             },
             {
                 id: 3,
@@ -1112,7 +1243,8 @@
                 author: "Chong Wei (4 Gemilang)",
                 image: "https://placehold.co/600x400/10b981/ffffff?text=Diorama+Chong+Wei",
                 rating: 5,
-                likes: 15
+                likes: 15,
+                isLocalOnly: true
             },
             {
                 id: 4,
@@ -1120,7 +1252,8 @@
                 author: "Sofea (3 Mesra)",
                 image: "https://placehold.co/600x400/fb923c/ffffff?text=Pasu+Sofea",
                 rating: 4,
-                likes: 9
+                likes: 9,
+                isLocalOnly: true
             }
         ];
 
@@ -1450,6 +1583,7 @@
                 const badge = document.getElementById('role-badge');
                 const toggleBtn = document.getElementById('toggle-mode-btn');
                 const rphNavBtn = document.getElementById('nav-rph');
+                const rphModuleBtn = document.getElementById('btn-mod-rph');
                 
                 const heroTitle = document.getElementById('dashboard-hero-title');
                 const heroDesc = document.getElementById('dashboard-hero-desc');
@@ -1463,6 +1597,7 @@
                     toggleBtn.classList.replace('hover:bg-rose-600', 'hover:bg-indigo-700');
                     
                     if (rphNavBtn) rphNavBtn.classList.add('hidden');
+                    if (rphModuleBtn) rphModuleBtn.classList.add('hidden');
                     
                     document.getElementById('nav-dashboard').querySelector('.nav-text').innerText = "Istana Kita";
                     document.getElementById('nav-imbas').querySelector('.nav-text').innerText = "Kad Seni Magic 🃏";
@@ -1483,6 +1618,7 @@
                     toggleBtn.classList.replace('hover:bg-indigo-700', 'hover:bg-rose-600');
                     
                     if (rphNavBtn) rphNavBtn.classList.remove('hidden');
+                    if (rphModuleBtn) rphModuleBtn.classList.remove('hidden');
                     
                     document.getElementById('nav-dashboard').querySelector('.nav-text').innerText = "Papan Pemuka";
                     document.getElementById('nav-imbas').querySelector('.nav-text').innerText = "Bahasa Seni (Kad)";
@@ -1503,6 +1639,14 @@
         // --- STREAMING_CHUNK: Mengurus fungsi penukaran tab utama... ---
         function showTab(tabId) {
             try {
+                // Sekatan keselamatan: Penjana RPH adalah khusus untuk Mod Guru sahaja.
+                // Ini pertahanan tambahan selain menyembunyikan butang navigasi --
+                // elak murid mengakses tab RPH walaupun cuba dipanggil terus.
+                if (tabId === 'rph' && currentRoleMode !== 'guru') {
+                    console.warn('Akses ditolak: Penjana RPH hanya untuk Mod Guru.');
+                    tabId = 'dashboard';
+                }
+
                 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
                 
                 const targetTab = document.getElementById(`tab-${tabId}`);
@@ -2037,6 +2181,22 @@
                 const scoreCounter = document.getElementById('score-counter');
                 if (scoreCounter) scoreCounter.innerText = `${scoreStarsCount} ⭐`;
                 saveStateToStorage();
+
+                // Sinkron ke backend di latar (tidak menyekat UI). Jika gagal (offline),
+                // skor kekal tersimpan tempatan dan akan cuba sinkron semula lain kali log masuk.
+                if (currentDelimaUser && currentDelimaUser.email) {
+                    backendPost('updateScore', {
+                        email: currentDelimaUser.email,
+                        name: currentDelimaUser.name,
+                        delta: amount
+                    }).then((result) => {
+                        if (result && typeof result.score === 'number') {
+                            scoreStarsCount = result.score; // selaraskan dengan nilai rasmi backend
+                            if (scoreCounter) scoreCounter.innerText = `${scoreStarsCount} ⭐`;
+                            saveStateToStorage();
+                        }
+                    });
+                }
             } catch (e) {
                 console.log(e);
             }
@@ -2245,7 +2405,7 @@
         }
 
         // --- STREAMING_CHUNK: Menghantar lukisan kanvas terus ke Galeri Maya... ---
-        function publishToVirtualGallery() {
+        async function publishToVirtualGallery() {
             try {
                 const authorEl = document.getElementById('gallery-author-name');
                 const rawAuthor = authorEl.value.trim().slice(0, 60) || "Artis Cilik";
@@ -2257,14 +2417,20 @@
                 
                 const activeProjEl = document.getElementById('canvas-active-project');
                 const rawTitle = activeProjEl ? (activeProjEl.innerText.split(':')[1] || "Lakaran Bebas") : "Lakaran Bebas";
+                const finalTitle = rawTitle.trim().slice(0, 100);
 
+                // Paparan optimistik serta-merta (id sementara) supaya UI terasa pantas,
+                // walaupun sedang menunggu penghantaran ke backend Google Sheet/Drive.
+                const tempId = 'temp_' + Date.now();
                 const newArtwork = {
-                    id: Date.now(),
-                    title: rawTitle.trim().slice(0, 100),
+                    id: tempId,
+                    title: finalTitle,
                     author: rawAuthor,
+                    authorEmail: currentDelimaUser ? currentDelimaUser.email : '',
                     image: artworkImageURL,
                     rating: 5,
-                    likes: 1
+                    likes: 1,
+                    isLocalOnly: true
                 };
 
                 galleryMockDatabase.unshift(newArtwork); 
@@ -2277,6 +2443,29 @@
 
                 authorEl.value = '';
                 showTab('galeri');
+
+                // Hantar ke backend di latar. Jika berjaya, gantikan entri sementara
+                // dengan versi rasmi (id & pautan imej Drive) supaya "like" berfungsi
+                // merentasi peranti lain.
+                if (BACKEND_CONFIG.ENABLED) {
+                    const result = await backendPost('addArtwork', {
+                        title: finalTitle,
+                        author: rawAuthor,
+                        authorEmail: currentDelimaUser ? currentDelimaUser.email : '',
+                        imageBase64: artworkImageURL
+                    });
+
+                    if (result && result.item) {
+                        const idx = galleryMockDatabase.findIndex((a) => a.id === tempId);
+                        if (idx !== -1) {
+                            galleryMockDatabase[idx] = { ...result.item, isLocalOnly: false };
+                            renderVirtualGallery();
+                            saveStateToStorage();
+                        }
+                    } else {
+                        console.warn('Karya kekal tersimpan pada peranti ini sahaja (backend tidak dapat dihubungi).');
+                    }
+                }
             } catch (e) {
                 console.error("Failed to publish artwork to gallery:", e);
             }
@@ -2387,14 +2576,15 @@
         function updateRPHPreview() {
             try {
                 const list = [
-                    'guru', 'tarikh', 'tahun', 'masa', 'subjek', 'projek', 'bidang', 'teknik', 'objektif', 'bahan'
+                    'guru', 'tarikh', 'tahun', 'masa', 'subjek', 'projek', 'bidang', 'teknik', 'objektif', 'bahan',
+                    'kehadiran', 'kekuatan', 'kelemahan', 'penambahbaikan'
                 ];
                 
                 list.forEach(id => {
                     const inp = document.getElementById(`rph-${id}`);
                     const pre = document.getElementById(`preview-rph-${id}`);
                     if (inp && pre) {
-                        pre.innerText = inp.value;
+                        pre.innerText = inp.value.trim() || '-';
                     }
                 });
 
@@ -2502,7 +2692,7 @@
                                     <div class="flex items-center space-x-0.5">
                                         ${starsHTML}
                                     </div>
-                                    <button onclick="likeArtwork(${item.id})" class="text-[10px] font-black text-rose-500 hover:text-rose-600 transition-colors flex items-center gap-1">
+                                    <button onclick="likeArtwork('${item.id}')" class="text-[10px] font-black text-rose-500 hover:text-rose-600 transition-colors flex items-center gap-1">
                                         <i class="fa-solid fa-heart animate-pulse"></i> <span>${item.likes} Likes</span>
                                     </button>
                                 </div>
@@ -2518,12 +2708,24 @@
 
         function likeArtwork(id) {
             try {
-                const item = galleryMockDatabase.find(i => i.id === id);
+                const item = galleryMockDatabase.find(i => String(i.id) === String(id));
                 if (item) {
                     item.likes++;
                     renderVirtualGallery();
                     playSynthSound('success');
                     saveStateToStorage();
+
+                    // Hanya sinkron ke backend jika karya ini bukan sekadar contoh/tempatan
+                    // (contoh mula & entri yang masih menunggu backendPost addArtwork selesai).
+                    if (BACKEND_CONFIG.ENABLED && item.isLocalOnly !== true) {
+                        backendPost('likeArtwork', { id: item.id }).then((result) => {
+                            if (result && typeof result.likes === 'number') {
+                                item.likes = result.likes; // selaraskan dengan nilai rasmi backend
+                                renderVirtualGallery();
+                                saveStateToStorage();
+                            }
+                        });
+                    }
                 }
             } catch (e) {
                 console.log(e);
