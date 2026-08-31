@@ -581,6 +581,13 @@
                                 </div>
                             </div>
 
+                            <!-- PANEL DIAGNOSTIK SEMENTARA -- boleh dibuang selepas isu kanvas selesai.
+                                 Sengaja diletak terus pada skrin (bukan console) sebab DevTools
+                                 mungkin disekat pada komputer/DELIMA sekolah. -->
+                            <div id="canvas-debug-panel" class="p-2.5 bg-yellow-100 border-2 border-slate-950 rounded-xl text-[10px] font-mono text-slate-800 leading-relaxed">
+                                🔧 Debug: <span id="canvas-debug-text">Menunggu kanvas dimuatkan...</span>
+                            </div>
+
                             <!-- Canvas Interactive Drawing Area -->
                             <div class="relative w-full aspect-[4/3] max-w-full rounded-2xl border-4 border-slate-950 shadow-brutal overflow-hidden bg-slate-50 cursor-crosshair">
                                 <canvas id="paintCanvas" class="absolute inset-0 w-full h-full touch-none" style="touch-action: none;"></canvas>
@@ -935,6 +942,14 @@
         let lastX = 0;
         let lastY = 0;
         let currentDelimaUser = null; // { name, email } -- diisi selepas log masuk DELIMA berjaya
+        let isStaffAccount = false; // ditentukan selepas log masuk -- HANYA staf/guru boleh tukar mod
+
+        // Senarai emel staf/guru SANDARAN -- digunakan jika backend Google Sheet (BACKEND_CONFIG)
+        // belum disediakan atau tiada internet. Tambah emel DELIMA guru lain di sini jika perlu.
+        // (Jika BACKEND_CONFIG.ENABLED aktif, semakan sebenar dibuat melalui Sheet "Guru" -- lihat Code.gs)
+        const FALLBACK_STAFF_EMAILS = [
+            // contoh: "g-80575536@moe-dl.edu.my",
+        ];
 
         // === STORAGE_KEYS: kunci localStorage untuk kekalkan data merentasi sesi ===
         const STORAGE_KEYS = {
@@ -1073,6 +1088,10 @@
             }, 150);
 
             currentDelimaUser = { name: profile.name || '', email: (profile.email || '').toLowerCase() };
+
+            // Tentukan sama ada akaun ini staf/guru atau murid -- murid akan dikunci
+            // ke Mod Murid dan langsung tidak nampak pilihan menukar mod.
+            determineAndApplyUserRole();
 
             try {
                 sessionStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
@@ -1577,9 +1596,11 @@
         }
 
         // --- STREAMING_CHUNK: Menguruskan peralihan dwi-mod (Mod Guru & Mod Murid)... ---
-        function togglePortalMode() {
+        // applyRoleUI() menukar SEMUA elemen antara muka kepada mod yang diberi ('guru' / 'murid').
+        // Diasingkan daripada togglePortalMode() supaya boleh dipanggil terus semasa log masuk
+        // (contoh: paksa Mod Murid untuk akaun bukan staf) tanpa perlu "toggle" dari keadaan semasa.
+        function applyRoleUI(mode) {
             try {
-                playSynthSound('idea');
                 const badge = document.getElementById('role-badge');
                 const toggleBtn = document.getElementById('toggle-mode-btn');
                 const rphNavBtn = document.getElementById('nav-rph');
@@ -1588,13 +1609,13 @@
                 const heroTitle = document.getElementById('dashboard-hero-title');
                 const heroDesc = document.getElementById('dashboard-hero-desc');
 
-                if (currentRoleMode === "guru") {
+                if (mode === "murid") {
                     currentRoleMode = "murid";
                     badge.innerText = "Mod Murid 🧑‍🎨";
                     badge.className = "bg-rose-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider";
                     toggleBtn.innerHTML = `<i class="fa-solid fa-chalkboard-user"></i> <span>Aktifkan Mod Guru</span>`;
-                    toggleBtn.classList.replace('bg-rose-500', 'bg-indigo-600');
-                    toggleBtn.classList.replace('hover:bg-rose-600', 'hover:bg-indigo-700');
+                    toggleBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    toggleBtn.classList.add('bg-rose-500', 'hover:bg-rose-600');
                     
                     if (rphNavBtn) rphNavBtn.classList.add('hidden');
                     if (rphModuleBtn) rphModuleBtn.classList.add('hidden');
@@ -1607,15 +1628,13 @@
 
                     if (heroTitle) heroTitle.innerText = "Hai Kawan-Kawan! Mari Mewarna & Belajar Seni!";
                     if (heroDesc) heroDesc.innerText = "Selamat datang ke studio mewarna SeniKreatif bersama maskot Cikgu Aimuni. Jom kita teroka kad-kad seni magic yang berwarna-warni, jawab kuiz seronok untuk kumpul bintang ganjaran, dan hantar hasil lukisan comel kita terus ke galeri maya!";
-                    
-                    speakText("Hai kawan-kawan! Jom belajar seni visual bersama Cikgu Aimuni!");
                 } else {
                     currentRoleMode = "guru";
                     badge.innerText = "Mod Guru 👨‍🏫";
                     badge.className = "bg-indigo-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider";
                     toggleBtn.innerHTML = `<i class="fa-solid fa-graduation-cap"></i> <span>Aktifkan Mod Murid</span>`;
-                    toggleBtn.classList.replace('bg-indigo-600', 'bg-rose-500');
-                    toggleBtn.classList.replace('hover:bg-indigo-700', 'hover:bg-rose-600');
+                    toggleBtn.classList.remove('bg-rose-500', 'hover:bg-rose-600');
+                    toggleBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
                     
                     if (rphNavBtn) rphNavBtn.classList.remove('hidden');
                     if (rphModuleBtn) rphModuleBtn.classList.remove('hidden');
@@ -1629,10 +1648,59 @@
                     if (heroTitle) heroTitle.innerText = "Selamat Datang ke Studio SeniKreatif Cikgu!";
                     if (heroDesc) heroDesc.innerText = "Inilah tempat bermulanya magik kesenian murid anda. Terokai senarai silibus buku teks yang tersusun lengkap, laksanakan demonstrasi lakaran terus di skrin, tonton video pengajaran, dan jana RPH pintar dalam beberapa klik sahaja!";
                 }
-
-                showTab('dashboard');
             } catch (e) {
-                console.error("Toggle Mode error:", e);
+                console.error("applyRoleUI error:", e);
+            }
+        }
+
+        // Butang "Tukar Sesi Belajar" -- HANYA staf/guru yang disahkan boleh guna ini.
+        // Murid tidak akan sampai ke sini kerana butang turut disembunyikan sepenuhnya
+        // (lihat determineAndApplyUserRole), tapi semakan ini kekal sebagai pertahanan tambahan.
+        function togglePortalMode() {
+            if (!isStaffAccount) {
+                console.warn('Akses ditolak: hanya akaun staf/guru dibenarkan menukar Mod Guru/Murid.');
+                return;
+            }
+            playSynthSound('idea');
+            const nextMode = (currentRoleMode === "guru") ? "murid" : "guru";
+            applyRoleUI(nextMode);
+            if (nextMode === "murid") {
+                speakText("Hai kawan-kawan! Jom belajar seni visual bersama Cikgu Aimuni!");
+            }
+            showTab('dashboard');
+        }
+
+        // Ditentukan selepas log masuk DELIMA: adakah akaun ini staf/guru, atau murid?
+        // Murid akan dikunci terus dalam Mod Murid dan LANGSUNG TIDAK NAMPAK pilihan
+        // untuk menukar mod -- ini elak murid cuba mengakses Penjana RPH & ciri guru.
+        async function determineAndApplyUserRole() {
+            try {
+                const email = currentDelimaUser ? currentDelimaUser.email : '';
+                let staffConfirmed = FALLBACK_STAFF_EMAILS.map(e => e.toLowerCase()).includes(email);
+
+                if (BACKEND_CONFIG.ENABLED) {
+                    const result = await backendGet('checkRole', { email });
+                    if (result && typeof result.isGuru === 'boolean') {
+                        staffConfirmed = result.isGuru;
+                    }
+                }
+
+                isStaffAccount = staffConfirmed;
+                const toggleBtn = document.getElementById('toggle-mode-btn');
+
+                if (isStaffAccount) {
+                    if (toggleBtn) toggleBtn.classList.remove('hidden');
+                    applyRoleUI('guru');
+                } else {
+                    if (toggleBtn) toggleBtn.classList.add('hidden');
+                    applyRoleUI('murid');
+                }
+            } catch (e) {
+                console.warn('Gagal tentukan peranan pengguna, guna lalai Mod Murid demi keselamatan:', e);
+                isStaffAccount = false;
+                const toggleBtn = document.getElementById('toggle-mode-btn');
+                if (toggleBtn) toggleBtn.classList.add('hidden');
+                applyRoleUI('murid');
             }
         }
 
@@ -2253,10 +2321,21 @@
         }
 
         // --- STREAMING_CHUNK: Menguruskan lakaran kanvas digital interaktif... ---
+        // Kemas kini panel debug on-screen (tanpa perlu DevTools)
+        function updateCanvasDebugPanel(text) {
+            try {
+                const el = document.getElementById('canvas-debug-text');
+                if (el) el.innerText = text;
+            } catch (e) { /* abaikan */ }
+        }
+
         function initCanvas() {
             try {
                 const canvas = document.getElementById('paintCanvas');
-                if (!canvas) return;
+                if (!canvas) {
+                    updateCanvasDebugPanel('RALAT: Elemen <canvas id="paintCanvas"> tidak dijumpai dalam halaman!');
+                    return;
+                }
                 const ctx = canvas.getContext('2d');
 
                 resizeCanvasToContainer();
@@ -2264,20 +2343,23 @@
                 canvas.addEventListener('mousedown', (e) => {
                     isDrawing = true;
                     [lastX, lastY] = getCoordinates(e, canvas);
+                    updateCanvasDebugPanel(`✅ mousedown DIKESAN pada (${Math.round(lastX)}, ${Math.round(lastY)}) | Saiz kanvas: ${canvas.width}x${canvas.height}`);
                 });
 
                 canvas.addEventListener('mousemove', (e) => {
                     if (!isDrawing) return;
                     drawOnCanvas(e, ctx, canvas);
+                    updateCanvasDebugPanel(`🖊️ Melukis... (${Math.round(lastX)}, ${Math.round(lastY)}) | Saiz kanvas: ${canvas.width}x${canvas.height}`);
                 });
 
-                canvas.addEventListener('mouseup', () => isDrawing = false);
-                canvas.addEventListener('mouseout', () => isDrawing = false);
+                canvas.addEventListener('mouseup', () => { isDrawing = false; updateCanvasDebugPanel('Berhenti lukis (mouseup). Cuba klik & seret sekali lagi.'); });
+                canvas.addEventListener('mouseout', () => { isDrawing = false; });
 
                 canvas.addEventListener('touchstart', (e) => {
                     isDrawing = true;
                     const touch = e.touches[0];
                     [lastX, lastY] = getCoordinates(touch, canvas);
+                    updateCanvasDebugPanel(`✅ touchstart DIKESAN pada (${Math.round(lastX)}, ${Math.round(lastY)})`);
                     e.preventDefault();
                 }, { passive: false });
 
@@ -2304,8 +2386,11 @@
                         setBrushColor(e.target.value);
                     });
                 }
+
+                updateCanvasDebugPanel(`Kanvas sedia. Saiz semasa: ${canvas.width}x${canvas.height}. Klik & seret tetikus di atas kanvas untuk uji.`);
             } catch (e) {
                 console.error("Canvas init error:", e);
+                updateCanvasDebugPanel('RALAT semasa initCanvas(): ' + e.message);
             }
         }
 
@@ -2331,8 +2416,15 @@
                 
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
+
+                if (rect.width === 0 || rect.height === 0) {
+                    updateCanvasDebugPanel(`⚠️ AMARAN: Saiz kanvas ialah ${rect.width}x${rect.height} (KOSONG). Ini punca utama tak boleh lukis! Cuba tutup & buka semula tab Studio.`);
+                } else {
+                    updateCanvasDebugPanel(`Kanvas di-resize: ${Math.round(rect.width)}x${Math.round(rect.height)}. Sedia untuk dilukis.`);
+                }
             } catch (e) {
                 console.log(e);
+                updateCanvasDebugPanel('RALAT semasa resize kanvas: ' + e.message);
             }
         }
 
