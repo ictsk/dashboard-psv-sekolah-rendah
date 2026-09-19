@@ -256,14 +256,13 @@
         import {
             getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, increment, collection, query, where, getDocs, serverTimestamp, addDoc, orderBy
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-        import {
-            getStorage, ref, uploadString, getDownloadURL
-        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+        // NOTA: Firebase Storage TIDAK digunakan -- ia kini memerlukan pelan Blaze
+        // (berbayar/berkad walaupun dalam had percuma). Gambar karya disimpan terus
+        // dalam Firestore (dimampatkan dahulu) supaya kekal 100% dalam pelan Spark (percuma).
 
         const firebaseApp = initializeApp(FIREBASE_CONFIG);
         const auth = getAuth(firebaseApp);
         const db = getFirestore(firebaseApp);
-        const storage = getStorage(firebaseApp);
 
         let currentUser = null;
         let currentUserRole = null;
@@ -574,6 +573,29 @@
             sel.innerHTML = muridJoinedClasses.map(c => `<option value="${c.kod}">${c.namaKelas} (${c.tahun})</option>`).join('');
         }
 
+        // Mampatkan & saizkan semula gambar di sisi klien sebelum simpan dalam Firestore.
+        // Firestore hadkan 1 dokumen kepada 1MiB, jadi kita kekalkan gambar bawah ~700KB
+        // (lebar maksimum 700px, kualiti JPEG 60%) supaya muat dengan selamat.
+        function compressImageFile(file, maxWidth = 700, quality = 0.6) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                const reader = new FileReader();
+                reader.onload = (e) => { img.src = e.target.result; };
+                reader.onerror = reject;
+                img.onload = () => {
+                    const scale = Math.min(1, maxWidth / img.width);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width * scale;
+                    canvas.height = img.height * scale;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
         window.hantarKarya = async function () {
             const kod = document.getElementById('karya-select-class').value;
             const tajuk = document.getElementById('karya-tajuk').value.trim();
@@ -585,29 +607,25 @@
             if (!fileInput.files[0]) { alert('Sila pilih gambar karya.'); return; }
 
             feedback.className = 'text-xs font-bold text-slate-500';
-            feedback.innerText = 'Menghantar karya...';
+            feedback.innerText = 'Memampatkan & menghantar karya...';
             feedback.classList.remove('hidden');
 
             try {
                 const file = fileInput.files[0];
-                const dataUrl = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
+                const imageDataUrl = await compressImageFile(file);
 
-                const storagePath = `karya/${currentUser.uid}/${Date.now()}_${file.name}`;
-                const storageRef = ref(storage, storagePath);
-                await uploadString(storageRef, dataUrl, 'data_url');
-                const imageUrl = await getDownloadURL(storageRef);
+                if (imageDataUrl.length > 900000) { // ~900KB, jaga-jaga had 1MiB Firestore
+                    feedback.className = 'text-xs font-bold text-rose-600';
+                    feedback.innerText = 'Gambar masih terlalu besar selepas dimampatkan. Sila cuba gambar lain.';
+                    return;
+                }
 
                 await addDoc(collection(db, 'karya'), {
                     uid: currentUser.uid,
                     namaMurid: currentUser.displayName || currentUser.email,
                     kodKelas: kod,
                     tajuk: tajuk,
-                    imageUrl: imageUrl,
+                    imageUrl: imageDataUrl,
                     tarikh: serverTimestamp()
                 });
 
