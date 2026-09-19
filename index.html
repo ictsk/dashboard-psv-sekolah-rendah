@@ -175,7 +175,13 @@
                 <h1 class="font-black text-2xl comic-font">Hai, Pelukis Kecil! 🎨</h1>
                 <p id="murid-email-label" class="text-xs text-slate-500"></p>
             </div>
-            <button onclick="signOutUser()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-bold shadow-brutal-sm">Log Keluar</button>
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-900 text-white px-4 py-2 rounded-xl border-2 border-slate-950 shadow-brutal-sm">
+                    <p class="text-[9px] uppercase font-bold text-indigo-300">Bintang Saya</p>
+                    <p class="font-black text-lg comic-font"><span id="murid-star-count">0</span> ⭐</p>
+                </div>
+                <button onclick="signOutUser()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-bold shadow-brutal-sm">Log Keluar</button>
+            </div>
         </div>
 
         <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
@@ -248,7 +254,7 @@
             onAuthStateChanged
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
         import {
-            getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, collection, query, where, getDocs, serverTimestamp, addDoc, orderBy
+            getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, increment, collection, query, where, getDocs, serverTimestamp, addDoc, orderBy
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
         import {
             getStorage, ref, uploadString, getDownloadURL
@@ -375,6 +381,28 @@
                 showScreen('screen-murid');
                 loadMuridClasses();
                 loadMuridKarya();
+                refreshMuridStars();
+            }
+        }
+
+        // ---------- Sistem Bintang Ganjaran (Murid) ----------
+        async function refreshMuridStars() {
+            try {
+                const snap = await getDoc(doc(db, 'users', currentUser.uid));
+                const bintang = (snap.exists() && snap.data().bintang) || 0;
+                const el = document.getElementById('murid-star-count');
+                if (el) el.innerText = bintang;
+            } catch (e) {
+                console.warn('Gagal muat bintang:', e);
+            }
+        }
+
+        async function tambahBintang(jumlah) {
+            try {
+                await updateDoc(doc(db, 'users', currentUser.uid), { bintang: increment(jumlah) });
+                refreshMuridStars();
+            } catch (e) {
+                console.warn('Gagal tambah bintang:', e);
             }
         }
 
@@ -583,8 +611,10 @@
                     tarikh: serverTimestamp()
                 });
 
+                await tambahBintang(20); // ganjaran hantar karya
+
                 feedback.className = 'text-xs font-bold text-emerald-600';
-                feedback.innerText = 'Karya berjaya dihantar! 🎉';
+                feedback.innerText = 'Karya berjaya dihantar! +20 ⭐ 🎉';
                 document.getElementById('karya-tajuk').value = '';
                 fileInput.value = '';
                 loadMuridKarya();
@@ -635,6 +665,10 @@
                     return;
                 }
 
+                // Semak dahulu jika murid dah pernah sertai kelas ni (elak bintang berganda)
+                const userSnapBefore = await getDoc(doc(db, 'users', currentUser.uid));
+                const sudahSertai = (userSnapBefore.exists() && (userSnapBefore.data().kelasDisertai || []).includes(kod));
+
                 await setDoc(doc(db, 'classes', kod, 'students', currentUser.uid), {
                     nama: currentUser.displayName || currentUser.email,
                     emel: currentUser.email,
@@ -647,8 +681,12 @@
                     kelasDisertai: arrayUnion(kod)
                 }, { merge: true });
 
+                if (!sudahSertai) {
+                    await tambahBintang(10); // ganjaran sertai kelas baharu (sekali sahaja)
+                }
+
                 feedback.className = 'p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 text-xs font-bold';
-                feedback.innerText = `Berjaya menyertai kelas "${classSnap.data().namaKelas}"! 🎉`;
+                feedback.innerText = `Berjaya menyertai kelas "${classSnap.data().namaKelas}"! ${sudahSertai ? '' : '+10 ⭐'} 🎉`;
                 feedback.classList.remove('hidden');
                 document.getElementById('join-class-code').value = '';
                 loadMuridClasses();
