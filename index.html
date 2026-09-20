@@ -18,7 +18,30 @@
             } }
         }
     </script>
-    <style>.comic-font { font-family: 'Fredoka', sans-serif; }</style>
+    <style>
+        .comic-font { font-family: 'Fredoka', sans-serif; }
+
+        /* Cetak: HANYA kotak pratonton RPH (#rph-preview) yang dicetak, bukan
+           seluruh halaman dashboard. */
+        @media print {
+            body * { visibility: hidden; }
+            #rph-preview, #rph-preview * { visibility: visible; }
+            #rph-preview {
+                position: absolute; left: 0; top: 0; width: 100%;
+                border: none !important; background: white !important;
+            }
+            #rph-print-btn { display: none !important; }
+        }
+        [contenteditable="true"] {
+            outline: 2px dashed transparent;
+            border-radius: 4px;
+            transition: outline-color 0.15s;
+        }
+        [contenteditable="true"]:hover, [contenteditable="true"]:focus {
+            outline-color: #6366f1;
+            background: #eef2ff;
+        }
+    </style>
 </head>
 <body class="bg-[#fcf8f2] text-slate-900 font-sans min-h-screen">
 
@@ -102,6 +125,8 @@
                     <select id="new-class-year" class="p-2.5 border-2 border-slate-950 rounded-xl text-sm">
                         <option value="Tahun 1">Tahun 1</option>
                         <option value="Tahun 2">Tahun 2</option>
+                        <option value="Tahun 5">Tahun 5</option>
+                        <option value="Tahun 6">Tahun 6</option>
                     </select>
                 </div>
                 <button onclick="createClass()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">+ Cipta Kelas</button>
@@ -113,7 +138,7 @@
         </div>
 
         <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-            <h3 class="font-black text-lg comic-font mb-3">🎨 Kandungan PSV (Fasa 1: Tahun 1 & 2)</h3>
+            <h3 class="font-black text-lg comic-font mb-3">🎨 Kandungan PSV (Tahun 1, 2, 5 & 6)</h3>
             <div id="guru-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
         </div>
 
@@ -128,7 +153,7 @@
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Unit</label>
-                    <select id="rph-select-unit" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></select>
+                    <select id="rph-select-unit" onchange="onRphUnitChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></select>
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Nama Guru</label>
@@ -138,23 +163,51 @@
                     <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tarikh</label>
                     <input id="rph-date" type="date" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
                 </div>
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Kandungan (SK) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
+                    <textarea id="rph-sk" rows="2" placeholder="Contoh: 1.1 Persepsi Estetik" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Pembelajaran (SP) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
+                    <textarea id="rph-sp" rows="2" placeholder="Contoh: 1.1.1 Murid dapat mengenal pasti..." class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
+                </div>
             </div>
             <button onclick="generateRPH()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH</button>
 
             <div id="rph-preview" class="hidden border-2 border-slate-300 p-5 rounded-2xl bg-slate-50 space-y-2 text-xs">
                 <div class="text-center border-b-2 border-slate-900 pb-2 mb-2">
                     <p class="font-black uppercase text-sm">Rancangan Pengajaran Harian (RPH)</p>
+                    <p class="text-[9px] text-slate-400 normal-case font-normal">(Klik mana-mana teks di bawah untuk edit terus sebelum cetak)</p>
                 </div>
-                <p><b>Nama Guru:</b> <span id="rph-out-guru"></span></p>
-                <p><b>Tarikh:</b> <span id="rph-out-date"></span></p>
-                <p><b>Tahun/Kelas:</b> <span id="rph-out-class"></span></p>
+                <p><b>Nama Guru:</b> <span id="rph-out-guru" contenteditable="true"></span></p>
+                <p><b>Tarikh:</b> <span id="rph-out-date" contenteditable="true"></span></p>
+                <p><b>Tahun/Kelas:</b> <span id="rph-out-class" contenteditable="true"></span></p>
                 <p><b>Mata Pelajaran:</b> Pendidikan Seni Visual</p>
-                <p><b>Tema/Projek:</b> <span id="rph-out-tema"></span></p>
-                <p><b>Teknik:</b> <span id="rph-out-teknik"></span></p>
-                <p><b>Objektif:</b> <span id="rph-out-objektif"></span></p>
+                <p><b>Tema/Projek:</b> <span id="rph-out-tema" contenteditable="true"></span></p>
+                <p><b>Teknik:</b> <span id="rph-out-teknik" contenteditable="true"></span></p>
+                <p><b>Standard Kandungan (SK):</b><br><span id="rph-out-sk" contenteditable="true" class="block p-1.5">-</span></p>
+                <p><b>Standard Pembelajaran (SP):</b><br><span id="rph-out-sp" contenteditable="true" class="block p-1.5">-</span></p>
+                <p><b>Objektif:</b> <span id="rph-out-objektif" contenteditable="true"></span></p>
                 <p><b>Aktiviti PdPc:</b></p>
-                <ol id="rph-out-steps" class="list-decimal pl-5 space-y-1"></ol>
-                <button onclick="window.print()" class="mt-2 py-2 px-4 bg-lime-300 hover:bg-lime-400 text-xs font-black rounded-lg border-2 border-slate-950">🖨️ Cetak</button>
+                <ol id="rph-out-steps" contenteditable="true" class="list-decimal pl-5 space-y-1"></ol>
+
+                <div class="pt-3 mt-2 border-t-2 border-dashed border-slate-300 space-y-2">
+                    <p class="font-black uppercase text-[11px]">Refleksi PdPc</p>
+                    <div>
+                        <p class="font-bold text-[10px] text-emerald-700">✅ Kekuatan</p>
+                        <textarea id="rph-refleksi-kekuatan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                    </div>
+                    <div>
+                        <p class="font-bold text-[10px] text-rose-700">⚠️ Kelemahan</p>
+                        <textarea id="rph-refleksi-kelemahan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                    </div>
+                    <div>
+                        <p class="font-bold text-[10px] text-indigo-700">🔄 Cadangan Penambahbaikan</p>
+                        <textarea id="rph-refleksi-penambahbaikan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                    </div>
+                </div>
+
+                <button id="rph-print-btn" onclick="window.print()" class="mt-2 py-2 px-4 bg-lime-300 hover:bg-lime-400 text-xs font-black rounded-lg border-2 border-slate-950">🖨️ Cetak</button>
             </div>
         </div>
 
@@ -267,28 +320,120 @@
         let currentUser = null;
         let currentUserRole = null;
 
-        // ---------- Kandungan PSV Fasa 1 (Tahun 1 & 2) ----------
-        // Dipetakan kepada DSKP & Buku Teks -- BUKAN salinan kandungan buku teks sebenar.
+        // ---------- Kandungan PSV (Tahun 1, 2, 5, 6) ----------
+        // Dipetakan kepada DSKP KSSR Semakan 2017 & Buku Teks -- BUKAN salinan
+        // kandungan buku teks sebenar. SK/SP disalin terus daripada dokumen DSKP
+        // rasmi KPM bagi bidang/teknik berkaitan.
+        //
+        // NOTA KETELUSAN: Semua unit Tahun 2 dan Tahun 5 yang sebelum ini bertanda
+        // FLAG_TIDAK_PADAN (sk/sp kosong) telah disahkan & dibetulkan pada 2026-09-20
+        // terus daripada buku teks sebenar (D2_BT_PKES_INDEKS.pdf, D5_BT_PSV.pdf).
+        // Unit 3 Tahun 5 turut dibetulkan (teknik kolaj+gurisan yang sepatutnya milik
+        // Unit 6 telah tersalah letak pada Unit 3 dalam versi terdahulu).
+
         const CONTENT_TAHUN_1 = [
-            { unit: "Unit 1", tajuk: "Seni Bermula di Sini", teknik: "Capan \u2013 Gajah Menari" },
-            { unit: "Unit 2", tajuk: "Jari Menari, Warna Berseri", teknik: "Ikatan & Celupan \u2013 Songkok Pelangi" },
-            { unit: "Unit 3", tajuk: "La La La Bonekaku Bernyanyi", teknik: "Boneka \u2013 Beruang Comel" },
-            { unit: "Unit 4", tajuk: "Cantik Batik", teknik: "Batik \u2013 Batik Kipas" },
-            { unit: "Unit 5", tajuk: "Tik Tok Tik, Lukis di Udara", teknik: "Lukisan \u2013 Wajah Rakan" },
-            { unit: "Unit 6", tajuk: "Satu, Dua, Tiga, Dayung!", teknik: "Arca Mobail \u2013 Sampan Kecil" },
-            { unit: "Unit 7", tajuk: "Detektif Jalinan Menyiasat", teknik: "Gosokan \u2013 Ayam Kampung" },
-            { unit: "Unit 8", tajuk: "Lari Sang Tikus, Lari!", teknik: "Tiupan \u2013 Topi Sang Tikus" },
-            { unit: "Unit 9", tajuk: "Serupa Tapi Tidak Sama", teknik: "Model \u2013 Rumah Burung" },
-            { unit: "Unit 10", tajuk: "Renjis, Percik, Ikut Irama", teknik: "Renjisan & Percikan \u2013 Bijak Sang Kancil" },
-            { unit: "Unit 11", tajuk: "Hias Diri, Ikut Menari", teknik: "Alat Perhiasan Diri \u2013 Dokoh" },
+            { unit: "Unit 1", tajuk: "Seni Bermula di Sini", teknik: "Capan \u2013 Gajah Menari",
+              sk: "1.1 Bahasa Seni Visual", sp: "1.1.1 Mengenal, memahami, dan menamakan bahasa seni visual yang ada pada karya dalam Bidang Menggambar: (i) capan (ii) lukisan (iii) renjisan dan percikan (iv) gosokan" },
+            { unit: "Unit 2", tajuk: "Jari Menari, Warna Berseri", teknik: "Ikatan & Celupan \u2013 Songkok Pelangi",
+              sk: "1.1 Bahasa Seni Visual", sp: "1.1.2 Mengenal, memahami, dan menamakan bahasa seni visual yang ada pada karya dalam Bidang Membuat Corak dan Rekaan: (i) ikatan dan celupan (ii) tiupan" },
+            { unit: "Unit 3", tajuk: "La La La Bonekaku Bernyanyi", teknik: "Boneka \u2013 Beruang Comel",
+              sk: "1.1 Bahasa Seni Visual", sp: "1.1.3 Mengenal, memahami, dan menamakan bahasa seni visual yang ada pada karya dalam Bidang Membentuk dan Membuat Binaan: (i) boneka (ii) Mobail (iii) model" },
+            { unit: "Unit 4", tajuk: "Cantik Batik", teknik: "Batik \u2013 Batik Kipas",
+              sk: "1.1 Bahasa Seni Visual", sp: "1.1.4 Mengenal, memahami, dan menamakan bahasa seni visual yang ada pada karya dalam Bidang Mengenal Kraf Tradisional: (i) batik (ii) alat perhiasan diri" },
+            { unit: "Unit 5", tajuk: "Tik Tok Tik, Lukis di Udara", teknik: "Lukisan \u2013 Wajah Rakan",
+              sk: "2.1 Kemahiran Seni Visual", sp: "2.1.1 Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Menggambar: (i) capan (ii) lukisan (iii) renjisan dan percikan (iv) gosokan" },
+            { unit: "Unit 6", tajuk: "Satu, Dua, Tiga, Dayung!", teknik: "Arca Mobail \u2013 Sampan Kecil",
+              sk: "2.1 Kemahiran Seni Visual", sp: "2.1.3 Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Membentuk dan Membuat Binaan: (i) boneka (ii) mobail (iii) model" },
+            { unit: "Unit 7", tajuk: "Detektif Jalinan Menyiasat", teknik: "Gosokan \u2013 Ayam Kampung",
+              sk: "1.1 & 2.1 Bahasa & Kemahiran Seni Visual", sp: "1.1.1 / 2.1.1 Bidang Menggambar \u2013 teknik gosokan" },
+            { unit: "Unit 8", tajuk: "Lari Sang Tikus, Lari!", teknik: "Tiupan \u2013 Topi Sang Tikus",
+              sk: "1.1 & 2.1 Bahasa & Kemahiran Seni Visual", sp: "1.1.2 / 2.1.2 Bidang Membuat Corak dan Rekaan \u2013 teknik tiupan" },
+            { unit: "Unit 9", tajuk: "Serupa Tapi Tidak Sama", teknik: "Model \u2013 Rumah Burung",
+              sk: "1.1 & 2.1 Bahasa & Kemahiran Seni Visual", sp: "1.1.3 / 2.1.3 Bidang Membentuk dan Membuat Binaan \u2013 teknik model" },
+            { unit: "Unit 10", tajuk: "Renjis, Percik, Ikut Irama", teknik: "Renjisan & Percikan \u2013 Bijak Sang Kancil",
+              sk: "1.1 & 2.1 Bahasa & Kemahiran Seni Visual", sp: "1.1.1 / 2.1.1 Bidang Menggambar \u2013 teknik renjisan dan percikan" },
+            { unit: "Unit 11", tajuk: "Hias Diri, Ikut Menari", teknik: "Alat Perhiasan Diri \u2013 Dokoh",
+              sk: "1.1 & 2.1 Bahasa & Kemahiran Seni Visual", sp: "1.1.4 / 2.1.4 Bidang Mengenal Kraf Tradisional \u2013 alat perhiasan diri" },
         ];
+
         const CONTENT_TAHUN_2 = [
-            { unit: "Unit 1", tajuk: "Kami Suka Sayur", teknik: "Lukisan garisan selari" },
-            { unit: "Unit 2", tajuk: "Bersih Pasti Cantik", teknik: "Capan motif sayur" },
-            { unit: "Unit 3", tajuk: "Saya Juara", teknik: "Arca Mobiles Piala" },
-            { unit: "Unit 4", tajuk: "Pusing Gasing Pusing", teknik: "Gasing Kertas" },
-            { unit: "Unit 5", tajuk: "Bersukan Badan Sihat", teknik: "Montaj gambar" },
+            { unit: "Unit 1", tajuk: "Kami Suka Sayur", teknik: "Lukisan garisan selari",
+              sk: "2.1 Kemahiran Seni Visual", sp: "2.1.1 Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Menggambar: (i) teknik garisan selari (ii) teknik basah atas kering (iii) teknik gosokan (iv) teknik resis" },
+            // DISAHKAN daripada Buku Teks Pendidikan Kesenian Tahun 2 (D2_BT_PKES) m/s 14-15:
+            // teknik sebenar ialah corak lipatan & guntingan untuk hiasan bekas air minuman.
+            { unit: "Unit 2", tajuk: "Bersih Pasti Cantik", teknik: "Corak Lipatan & Guntingan \u2013 Bekas Air Minuman",
+              sk: "1.1.2(i) Bahasa seni visual pada karya corak lipatan dan guntingan (Bidang Membuat Corak dan Rekaan)",
+              sp: "2.1.2(i) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Membuat Corak dan Rekaan: (i) lipatan dan guntingan" },
+            // DISAHKAN daripada buku teks m/s 22-23: teknik sebenar ialah Arca Stabail (bentuk piala).
+            { unit: "Unit 3", tajuk: "Saya Juara", teknik: "Arca Stabail \u2013 Piala",
+              sk: "1.1.3(i) Bahasa seni visual pada karya arca stabail (Bidang Membentuk dan Membuat Binaan)",
+              sp: "2.1.3(i) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Membentuk dan Membuat Binaan: (i) arca stabail" },
+            // DISAHKAN daripada buku teks m/s 30-31: Gasing tergolong dalam Bidang Mengenal Kraf
+            // Tradisional (alat permainan tradisional), bukan Bidang Membentuk seperti sangkaan awal.
+            { unit: "Unit 4", tajuk: "Pusing Gasing Pusing", teknik: "Gasing \u2013 Alat Permainan Tradisional",
+              sk: "1.1.4(i) Bahasa seni visual pada alat permainan tradisional gasing (Bidang Mengenal Kraf Tradisional)",
+              sp: "2.1.4(i) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan alat permainan tradisional: (i) gasing" },
+            // DISAHKAN daripada buku teks m/s 38-39: teknik sebenar ialah gosokan (peralatan sukan).
+            { unit: "Unit 5", tajuk: "Bersukan Badan Sihat", teknik: "Gosokan \u2013 Peralatan Sukan",
+              sk: "1.1.1(iii) Bahasa seni visual pada karya gosokan (Bidang Menggambar)",
+              sp: "2.1.1(iii) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Menggambar: (iii) teknik gosokan" },
         ];
+
+        const CONTENT_TAHUN_5 = [
+            { unit: "Unit 1", tajuk: "Si Putih Menawan", teknik: "Lukisan & Capan \u2013 Angsa",
+              sk: "1.1.1(iv) Menginterpretasi bahasa seni visual pada karya lukisan dan capan (Bidang Menggambar)", sp: "2.1.4 Meneroka penghasilan karya gabungan lukisan dan capan dalam bidang menggambar dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            { unit: "Unit 2", tajuk: "Sayangilah Habitat Kita", teknik: "Poster & Montaj \u2013 Ikan Bayan",
+              sk: "1.1.1(ii) Menginterpretasi bahasa seni visual pada karya poster dan montaj (Bidang Menggambar)", sp: "2.1.2 Meneroka penghasilan karya gabungan poster dan montaj dalam bidang menggambar dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            // DIBETULKAN daripada buku teks m/s 22-29: teknik sebenar ialah Kolaj sahaja (corak
+            // kapal layar berulang untuk jaket buku), Bidang Membuat Corak dan Rekaan -- bukan
+            // gabungan kolaj+gurisan (kombinasi itu sebenarnya milik Unit 6, lihat nota di bawah).
+            { unit: "Unit 3", tajuk: "Jaket Buku Nota", teknik: "Kolaj \u2013 Corak Kapal Layar",
+              sk: "1.1.2(ii) Menginterpretasi bahasa seni visual pada karya kolaj (Bidang Membuat Corak dan Rekaan)", sp: "2.1.6(i-iii) Meneroka penghasilan corak kolaj dalam bidang membuat corak dan rekaan dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            { unit: "Unit 4", tajuk: "Misi ke Angkasa", teknik: "Model \u2013 3D Kapal Angkasa",
+              sk: "1.1.3(ii) Menginterpretasi bahasa seni visual pada karya model (Bidang Membentuk dan Membuat Binaan)", sp: "2.1.8 Meneroka penghasilan model dalam Bidang membentuk dan membuat binaan dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            { unit: "Unit 5", tajuk: "Pasu Mini Bekas Aksesori", teknik: "Tembikar \u2013 Tanah Liat",
+              sk: "1.1.4(i) Menginterpretasi bahasa seni visual pada karya tembikar (Bidang Mengenal Kraf Tradisional)", sp: "2.1.9 Meneroka penghasilan tembikar dalam bidang mengenal kraf tradisional dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            // DISAHKAN daripada buku teks m/s 50-51: teknik sebenar ialah gabungan Kolaj & Gurisan
+            // (kapal layar waktu malam) -- kod DSKP 1.1.1(i)/2.1.1 mengisi slot "(i)" yang tadinya
+            // kosong dalam Bidang Menggambar (bandingkan dengan Unit 1=(iv), Unit 2=(ii), Unit 7=(iii)).
+            { unit: "Unit 6", tajuk: "Pungguk Rindu Akan Bulan", teknik: "Kolaj & Gurisan \u2013 Kapal Layar (Waktu Malam)",
+              sk: "1.1.1(i) Menginterpretasi bahasa seni visual pada karya kolaj dan gurisan (Bidang Menggambar)", sp: "2.1.1 Meneroka penghasilan karya gabungan kolaj dan gurisan dalam bidang menggambar dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            { unit: "Unit 7", tajuk: "Bunga Kekwa Mekar", teknik: "Mozek & Catan \u2013 Bunga",
+              sk: "1.1.1(iii) Menginterpretasi bahasa seni visual pada karya mozek dan catan (Bidang Menggambar)", sp: "2.1.3 Meneroka penghasilan karya gabungan mozek dan catan dalam bidang menggambar dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            { unit: "Unit 8", tajuk: "Bingkai Gambarku", teknik: "Titisan & Stensilan",
+              sk: "1.1.2(i) Menginterpretasi bahasa seni visual pada karya titisan (Bidang Membuat Corak dan Rekaan)", sp: "2.1.5 Meneroka penghasilan corak teknik titisan dalam bidang membuat corak dan rekaan dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            { unit: "Unit 9", tajuk: "Haiwan Peliharaan", teknik: "Arca Stabail \u2013 Robot",
+              sk: "1.1.3(i) Menginterpretasi bahasa seni visual pada karya stabail (Bidang Membentuk dan Membuat Binaan)", sp: "2.1.7 Meneroka penghasilan stabail dalam Bidang membentuk dan membuat binaan dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+            { unit: "Unit 10", tajuk: "Bunga Kemboja Emas", teknik: "Seni Tekad \u2013 Benang Emas",
+              sk: "1.1.4(ii) Menginterpretasi bahasa seni visual pada karya tekat/tenunan (Bidang Mengenal Kraf Tradisional)", sp: "2.1.10 Meneroka penghasilan tekat atau tenunan dalam bidang mengenal kraf tradisional dari aspek: (i) bahasa seni visual (ii) pelbagai media (iii) teknik dan proses" },
+        ];
+
+        // Tahun 6: DSKP tidak membezakan SK/SP mengikut teknik khusus -- ia bersifat
+        // umum merentasi semua bidang (penerokaan media & gabungan teknik). Oleh itu
+        // SK/SP yang SAMA digunakan untuk semua unit Tahun 6.
+        const TAHUN_6_SK = "1.1 Bahasa Seni Visual (1.1.1 Menyatakan istilah dan pengertian bahasa seni visual; 1.1.2 Mencirikan bahasa seni visual pada alam semula jadi, objek buatan manusia dan karya seni; 1.1.3 Mencerakinkan bahasa seni visual mengikut bidang: Menggambar, Membuat Corak dan Rekaan, Membentuk dan Membuat Binaan, Mengenal Kraf Tradisional)";
+        const TAHUN_6_SP = "2.1 Kemahiran Seni Visual (2.1.1 Meneroka media berpandukan bahasa seni visual; 2.1.2 Mengaplikasikan bahasa seni visual melalui lakaran berdasarkan jenis dan fungsi; 2.1.3 Mengeksplorasi media dan teknik gabungan antara bidang untuk penghasilan karya atau produk)";
+
+        const CONTENT_TAHUN_6 = [
+            { unit: "Unit 1", tajuk: "Gambaran Minda", teknik: "Lukisan Tonasi Pensel", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 2", tajuk: "Pembina Cilik", teknik: "Arca Asemblaj", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 3", tajuk: "Ilusi dan Realiti", teknik: "Perspektif 2 Titik Lenyap", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 4", tajuk: "Cik Lebah dan Madu", teknik: "Catan Warna Harmoni", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 5", tajuk: "Si Cilik Koi", teknik: "Catan Air Basah atas Basah", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 6", tajuk: "Inspirasi Corak Rekaan", teknik: "Pualaman & Cetakan", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 7", tajuk: "Celupan Kreatif", teknik: "Ikat & Celup", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 8", tajuk: "Seni Kraf Warisan", teknik: "Anyaman Kelarai", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 9", tajuk: "Wau Bulan Sirih Pinang", teknik: "Pembuatan Wau Hiasan", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            { unit: "Unit 10", tajuk: "Beg Batik Rekaanku", teknik: "Seni Batik Canting", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+        ];
+
+        // Rujukan pantas: nama tahun -> senarai kandungan
+        const CONTENT_BY_YEAR = {
+            "Tahun 1": CONTENT_TAHUN_1,
+            "Tahun 2": CONTENT_TAHUN_2,
+            "Tahun 5": CONTENT_TAHUN_5,
+            "Tahun 6": CONTENT_TAHUN_6,
+        };
 
         function showScreen(id) {
             ['screen-login', 'screen-role', 'screen-guru', 'screen-murid'].forEach(s => {
@@ -408,7 +553,7 @@
         function renderContentList(containerId) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
-            [{ label: 'Tahun 1', data: CONTENT_TAHUN_1 }, { label: 'Tahun 2', data: CONTENT_TAHUN_2 }].forEach(group => {
+            Object.entries(CONTENT_BY_YEAR).map(([label, data]) => ({ label, data })).forEach(group => {
                 group.data.forEach(item => {
                     container.innerHTML += `
                         <div class="p-3 bg-slate-50 border-2 border-slate-950 rounded-xl">
@@ -498,8 +643,37 @@
             const kelas = guruClassesData.find(c => c.kod === kod);
             const unitSel = document.getElementById('rph-select-unit');
             if (!kelas) { unitSel.innerHTML = ''; return; }
-            const data = kelas.tahun === 'Tahun 1' ? CONTENT_TAHUN_1 : CONTENT_TAHUN_2;
+            const data = CONTENT_BY_YEAR[kelas.tahun] || [];
             unitSel.innerHTML = data.map(u => `<option value="${u.unit}">${u.unit}: ${u.tajuk}</option>`).join('');
+            onRphUnitChange(); // terus auto-isi SK/SP untuk unit pertama dalam senarai
+        };
+
+        // Auto-isi SK & SP dalam borang berdasarkan unit yang dipilih (terus
+        // daripada data DSKP rasmi). Guru MASIH BOLEH edit terus dalam kotak
+        // ni sebelum jana RPH -- ini cuma titik permulaan, bukan kunci mati.
+        window.onRphUnitChange = function () {
+            const kod = document.getElementById('rph-select-class').value;
+            const kelas = guruClassesData.find(c => c.kod === kod);
+            if (!kelas) return;
+            const unitCode = document.getElementById('rph-select-unit').value;
+            const data = CONTENT_BY_YEAR[kelas.tahun] || [];
+            const unit = data.find(u => u.unit === unitCode);
+            if (!unit) return;
+
+            const skInput = document.getElementById('rph-sk');
+            const spInput = document.getElementById('rph-sp');
+            if (unit.sk || unit.sp) {
+                skInput.value = unit.sk || '';
+                spInput.value = unit.sp || '';
+            } else {
+                // Fallback sahaja -- semua unit semasa (Tahun 1,2,5,6) sudah ada
+                // sk/sp disahkan. Ini hanya tercetus jika unit baharu ditambah
+                // pada CONTENT_BY_YEAR tanpa sk/sp diisi terlebih dahulu.
+                skInput.value = '';
+                spInput.value = '';
+                skInput.placeholder = '\u26a0\ufe0f Tajuk/teknik unit ini belum disahkan menepati DSKP -- sila taip SK sendiri.';
+                spInput.placeholder = '\u26a0\ufe0f Tajuk/teknik unit ini belum disahkan menepati DSKP -- sila taip SP sendiri.';
+            }
         };
 
         window.generateRPH = function () {
@@ -508,7 +682,7 @@
             if (!kelas) { alert('Sila cipta & pilih kelas dahulu.'); return; }
 
             const unitCode = document.getElementById('rph-select-unit').value;
-            const data = kelas.tahun === 'Tahun 1' ? CONTENT_TAHUN_1 : CONTENT_TAHUN_2;
+            const data = CONTENT_BY_YEAR[kelas.tahun] || [];
             const unit = data.find(u => u.unit === unitCode);
             if (!unit) return;
 
@@ -517,7 +691,14 @@
             document.getElementById('rph-out-class').innerText = `${kelas.namaKelas} (${kelas.tahun})`;
             document.getElementById('rph-out-tema').innerText = `${unit.unit}: ${unit.tajuk}`;
             document.getElementById('rph-out-teknik').innerText = unit.teknik;
+            document.getElementById('rph-out-sk').innerText = document.getElementById('rph-sk').value.trim() || '(belum diisi -- klik untuk taip terus di sini)';
+            document.getElementById('rph-out-sp').innerText = document.getElementById('rph-sp').value.trim() || '(belum diisi -- klik untuk taip terus di sini)';
             document.getElementById('rph-out-objektif').innerText = `Pada akhir pembelajaran, murid dapat menghasilkan karya "${unit.tajuk}" menggunakan teknik ${unit.teknik} serta mengenali Bahasa Seni Visual berkaitan.`;
+
+            // Kosongkan Refleksi setiap kali RPH baharu dijana (refleksi khusus untuk sesi ini)
+            document.getElementById('rph-refleksi-kekuatan').value = '';
+            document.getElementById('rph-refleksi-kelemahan').value = '';
+            document.getElementById('rph-refleksi-penambahbaikan').value = '';
 
             const steps = [
                 'Guru mempamerkan contoh visual dan membincangkan Bahasa Seni Visual berkaitan.',
@@ -741,7 +922,7 @@
                     const c = classSnap.data();
                     muridJoinedClasses.push({ kod, namaKelas: c.namaKelas, tahun: c.tahun });
 
-                    const contentData = c.tahun === 'Tahun 1' ? CONTENT_TAHUN_1 : CONTENT_TAHUN_2;
+                    const contentData = CONTENT_BY_YEAR[c.tahun] || [];
                     const contentHtml = contentData.map(item => `
                         <div class="p-2.5 bg-slate-50 border border-slate-300 rounded-lg">
                             <span class="text-[9px] font-black text-indigo-600">${item.unit}</span>
