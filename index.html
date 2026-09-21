@@ -341,6 +341,37 @@
                     <p id="modul-quiz-feedback" class="hidden text-[10px] font-bold p-2 rounded-lg"></p>
                 </div>
 
+                <!-- 04: Lihat & Perhati (interaktif) -->
+                <div id="modul-lihat-perhati" class="hidden space-y-2 p-3 bg-sky-50 border-2 border-slate-950 rounded-xl">
+                    <h4 class="text-[10px] font-black uppercase text-indigo-700">👀 Lihat & Perhati</h4>
+                    <p id="modul-lp-gambar-label" class="text-xs font-bold text-slate-700"></p>
+                    <p id="modul-lp-soalan" class="text-xs font-bold bg-white p-2 rounded-lg border border-slate-900"></p>
+                    <div id="modul-lp-pilihan" class="grid grid-cols-2 gap-2"></div>
+                    <button onclick="semakLihatPerhati()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-lg border-2 border-slate-950">Semak Jawapan</button>
+                    <p id="modul-lp-feedback" class="hidden text-[10px] font-bold p-2 rounded-lg"></p>
+                </div>
+
+                <!-- 07: Projek Seni (cabaran formal) -->
+                <div id="modul-projek-seni" class="hidden space-y-1.5 p-3 bg-amber-50 border-2 border-slate-950 rounded-xl">
+                    <h4 class="text-[10px] font-black uppercase text-indigo-700">🎯 Cabaran Projek Seni</h4>
+                    <p id="modul-projek-cabaran" class="text-xs font-black"></p>
+                    <p class="text-[10px] text-slate-600"><span class="font-black">Bahan:</span> <span id="modul-projek-bahan"></span></p>
+                    <p class="text-[10px] text-slate-600"><span class="font-black">Masa:</span> <span id="modul-projek-masa"></span></p>
+                    <p class="text-[10px] text-slate-600"><span class="font-black">Hasil Pembelajaran:</span> <span id="modul-projek-hasil"></span></p>
+                </div>
+
+                <!-- 09: Galeri Unit Ini + 10: PBD (guru boleh ulas & tanda TP) -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-[10px] font-black uppercase text-indigo-700">📸 Galeri Unit Ini</h4>
+                        <button id="modul-hantar-lukisan-btn" onclick="hantarKaryaDariModul()" class="hidden text-[9px] font-black px-2 py-1 bg-rose-500 text-white rounded-lg border border-slate-950">Hantar Lukisan Papan Ini 🖼️</button>
+                    </div>
+                    <p id="modul-galeri-feedback" class="hidden text-[10px] font-bold p-2 rounded-lg"></p>
+                    <div id="modul-galeri-unit" class="grid grid-cols-1 gap-2">
+                        <p class="text-[10px] text-slate-400 italic">Memuatkan...</p>
+                    </div>
+                </div>
+
                 <!-- Papan Lukisan (kedua-dua peranan) -->
                 <div class="space-y-2">
                     <div class="flex items-center justify-between">
@@ -361,7 +392,7 @@
                         <button onclick="modulSetColor('#3b82f6')" class="w-6 h-6 rounded-full border-2 border-slate-950" style="background:#3b82f6"></button>
                         <input type="range" id="modul-brush-size" min="1" max="30" value="4" class="flex-1">
                     </div>
-                    <p class="text-[9px] text-slate-400 italic">Untuk hantar lukisan ini ke Galeri, muat turun dahulu lalu naikkan semula melalui borang "Hantar Karya" di bawah.</p>
+                    <p class="text-[9px] text-slate-400 italic">Guna butang "Hantar Lukisan Papan Ini 🖼️" di atas untuk hantar terus ke Galeri Unit Ini, atau muat turun untuk simpan.</p>
                 </div>
             </div>
         </div>
@@ -467,6 +498,11 @@
             { unit: "Unit 5", tajuk: "Bersukan Badan Sihat", teknik: "Gosokan \u2013 Peralatan Sukan",
               sk: "1.1.1(iii) Bahasa seni visual pada karya gosokan (Bidang Menggambar)",
               sp: "2.1.1(iii) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Menggambar: (iii) teknik gosokan" },
+            // DISAHKAN daripada buku teks m/s 64-69: teknik picitan (tembikar), Bidang Mengenal
+            // Kraf Tradisional sub(ii) -- selari dengan Unit 4 yang sub(i) ialah gasing.
+            { unit: "Unit 8", tajuk: "Uli-uli Tembikar", teknik: "Tembikar \u2013 Teknik Picitan",
+              sk: "1.1.4(ii) Bahasa seni visual (bentuk, jalinan, keseimbangan, kepelbagaian) pada karya tembikar (Bidang Mengenal Kraf Tradisional)",
+              sp: "2.1.4(ii) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan tembikar: (ii) teknik picitan" },
         ];
 
         const CONTENT_TAHUN_5 = [
@@ -523,6 +559,32 @@
             "Tahun 2": CONTENT_TAHUN_2,
             "Tahun 5": CONTENT_TAHUN_5,
             "Tahun 6": CONTENT_TAHUN_6,
+        };
+
+        // ---------- MASTER TEMPLATE: komponen tambahan (04 Lihat & Perhati, 07 Projek Seni) ----------
+        // Diisi PENUH buat masa ini hanya untuk Tahun 2|Unit 8 (Uli-uli Tembikar) sebagai unit
+        // rujukan/template, seperti yang dicadangkan -- bina 1 unit dahulu sebelum digandakan ke
+        // unit lain. Kandungan diambil terus daripada buku teks (m/s 64-69), bukan tekaan.
+        const MASTER_TEMPLATE_EXTRAS = {
+            "Tahun 2|Unit 8": {
+                lihatPerhati: {
+                    gambarLabel: "Tembikar Comel (hasil teknik picitan)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya tembikar ini:",
+                    pilihan: [
+                        { label: "Bentuk", betul: true },
+                        { label: "Jalinan", betul: true },
+                        { label: "Garisan selari", betul: false },
+                        { label: "Ruang ilusi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan BENTUK dan JALINAN untuk unit ini -- perhatikan juga prinsip keseimbangan semasa memicit tembikar."
+                },
+                projekSeni: {
+                    cabaran: "Hasilkan sebuah tembikar menggunakan teknik picitan.",
+                    bahan: ["Doh tepung / Air dry clay", "Palet", "Cat poster", "Berus warna"],
+                    masa: "60 minit",
+                    hasil: "Murid dapat menghasilkan karya tembikar menggunakan teknik picitan dengan baik dan menunjukkan kreativiti dalam bentuk yang dihasilkan."
+                }
+            }
         };
 
         function showScreen(id) {
@@ -669,6 +731,15 @@
             "Tahun 1|Unit 4": "AUsuSTg_MOY", "Tahun 1|Unit 5": "dJpDvefTduI", "Tahun 1|Unit 6": "tBnFKst_y0g",
             "Tahun 1|Unit 7": "cie9CzVJ5Vc", "Tahun 1|Unit 8": "Ti7hXKReEAo", "Tahun 1|Unit 9": "8b2cgBtRMFY",
             "Tahun 1|Unit 10": "L6QxoAgMe5U", "Tahun 1|Unit 11": "FTeYsiMpoVs",
+            // Tahun 2 Unit 1-9: disahkan ditonton oleh Ai pada 2026-09-21, kandungan sepadan dengan unit.
+            "Tahun 2|Unit 1": "CIYPAktSclQ", "Tahun 2|Unit 2": "6Tce-jyT8EI", "Tahun 2|Unit 3": "TTwLEZB0uBo",
+            "Tahun 2|Unit 4": "JO-U2b6jUs0", "Tahun 2|Unit 5": "p0k67tzQICk", "Tahun 2|Unit 6": "OvI55p8aRRg",
+            "Tahun 2|Unit 7": "cc_Ib7qXwIM", "Tahun 2|Unit 8": "0cTeS3Y83go", "Tahun 2|Unit 9": "bJnH9NluVoA",
+        };
+        // BELUM DISAHKAN: dicadangkan oleh AI lain (ChatGPT), belum ditonton/disahkan sendiri.
+        // Jangan naik taraf ke explicitUnitVideoMap sehingga seseorang benar-benar tonton &
+        // sahkan kandungan video ini sepadan dengan unit yang dilabelkan.
+        const unverifiedUnitVideoMap = {
         };
         function getFallbackVideoId(teknik) {
             const t = teknik.toLowerCase();
@@ -743,22 +814,54 @@
             document.getElementById('modul-sp').innerText = item.sp || '-';
 
             const key = `${tahunLabel}|${unitCode}`;
-            const isExplicit = !!explicitUnitVideoMap[key];
-            const vidId = isExplicit ? explicitUnitVideoMap[key] : getFallbackVideoId(item.teknik);
+            let vidId, videoNote;
+            if (explicitUnitVideoMap[key]) {
+                vidId = explicitUnitVideoMap[key];
+                videoNote = 'Video disahkan khusus untuk unit ini.';
+            } else if (unverifiedUnitVideoMap[key]) {
+                vidId = unverifiedUnitVideoMap[key];
+                videoNote = '\u26a0\ufe0f Video ini DICADANGKAN oleh AI lain untuk unit ini tapi BELUM ditonton/disahkan sepadan -- sila tonton sepenuhnya dahulu sebelum guna dengan murid.';
+            } else {
+                vidId = getFallbackVideoId(item.teknik);
+                videoNote = '\u26a0\ufe0f Video umum mengikut teknik (belum disahkan khusus untuk unit ini) -- sila semak kesesuaian sebelum tayang.';
+            }
             document.getElementById('modul-video').src = `https://www.youtube.com/embed/${vidId}`;
-            document.getElementById('modul-video-note').innerText = isExplicit
-                ? 'Video disahkan khusus untuk unit ini.'
-                : '\u26a0\ufe0f Video umum mengikut teknik (belum disahkan khusus untuk unit ini) -- sila semak kesesuaian sebelum tayang.';
+            document.getElementById('modul-video-note').innerText = videoNote;
 
             const nota = generateNotaForUnit(item);
             document.getElementById('modul-bahan').innerHTML = nota.bahan.map(b => `<li>${b}</li>`).join('');
             document.getElementById('modul-langkah').innerHTML = nota.langkah.map(s => `<li>${s}</li>`).join('');
 
+            // 04 & 07: guna data Master Template jika ada untuk unit ini; kalau tiada, sembunyikan
+            // (04) atau jana versi generik daripada nota sedia ada (07) supaya tak kosong terus.
+            const extras = MASTER_TEMPLATE_EXTRAS[key];
+            const lpBox = document.getElementById('modul-lihat-perhati');
+            if (extras && extras.lihatPerhati) {
+                lpBox.classList.remove('hidden');
+                renderLihatPerhati(extras.lihatPerhati);
+            } else {
+                lpBox.classList.add('hidden');
+            }
+            const projekBox = document.getElementById('modul-projek-seni');
+            projekBox.classList.remove('hidden');
+            const projek = (extras && extras.projekSeni) || {
+                cabaran: `Hasilkan karya "${item.tajuk}" menggunakan teknik ${item.teknik}.`,
+                bahan: nota.bahan, masa: "60 minit (anggaran)",
+                hasil: `Murid dapat menghasilkan karya menggunakan teknik ${item.teknik} dengan kreatif.`
+            };
+            document.getElementById('modul-projek-cabaran').innerText = projek.cabaran;
+            document.getElementById('modul-projek-bahan').innerText = projek.bahan.join(', ');
+            document.getElementById('modul-projek-masa').innerText = projek.masa;
+            document.getElementById('modul-projek-hasil').innerText = projek.hasil;
+
             const isGuru = document.getElementById('screen-guru') && !document.getElementById('screen-guru').classList.contains('hidden');
             document.getElementById('modul-guru-actions').classList.toggle('hidden', !isGuru);
             document.getElementById('modul-murid-quiz').classList.toggle('hidden', isGuru);
+            document.getElementById('modul-hantar-lukisan-btn').classList.toggle('hidden', isGuru);
             document.getElementById('modul-guru-rph-feedback').classList.add('hidden');
+            document.getElementById('modul-galeri-feedback').classList.add('hidden');
             if (!isGuru) initModulQuiz(item);
+            loadGaleriUnit(tahunLabel, unitCode, isGuru);
 
             document.getElementById('modul-overlay').classList.remove('hidden');
             setTimeout(initModulCanvas, 80);
@@ -895,6 +998,135 @@
         window.modulSetColor = modulSetColor;
         window.modulClearCanvas = modulClearCanvas;
         window.modulDownloadCanvas = modulDownloadCanvas;
+
+        // ---------- 04: Lihat & Perhati (semak faham unsur seni pada karya) ----------
+        let lpAnswerState = {};
+        function renderLihatPerhati(lp) {
+            document.getElementById('modul-lp-gambar-label').innerText = `🖼️ ${lp.gambarLabel}`;
+            document.getElementById('modul-lp-soalan').innerText = lp.soalan;
+            lpAnswerState = {};
+            document.getElementById('modul-lp-pilihan').innerHTML = lp.pilihan.map((p, idx) => {
+                lpAnswerState[idx] = false;
+                return `<label class="flex items-center gap-1.5 text-[11px] font-bold bg-white p-2 rounded-lg border border-slate-900 cursor-pointer">
+                    <input type="checkbox" onchange="lpAnswerState[${idx}]=this.checked" class="w-4 h-4"> ${p.label}
+                </label>`;
+            }).join('');
+            document.getElementById('modul-lp-feedback').classList.add('hidden');
+            window._lpCurrentPilihan = lp.pilihan;
+            window._lpPenjelasan = lp.penjelasan;
+        }
+        window.lpAnswerState = lpAnswerState;
+        function semakLihatPerhati() {
+            const pilihan = window._lpCurrentPilihan || [];
+            const betul = pilihan.every((p, idx) => !!lpAnswerState[idx] === p.betul);
+            const fb = document.getElementById('modul-lp-feedback');
+            if (betul) {
+                fb.innerText = '\u2705 ' + (window._lpPenjelasan || 'Betul!');
+                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                if (document.getElementById('modul-murid-quiz') && !document.getElementById('modul-murid-quiz').classList.contains('hidden')) {
+                    tambahBintang(3);
+                }
+            } else {
+                fb.innerText = '\u274c Cuba lagi -- semak semula unsur yang kelihatan pada karya.';
+                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+            }
+            fb.classList.remove('hidden');
+        }
+        window.semakLihatPerhati = semakLihatPerhati;
+
+        // ---------- 09 & 10: Galeri per-unit + Ulasan/TP PBD (guru) ----------
+        // Guna medan `tahun` & `unit` pada dokumen 'karya' (hanya wujud untuk karya yang
+        // dihantar terus dari Modul Pembelajaran) supaya boleh ditapis khusus unit ini.
+        async function loadGaleriUnit(tahunLabel, unitCode, isGuru) {
+            const container = document.getElementById('modul-galeri-unit');
+            container.innerHTML = '<p class="text-[10px] text-slate-400 italic">Memuatkan...</p>';
+            try {
+                const q = query(collection(db, 'karya'), where('tahun', '==', tahunLabel), where('unit', '==', unitCode), orderBy('tarikh', 'desc'));
+                const snap = await getDocs(q);
+                if (snap.empty) {
+                    container.innerHTML = '<p class="text-[10px] text-slate-400 italic">Belum ada karya dihantar untuk unit ini lagi.</p>';
+                    return;
+                }
+                container.innerHTML = '';
+                snap.forEach((d) => {
+                    const k = d.data();
+                    const tpOptions = [1,2,3,4,5,6].map(n => `<option value="${n}" ${k.tp == n ? 'selected' : ''}>TP${n}</option>`).join('');
+                    container.innerHTML += `
+                        <div class="flex gap-2 p-2 bg-white border-2 border-slate-950 rounded-xl">
+                            <img src="${k.imageUrl}" class="w-16 h-16 object-cover rounded-lg border border-slate-900 shrink-0">
+                            <div class="flex-1 min-w-0 space-y-1">
+                                <p class="text-[10px] font-black truncate">${k.tajuk} \u2014 <span class="text-slate-500 font-bold">${k.namaMurid}</span></p>
+                                ${isGuru ? `
+                                    <div class="flex items-center gap-1">
+                                        <select id="tp-${d.id}" class="text-[9px] p-1 border border-slate-900 rounded">${tpOptions}</select>
+                                        <input id="ulasan-${d.id}" type="text" placeholder="Catatan PBD..." value="${(k.ulasanGuru || '').replace(/"/g, '&quot;')}" class="flex-1 text-[9px] p-1 border border-slate-900 rounded">
+                                        <button onclick="simpanUlasanPBD('${d.id}')" class="text-[9px] font-black px-2 py-1 bg-emerald-500 text-white rounded border border-slate-950">Simpan</button>
+                                    </div>` :
+                                    (k.ulasanGuru ? `<p class="text-[9px] text-indigo-700 font-bold">💬 ${k.ulasanGuru}${k.tp ? ` (TP${k.tp})` : ''}</p>` : `<p class="text-[9px] text-slate-400 italic">Menunggu ulasan guru...</p>`)
+                                }
+                            </div>
+                        </div>`;
+                });
+            } catch (e) {
+                container.innerHTML = `<p class="text-[10px] text-rose-600 font-bold">Ralat memuatkan galeri: ${e.message} (mungkin perlu cipta index Firestore -- ikut pautan dalam ralat console)</p>`;
+            }
+        }
+        async function simpanUlasanPBD(karyaId) {
+            try {
+                const tp = document.getElementById(`tp-${karyaId}`).value;
+                const ulasan = document.getElementById(`ulasan-${karyaId}`).value.trim();
+                await updateDoc(doc(db, 'karya', karyaId), { tp: Number(tp), ulasanGuru: ulasan });
+                const fb = document.getElementById('modul-galeri-feedback');
+                fb.innerText = '\u2705 Ulasan PBD disimpan.';
+                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                fb.classList.remove('hidden');
+            } catch (e) {
+                alert('Ralat menyimpan ulasan: ' + e.message);
+            }
+        }
+        window.simpanUlasanPBD = simpanUlasanPBD;
+
+        // Hantar terus lukisan Papan Lukisan modal sebagai karya untuk unit semasa (murid sahaja)
+        async function hantarKaryaDariModul() {
+            const canvas = document.getElementById('modul-canvas');
+            const fb = document.getElementById('modul-galeri-feedback');
+            if (!canvas || !activeModulItem) return;
+            fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-slate-100 text-slate-600';
+            fb.innerText = 'Menghantar...';
+            fb.classList.remove('hidden');
+            try {
+                const imageDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                if (imageDataUrl.length > 900000) {
+                    fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                    fb.innerText = 'Lukisan terlalu besar untuk dihantar. Cuba padam sebahagian & cuba lagi.';
+                    return;
+                }
+                const kelasSepadan = muridJoinedClasses.filter(c => c.tahun === activeModulYear);
+                if (kelasSepadan.length === 0) {
+                    fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                    fb.innerText = `Sertai kelas ${activeModulYear} dahulu sebelum hantar karya.`;
+                    return;
+                }
+                await addDoc(collection(db, 'karya'), {
+                    uid: currentUser.uid,
+                    namaMurid: currentUser.displayName || currentUser.email,
+                    kodKelas: kelasSepadan[0].kod,
+                    tahun: activeModulYear,
+                    unit: activeModulUnit,
+                    tajuk: activeModulItem.tajuk,
+                    imageUrl: imageDataUrl,
+                    tarikh: serverTimestamp()
+                });
+                await tambahBintang(20);
+                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                fb.innerText = 'Lukisan berjaya dihantar ke Galeri! +20 \u2b50';
+                loadGaleriUnit(activeModulYear, activeModulUnit, false);
+            } catch (e) {
+                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                fb.innerText = 'Ralat menghantar: ' + e.message;
+            }
+        }
+        window.hantarKaryaDariModul = hantarKaryaDariModul;
 
         // ---------- Sistem Kelas: Guru ----------
         function generateClassCode(tahun) {
