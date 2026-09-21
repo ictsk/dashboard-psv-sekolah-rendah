@@ -107,117 +107,225 @@
     <div id="screen-guru" class="hidden min-h-screen p-4 lg:p-8 max-w-5xl mx-auto space-y-6">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="font-black text-2xl comic-font">Selamat Datang, Cikgu! 👋</h1>
+                <h1 class="font-black text-2xl comic-font">PSV DIGITAL <span class="text-sm font-bold text-slate-400">| Cikgu</span></h1>
                 <p id="guru-email-label" class="text-xs text-slate-500"></p>
             </div>
             <button onclick="signOutUser()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-bold shadow-brutal-sm">Log Keluar</button>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-            <h3 class="font-black text-lg comic-font">📚 Kelas Saya</h3>
-            <div class="flex flex-wrap gap-3 items-end p-4 bg-slate-50 rounded-2xl border-2 border-slate-950">
-                <div class="flex-1 min-w-[140px]">
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Nama Kelas</label>
-                    <input id="new-class-name" type="text" placeholder="Contoh: 2 Cemerlang" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tahun</label>
-                    <select id="new-class-year" class="p-2.5 border-2 border-slate-950 rounded-xl text-sm">
-                        <option value="Tahun 1">Tahun 1</option>
-                        <option value="Tahun 2">Tahun 2</option>
-                        <option value="Tahun 5">Tahun 5</option>
-                        <option value="Tahun 6">Tahun 6</option>
-                    </select>
-                </div>
-                <button onclick="createClass()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">+ Cipta Kelas</button>
+        <!-- ===== DASHBOARD (paparan lalai) ===== -->
+        <div id="guru-view-dashboard" class="space-y-6">
+            <div class="bg-gradient-to-r from-indigo-500 to-violet-500 text-white p-5 lg:p-6 rounded-3xl border-4 border-slate-950 shadow-brutal">
+                <h2 class="font-black text-xl comic-font">Selamat Datang, Cikgu 👋</h2>
+                <p class="text-xs lg:text-sm text-indigo-100 mt-1">Urus pembelajaran PSV, bahan PdP, aktiviti dan pentaksiran murid dalam satu tempat.</p>
             </div>
 
-            <div id="guru-class-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <p class="text-xs text-slate-400 italic">Memuatkan senarai kelas...</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 lg:gap-4">
+                <button onclick="showGuruView('modul')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl lg:text-3xl">📚</span>
+                    <p class="font-black text-sm lg:text-base mt-2">Modul PSV</p>
+                    <p class="text-[10px] text-slate-500">Tahun 1–6</p>
+                </button>
+                <button onclick="showGuruView('rph')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl lg:text-3xl">📝</span>
+                    <p class="font-black text-sm lg:text-base mt-2">RPH</p>
+                    <p class="text-[10px] text-slate-500">Jana & simpan RPH</p>
+                </button>
+                <button onclick="showGuruView('pbd')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl lg:text-3xl">📊</span>
+                    <p class="font-black text-sm lg:text-base mt-2">PBD</p>
+                    <p class="text-[10px] text-slate-500">Rekod TP</p>
+                </button>
+                <button onclick="showGuruView('karya')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl lg:text-3xl">👩‍🎨</span>
+                    <p class="font-black text-sm lg:text-base mt-2">Karya Murid</p>
+                    <p class="text-[10px] text-slate-500">Portfolio murid</p>
+                </button>
+                <button onclick="showGuruView('kuiz')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl lg:text-3xl">🧠</span>
+                    <p class="font-black text-sm lg:text-base mt-2">Kuiz</p>
+                    <p class="text-[10px] text-slate-500">Semak pencapaian</p>
+                </button>
+                <button onclick="showGuruView('bahan')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl lg:text-3xl">📂</span>
+                    <p class="font-black text-sm lg:text-base mt-2">Bahan</p>
+                    <p class="text-[10px] text-slate-500">BBM & bahan</p>
+                </button>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-lg comic-font">🎯 Kelas Saya</h3>
+                <div class="flex flex-wrap gap-3 items-end p-4 bg-slate-50 rounded-2xl border-2 border-slate-950">
+                    <div class="flex-1 min-w-[140px]">
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Nama Kelas</label>
+                        <input id="new-class-name" type="text" placeholder="Contoh: 2 Cemerlang" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tahun</label>
+                        <select id="new-class-year" class="p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                            <option value="Tahun 1">Tahun 1</option>
+                            <option value="Tahun 2">Tahun 2</option>
+                            <option value="Tahun 5">Tahun 5</option>
+                            <option value="Tahun 6">Tahun 6</option>
+                        </select>
+                    </div>
+                    <button onclick="createClass()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">+ Cipta Kelas</button>
+                </div>
+
+                <div id="guru-class-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p class="text-xs text-slate-400 italic">Memuatkan senarai kelas...</p>
+                </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-            <h3 class="font-black text-lg comic-font mb-3">🎨 Kandungan PSV (Tahun 1, 2, 5 & 6)</h3>
-            <div id="guru-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        <!-- ===== MODUL PSV ===== -->
+        <div id="guru-view-modul" class="hidden space-y-4">
+            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
+                <h3 class="font-black text-lg comic-font mb-3">🎨 Kandungan PSV (Tahun 1, 2, 5 & 6)</h3>
+                <div id="guru-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-            <h3 class="font-black text-lg comic-font">📝 Penjana RPH Pintar</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- ===== RPH ===== -->
+        <div id="guru-view-rph" class="hidden space-y-4">
+            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-lg comic-font">📝 Penjana RPH Pintar</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Kelas</label>
+                        <select id="rph-select-class" onchange="onRphClassChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                            <option value="">-- Cipta kelas dahulu --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Unit</label>
+                        <select id="rph-select-unit" onchange="onRphUnitChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Nama Guru</label>
+                        <input id="rph-guru-name" type="text" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tarikh</label>
+                        <input id="rph-date" type="date" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Kandungan (SK) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
+                        <textarea id="rph-sk" rows="2" placeholder="Contoh: 1.1 Persepsi Estetik" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Pembelajaran (SP) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
+                        <textarea id="rph-sp" rows="2" placeholder="Contoh: 1.1.1 Murid dapat mengenal pasti..." class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
+                    </div>
+                </div>
+                <button onclick="generateRPH()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH</button>
+
+                <div id="rph-preview" class="hidden border-2 border-slate-300 p-5 rounded-2xl bg-slate-50 space-y-2 text-xs">
+                    <div class="text-center border-b-2 border-slate-900 pb-2 mb-2">
+                        <p class="font-black uppercase text-sm">Rancangan Pengajaran Harian (RPH)</p>
+                        <p class="text-[9px] text-slate-400 normal-case font-normal">(Klik mana-mana teks di bawah untuk edit terus sebelum cetak)</p>
+                    </div>
+                    <p><b>Nama Guru:</b> <span id="rph-out-guru" contenteditable="true"></span></p>
+                    <p><b>Tarikh:</b> <span id="rph-out-date" contenteditable="true"></span></p>
+                    <p><b>Tahun/Kelas:</b> <span id="rph-out-class" contenteditable="true"></span></p>
+                    <p><b>Mata Pelajaran:</b> Pendidikan Seni Visual</p>
+                    <p><b>Tema/Projek:</b> <span id="rph-out-tema" contenteditable="true"></span></p>
+                    <p><b>Teknik:</b> <span id="rph-out-teknik" contenteditable="true"></span></p>
+                    <p><b>Standard Kandungan (SK):</b><br><span id="rph-out-sk" contenteditable="true" class="block p-1.5">-</span></p>
+                    <p><b>Standard Pembelajaran (SP):</b><br><span id="rph-out-sp" contenteditable="true" class="block p-1.5">-</span></p>
+                    <p><b>Objektif:</b> <span id="rph-out-objektif" contenteditable="true"></span></p>
+                    <p><b>Aktiviti PdPc:</b></p>
+                    <ol id="rph-out-steps" contenteditable="true" class="list-decimal pl-5 space-y-1"></ol>
+
+                    <div class="pt-3 mt-2 border-t-2 border-dashed border-slate-300 space-y-2">
+                        <p class="font-black uppercase text-[11px]">Refleksi PdPc</p>
+                        <div>
+                            <p class="font-bold text-[10px] text-emerald-700">✅ Kekuatan</p>
+                            <textarea id="rph-refleksi-kekuatan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                        </div>
+                        <div>
+                            <p class="font-bold text-[10px] text-rose-700">⚠️ Kelemahan</p>
+                            <textarea id="rph-refleksi-kelemahan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                        </div>
+                        <div>
+                            <p class="font-bold text-[10px] text-indigo-700">🔄 Cadangan Penambahbaikan</p>
+                            <textarea id="rph-refleksi-penambahbaikan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                        </div>
+                    </div>
+
+                    <button id="rph-print-btn" onclick="window.print()" class="mt-2 py-2 px-4 bg-lime-300 hover:bg-lime-400 text-xs font-black rounded-lg border-2 border-slate-950">🖨️ Cetak</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PBD ===== -->
+        <div id="guru-view-pbd" class="hidden space-y-4">
+            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-lg comic-font">📊 Pentaksiran PSV (PBD)</h3>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Kelas</label>
-                    <select id="rph-select-class" onchange="onRphClassChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    <select id="pbd-select-class" onchange="loadPBDDashboard()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
                         <option value="">-- Cipta kelas dahulu --</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Unit</label>
-                    <select id="rph-select-unit" onchange="onRphUnitChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></select>
+                <div id="pbd-analisis" class="hidden p-4 bg-slate-50 border-2 border-slate-950 rounded-2xl">
+                    <p class="text-[10px] font-black uppercase text-slate-600 mb-2">📈 Analisis Kelas (bilangan rekod ikut TP)</p>
+                    <div id="pbd-analisis-bars" class="space-y-1.5"></div>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Nama Guru</label>
-                    <input id="rph-guru-name" type="text" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-950 text-white text-left">
+                                <th class="p-2 rounded-tl-lg">Murid</th>
+                                <th class="p-2">Unit</th>
+                                <th class="p-2">TP</th>
+                                <th class="p-2">Evidens</th>
+                                <th class="p-2 rounded-tr-lg">Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pbd-table-body">
+                            <tr><td colspan="5" class="p-3 text-slate-400 italic">Pilih kelas untuk lihat rekod PBD.</td></tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tarikh</label>
-                    <input id="rph-date" type="date" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Kandungan (SK) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
-                    <textarea id="rph-sk" rows="2" placeholder="Contoh: 1.1 Persepsi Estetik" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Pembelajaran (SP) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
-                    <textarea id="rph-sp" rows="2" placeholder="Contoh: 1.1.1 Murid dapat mengenal pasti..." class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
-                </div>
-            </div>
-            <button onclick="generateRPH()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH</button>
-
-            <div id="rph-preview" class="hidden border-2 border-slate-300 p-5 rounded-2xl bg-slate-50 space-y-2 text-xs">
-                <div class="text-center border-b-2 border-slate-900 pb-2 mb-2">
-                    <p class="font-black uppercase text-sm">Rancangan Pengajaran Harian (RPH)</p>
-                    <p class="text-[9px] text-slate-400 normal-case font-normal">(Klik mana-mana teks di bawah untuk edit terus sebelum cetak)</p>
-                </div>
-                <p><b>Nama Guru:</b> <span id="rph-out-guru" contenteditable="true"></span></p>
-                <p><b>Tarikh:</b> <span id="rph-out-date" contenteditable="true"></span></p>
-                <p><b>Tahun/Kelas:</b> <span id="rph-out-class" contenteditable="true"></span></p>
-                <p><b>Mata Pelajaran:</b> Pendidikan Seni Visual</p>
-                <p><b>Tema/Projek:</b> <span id="rph-out-tema" contenteditable="true"></span></p>
-                <p><b>Teknik:</b> <span id="rph-out-teknik" contenteditable="true"></span></p>
-                <p><b>Standard Kandungan (SK):</b><br><span id="rph-out-sk" contenteditable="true" class="block p-1.5">-</span></p>
-                <p><b>Standard Pembelajaran (SP):</b><br><span id="rph-out-sp" contenteditable="true" class="block p-1.5">-</span></p>
-                <p><b>Objektif:</b> <span id="rph-out-objektif" contenteditable="true"></span></p>
-                <p><b>Aktiviti PdPc:</b></p>
-                <ol id="rph-out-steps" contenteditable="true" class="list-decimal pl-5 space-y-1"></ol>
-
-                <div class="pt-3 mt-2 border-t-2 border-dashed border-slate-300 space-y-2">
-                    <p class="font-black uppercase text-[11px]">Refleksi PdPc</p>
-                    <div>
-                        <p class="font-bold text-[10px] text-emerald-700">✅ Kekuatan</p>
-                        <textarea id="rph-refleksi-kekuatan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
-                    </div>
-                    <div>
-                        <p class="font-bold text-[10px] text-rose-700">⚠️ Kelemahan</p>
-                        <textarea id="rph-refleksi-kelemahan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
-                    </div>
-                    <div>
-                        <p class="font-bold text-[10px] text-indigo-700">🔄 Cadangan Penambahbaikan</p>
-                        <textarea id="rph-refleksi-penambahbaikan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
-                    </div>
-                </div>
-
-                <button id="rph-print-btn" onclick="window.print()" class="mt-2 py-2 px-4 bg-lime-300 hover:bg-lime-400 text-xs font-black rounded-lg border-2 border-slate-950">🖨️ Cetak</button>
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
-            <h3 class="font-black text-lg comic-font">🖼️ Karya Murid Diterima</h3>
-            <div id="guru-karya-list" class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <p class="text-xs text-slate-400 italic col-span-full">Belum ada karya diterima.</p>
+        <!-- ===== KARYA MURID (Portfolio) ===== -->
+        <div id="guru-view-karya" class="hidden space-y-4">
+            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
+                <h3 class="font-black text-lg comic-font">🖼️ Karya Murid Diterima</h3>
+                <div id="guru-karya-list" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <p class="text-xs text-slate-400 italic col-span-full">Belum ada karya diterima.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== KUIZ ===== -->
+        <div id="guru-view-kuiz" class="hidden space-y-4">
+            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
+                <h3 class="font-black text-lg comic-font">🧠 Kuiz</h3>
+                <p class="text-xs text-slate-500">Kuiz diakses terus oleh murid di dalam Modul Pembelajaran setiap unit (tidak berasingan). Markah kuiz (+5 ⭐ setiap jawapan betul) terus disalurkan ke jumlah Bintang Seni murid, yang boleh disemak di bahagian 📊 PBD dan 👩‍🎨 Karya Murid.</p>
+                <p class="text-[10px] text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi -- beritahu saya kalau ini diperlukan.</p>
+            </div>
+        </div>
+
+        <!-- ===== BAHAN (BBM) ===== -->
+        <div id="guru-view-bahan" class="hidden space-y-4">
+            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
+                <h3 class="font-black text-lg comic-font">📂 Bahan Bantu Mengajar (BBM)</h3>
+                <p class="text-xs text-slate-500">Senarai alat & bahan setiap unit, dikumpul daripada Modul Pembelajaran.</p>
+                <div id="guru-bahan-list" class="space-y-4"></div>
             </div>
         </div>
     </div>
+
 
     <!-- ============================================================ -->
     <!-- DASHBOARD MURID -->
@@ -714,8 +822,10 @@
             if (role === 'guru') {
                 document.getElementById('guru-email-label').innerText = currentUser.email;
                 showScreen('screen-guru');
+                showGuruView('dashboard');
                 renderContentList('guru-content-list');
                 loadGuruClasses();
+                renderGuruBahanList();
                 document.getElementById('rph-guru-name').value = currentUser.displayName || currentUser.email;
                 document.getElementById('rph-date').value = new Date().toISOString().slice(0, 10);
             } else {
@@ -727,6 +837,15 @@
                 refreshMuridStars();
             }
         }
+
+        // ---------- Navigasi Dashboard Guru ----------
+        function showGuruView(view) {
+            ['dashboard', 'modul', 'rph', 'pbd', 'karya', 'kuiz', 'bahan'].forEach(v => {
+                document.getElementById(`guru-view-${v}`).classList.toggle('hidden', v !== view);
+            });
+            if (view === 'pbd') populatePBDClassDropdown();
+        }
+        window.showGuruView = showGuruView;
 
         // ---------- Sistem Bintang Ganjaran (Murid) ----------
         async function refreshMuridStars() {
@@ -1290,16 +1409,119 @@
                             <p class="font-black text-sm">${c.namaKelas} <span class="text-[10px] font-normal text-slate-500">(${c.tahun})</span></p>
                             <p class="text-[10px] text-slate-500">Kod Kelas:</p>
                             <p class="font-mono font-black text-indigo-700 text-sm">${d.id}</p>
+                            <p id="class-stats-${d.id}" class="text-[10px] font-bold text-slate-400 pt-1 border-t border-dashed border-slate-300 mt-1">Memuatkan statistik...</p>
                         </div>`;
                 });
                 populateRphClassDropdown();
                 loadGuruKarya();
+                guruClassesData.forEach(c => loadClassStats(c.kod, c.tahun));
             } catch (e) {
                 container.innerHTML = `<p class="text-xs text-rose-600 font-bold">Ralat memuatkan kelas: ${e.message}</p>`;
             }
         }
 
+        // Statistik ringkas setiap kelas: bilangan murid (users.kelasDisertai array-contains
+        // kod), bilangan unit (dari CONTENT_BY_YEAR ikut tahun), % kemajuan (unit berlainan
+        // yang sudah ada sekurang-kurangnya 1 karya dihantar, berbanding jumlah unit tahun tu).
+        async function loadClassStats(kod, tahun) {
+            const el = document.getElementById(`class-stats-${kod}`);
+            if (!el) return;
+            try {
+                const muridSnap = await getDocs(query(collection(db, 'users'), where('kelasDisertai', 'array-contains', kod)));
+                const muridCount = muridSnap.size;
+
+                const totalUnit = (CONTENT_BY_YEAR[tahun] || []).length;
+                const karyaSnap = await getDocs(query(collection(db, 'karya'), where('kodKelas', '==', kod)));
+                const unitDenganKarya = new Set();
+                karyaSnap.forEach(d => { const u = d.data().unit; if (u) unitDenganKarya.add(u); });
+                const kemajuan = totalUnit > 0 ? Math.round((unitDenganKarya.size / totalUnit) * 100) : 0;
+
+                el.innerText = `👤 ${muridCount} Murid | 📚 ${totalUnit} Unit | 📈 ${kemajuan}% Kemajuan`;
+                el.className = 'text-[10px] font-bold text-indigo-700 pt-1 border-t border-dashed border-slate-300 mt-1';
+            } catch (e) {
+                el.innerText = 'Statistik tidak tersedia.';
+            }
+        }
+
         // ---------- Penjana RPH ----------
+        // ---------- Dashboard PBD (guru) ----------
+        function populatePBDClassDropdown() {
+            const sel = document.getElementById('pbd-select-class');
+            if (guruClassesData.length === 0) {
+                sel.innerHTML = '<option value="">-- Cipta kelas dahulu --</option>';
+                return;
+            }
+            sel.innerHTML = '<option value="">-- Pilih kelas --</option>' + guruClassesData.map(c => `<option value="${c.kod}">${c.namaKelas} (${c.tahun})</option>`).join('');
+        }
+        async function loadPBDDashboard() {
+            const kod = document.getElementById('pbd-select-class').value;
+            const tbody = document.getElementById('pbd-table-body');
+            const analisisBox = document.getElementById('pbd-analisis');
+            if (!kod) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-3 text-slate-400 italic">Pilih kelas untuk lihat rekod PBD.</td></tr>';
+                analisisBox.classList.add('hidden');
+                return;
+            }
+            tbody.innerHTML = '<tr><td colspan="5" class="p-3 text-slate-400 italic">Memuatkan...</td></tr>';
+            try {
+                const q = query(collection(db, 'karya'), where('kodKelas', '==', kod), orderBy('tarikh', 'desc'));
+                const snap = await getDocs(q);
+                if (snap.empty) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-3 text-slate-400 italic">Belum ada karya/rekod PBD untuk kelas ini.</td></tr>';
+                    analisisBox.classList.add('hidden');
+                    return;
+                }
+                const tpCounts = {1:0,2:0,3:0,4:0,5:0,6:0};
+                tbody.innerHTML = '';
+                snap.forEach((d) => {
+                    const k = d.data();
+                    if (k.tp) tpCounts[k.tp] = (tpCounts[k.tp] || 0) + 1;
+                    tbody.innerHTML += `
+                        <tr class="border-b border-slate-200">
+                            <td class="p-2 font-bold">${k.namaMurid}</td>
+                            <td class="p-2">${k.unit || '-'}</td>
+                            <td class="p-2">${k.tp ? `TP${k.tp}` : '<span class="text-slate-400 italic">Belum ditanda</span>'}</td>
+                            <td class="p-2">✅</td>
+                            <td class="p-2 text-slate-600">${k.ulasanGuru || '-'}</td>
+                        </tr>`;
+                });
+                const maxCount = Math.max(1, ...Object.values(tpCounts));
+                analisisBox.classList.remove('hidden');
+                document.getElementById('pbd-analisis-bars').innerHTML = [1,2,3,4,5,6].map(tp => `
+                    <div class="flex items-center gap-2 text-[10px] font-bold">
+                        <span class="w-8 shrink-0">TP${tp}</span>
+                        <div class="flex-1 bg-white border border-slate-300 rounded-full h-3 overflow-hidden">
+                            <div class="bg-indigo-500 h-full" style="width:${(tpCounts[tp]/maxCount)*100}%"></div>
+                        </div>
+                        <span class="w-6 text-right shrink-0">${tpCounts[tp]}</span>
+                    </div>`).join('');
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-rose-600 font-bold">Ralat: ${e.message}</td></tr>`;
+            }
+        }
+        window.loadPBDDashboard = loadPBDDashboard;
+
+        // ---------- Bahan Bantu Mengajar (BBM) ringkasan semua unit ----------
+        function renderGuruBahanList() {
+            const container = document.getElementById('guru-bahan-list');
+            if (!container) return;
+            container.innerHTML = Object.entries(CONTENT_BY_YEAR).map(([tahun, units]) => `
+                <div>
+                    <h4 class="font-black text-sm text-indigo-700 mb-2">${tahun}</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        ${units.map(item => {
+                            const extras = MASTER_TEMPLATE_EXTRAS[`${tahun}|${item.unit}`];
+                            const nota = (extras && extras.nota) || generateNotaForUnit(item);
+                            return `<div class="p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-[11px]">
+                                <p class="font-black">${item.unit}: ${item.tajuk}</p>
+                                <p class="text-slate-600">${nota.bahan.join(', ')}</p>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`).join('');
+        }
+        window.renderGuruBahanList = renderGuruBahanList;
+
         function populateRphClassDropdown() {
             const sel = document.getElementById('rph-select-class');
             if (guruClassesData.length === 0) {
