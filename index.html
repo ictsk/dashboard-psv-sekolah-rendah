@@ -104,16 +104,59 @@
     <!-- ============================================================ -->
     <!-- DASHBOARD GURU -->
     <!-- ============================================================ -->
-    <div id="screen-guru" class="hidden min-h-screen p-4 lg:p-8 max-w-5xl mx-auto space-y-6">
-        <div class="flex items-center justify-between">
+    <div id="screen-guru" class="hidden min-h-screen flex">
+        <!-- ===== SIDEBAR (tetap) ===== -->
+        <aside id="guru-sidebar" class="hidden lg:flex w-64 bg-slate-950 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
             <div>
-                <h1 class="font-black text-2xl comic-font">PSV DIGITAL <span class="text-sm font-bold text-slate-400">| Cikgu</span></h1>
-                <p id="guru-email-label" class="text-xs text-slate-500"></p>
+                <div class="p-5 border-b border-slate-800">
+                    <h1 class="font-black text-xl comic-font leading-tight">PSV <span class="text-indigo-400">DIGITAL</span></h1>
+                    <p class="text-[9px] text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
+                </div>
+                <nav class="p-3 space-y-1 text-sm font-bold">
+                    <button onclick="showGuruView('dashboard')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="dashboard">🏠 Dashboard</button>
+                    <button onclick="showGuruView('kelas')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kelas">👥 Kelas Saya</button>
+                    <button onclick="toggleSidebarModulTree()" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">
+                        <span class="flex items-center gap-2.5">📋 Modul PdP</span>
+                        <span id="sidebar-modul-caret" class="text-[10px] transition-transform">▼</span>
+                    </button>
+                    <div id="sidebar-modul-tree" class="pl-3 space-y-0.5 hidden"></div>
+                    <button onclick="showGuruView('rph')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="rph">📝 RPH</button>
+                    <button onclick="showGuruView('pbd')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="pbd">📊 PBD</button>
+                    <button onclick="showGuruView('karya')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="karya">🖼️ Galeri Karya</button>
+                    <button onclick="showGuruView('bahan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="bahan">📂 Bahan PdP</button>
+                    <button onclick="showGuruView('kuiz')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kuiz">🧠 Kuiz</button>
+                    <button onclick="showGuruView('laporan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="laporan">📈 Laporan</button>
+                    <button onclick="showGuruView('tetapan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="tetapan">⚙️ Tetapan</button>
+                </nav>
             </div>
-            <button onclick="signOutUser()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-bold shadow-brutal-sm">Log Keluar</button>
-        </div>
+            <div class="p-5 text-[10px] text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif</div>
+        </aside>
 
-        <!-- ===== DASHBOARD (paparan lalai) ===== -->
+        <!-- ===== MAIN (header + kandungan) ===== -->
+        <div class="flex-1 min-w-0 flex flex-col h-screen overflow-hidden">
+            <!-- HEADER -->
+            <header class="bg-white border-b-2 border-slate-200 px-4 lg:px-6 py-3 flex items-center justify-between gap-3 shrink-0">
+                <div class="flex items-center gap-3 min-w-0">
+                    <button onclick="toggleMobileSidebar()" class="lg:hidden w-9 h-9 shrink-0 rounded-lg bg-slate-100 flex items-center justify-center">☰</button>
+                    <p id="guru-breadcrumb" class="text-xs font-bold text-slate-500 truncate">🏠 Dashboard</p>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="hidden md:flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-1.5">
+                        <span class="text-slate-400 text-xs">🔍</span>
+                        <input id="guru-search-input" onkeydown="if(event.key==='Enter') runGuruSearch()" type="text" placeholder="Cari unit, bahan..." class="bg-transparent text-xs outline-none w-40">
+                    </div>
+                    <div class="text-right hidden sm:block">
+                        <p class="text-xs font-black leading-tight">Cikgu <span id="guru-name-label"></span></p>
+                        <p class="text-[9px] text-slate-400">Guru PSV</p>
+                    </div>
+                    <button onclick="signOutUser()" class="w-9 h-9 rounded-full bg-indigo-600 text-white font-black text-xs flex items-center justify-center" title="Log Keluar">👤</button>
+                </div>
+            </header>
+
+            <!-- KANDUNGAN (scroll) -->
+            <div class="flex-1 overflow-y-auto p-4 lg:p-8 space-y-6">
+
+        <!-- ===== DASHBOARD ===== -->
         <div id="guru-view-dashboard" class="space-y-6">
             <div class="bg-gradient-to-r from-indigo-500 to-violet-500 text-white p-5 lg:p-6 rounded-3xl border-4 border-slate-950 shadow-brutal">
                 <h2 class="font-black text-xl comic-font">Selamat Datang, Cikgu 👋</h2>
@@ -152,7 +195,10 @@
                     <p class="text-[10px] text-slate-500">BBM & bahan</p>
                 </button>
             </div>
+        </div>
 
+        <!-- ===== KELAS SAYA ===== -->
+        <div id="guru-view-kelas" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
                 <h3 class="font-black text-lg comic-font">🎯 Kelas Saya</h3>
                 <div class="flex flex-wrap gap-3 items-end p-4 bg-slate-50 rounded-2xl border-2 border-slate-950">
@@ -178,18 +224,142 @@
             </div>
         </div>
 
-        <!-- ===== MODUL PSV ===== -->
+        <!-- ===== MODUL PSV (senarai ringkas, guna sama seperti sebelum ini) ===== -->
         <div id="guru-view-modul" class="hidden space-y-4">
-            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
                 <h3 class="font-black text-lg comic-font mb-3">🎨 Kandungan PSV (Tahun 1, 2, 5 & 6)</h3>
+                <p class="text-xs text-slate-500 mb-3">Atau guna "📋 Modul PdP" di sidebar untuk terus ke unit tertentu.</p>
                 <div id="guru-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+
+        <!-- ===== MODUL PDP: PAPARAN UNIT PENUH (8 TAB) ===== -->
+        <div id="guru-view-modul-viewer" class="hidden space-y-4">
+            <div class="flex items-center justify-end gap-2">
+                <button onclick="guruModulPrevUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-black shadow-brutal-sm">◀ Unit Sebelumnya</button>
+                <button onclick="guruModulNextUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-black shadow-brutal-sm">Unit Seterusnya ▶</button>
+            </div>
+
+            <!-- Hero banner -->
+            <div class="relative bg-gradient-to-r from-amber-100 to-orange-100 rounded-3xl border-4 border-slate-950 shadow-brutal p-6 lg:p-8 overflow-hidden">
+                <span id="gmv-badge" class="inline-block bg-rose-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase mb-2">Tahun 2</span>
+                <h2 id="gmv-tajuk" class="font-black text-3xl lg:text-4xl comic-font leading-tight">Unit 8 Uli-uli Tembikar</h2>
+                <p id="gmv-tagline" class="text-sm text-slate-600 mt-1">Membentuk kreativiti, menzahirkan imaginasi</p>
+            </div>
+
+            <!-- 8 Tab -->
+            <div class="flex flex-wrap gap-2" id="gmv-tabs">
+                <button onclick="showGuruModulTab('kenali')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="kenali">01 Jom Kenali</button>
+                <button onclick="showGuruModulTab('bahasa')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="bahasa">02 Bahasa Seni Visual</button>
+                <button onclick="showGuruModulTab('lihatperhati')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="lihatperhati">03 Lihat & Perhati</button>
+                <button onclick="showGuruModulTab('teknik')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="teknik">04 Jom Belajar Teknik</button>
+                <button onclick="showGuruModulTab('cuba')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="cuba">05 Jom Cuba</button>
+                <button onclick="showGuruModulTab('projek')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="projek">06 Projek Seni</button>
+                <button onclick="showGuruModulTab('kuiz2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="kuiz2">07 Kuiz</button>
+                <button onclick="showGuruModulTab('galeri2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="galeri2">08 Galeri & PBD</button>
+            </div>
+
+            <!-- Tab panels -->
+            <div class="bg-white rounded-3xl border-4 border-slate-950 shadow-brutal p-5 lg:p-8">
+
+                <div id="gmv-panel-kenali" class="gmv-panel space-y-4">
+                    <h3 class="font-black text-xl comic-font">📖 Jom Kenali</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
+                            <p class="text-[10px] font-black uppercase text-indigo-700 mb-1">Bidang & Teknik</p>
+                            <p id="gmv-kenali-bidang" class="text-sm font-bold"></p>
+                            <p id="gmv-kenali-teknik" class="text-sm"></p>
+                        </div>
+                        <div class="p-4 bg-amber-50 rounded-xl border-2 border-slate-950">
+                            <p class="text-[10px] font-black uppercase text-amber-700 mb-1">🔑 Kata Kunci</p>
+                            <p id="gmv-kenali-katakunci" class="text-sm font-bold"></p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-xl border-2 border-slate-950">
+                        <p class="text-[10px] font-black uppercase text-blue-700 mb-2">🎯 Objektif Pembelajaran</p>
+                        <p class="text-xs text-slate-600 mb-2">Pada akhir pembelajaran, murid dapat:</p>
+                        <ol id="gmv-kenali-objektif" class="list-decimal pl-5 text-sm space-y-1"></ol>
+                    </div>
+                </div>
+
+                <div id="gmv-panel-bahasa" class="gmv-panel hidden space-y-4">
+                    <h3 class="font-black text-xl comic-font">🎨 Bahasa Seni Visual (SK/SP)</h3>
+                    <p class="text-[10px] font-black uppercase text-indigo-700">Standard Kandungan</p>
+                    <p id="gmv-sk" class="text-sm font-bold bg-indigo-50 p-4 rounded-xl"></p>
+                    <p class="text-[10px] font-black uppercase text-slate-600">Standard Pembelajaran</p>
+                    <p id="gmv-sp" class="text-sm bg-slate-50 p-4 rounded-xl"></p>
+                </div>
+
+                <div id="gmv-panel-lihatperhati" class="gmv-panel hidden space-y-3">
+                    <h3 class="font-black text-xl comic-font">👀 Lihat & Perhati</h3>
+                    <div id="gmv-lp-container"></div>
+                </div>
+
+                <div id="gmv-panel-teknik" class="gmv-panel hidden space-y-4">
+                    <h3 class="font-black text-xl comic-font">🎬 Jom Belajar Teknik</h3>
+                    <div class="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-slate-950 bg-black">
+                        <iframe id="gmv-video" class="absolute inset-0 w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <p id="gmv-video-note" class="text-[10px] text-slate-400 italic"></p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[10px] font-black uppercase text-indigo-700 mb-1">🧰 Alat & Bahan</p>
+                            <ul id="gmv-bahan" class="list-disc pl-5 text-sm space-y-1"></ul>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black uppercase text-indigo-700 mb-1">📝 Langkah</p>
+                            <ol id="gmv-langkah" class="list-decimal pl-5 text-sm space-y-1"></ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gmv-panel-cuba" class="gmv-panel hidden space-y-3">
+                    <h3 class="font-black text-xl comic-font">✏️ Jom Cuba (Papan Lukisan Demo)</h3>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5">
+                            <button onclick="gmvSetColor('#0f172a')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#0f172a"></button>
+                            <button onclick="gmvSetColor('#ef4444')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#ef4444"></button>
+                            <button onclick="gmvSetColor('#f59e0b')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#f59e0b"></button>
+                            <button onclick="gmvSetColor('#10b981')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#10b981"></button>
+                            <button onclick="gmvSetColor('#3b82f6')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#3b82f6"></button>
+                        </div>
+                        <button onclick="gmvClearCanvas()" class="text-[10px] font-black px-3 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Padam</button>
+                    </div>
+                    <div class="relative w-full aspect-[16/9] rounded-xl border-2 border-slate-950 bg-slate-50 overflow-hidden cursor-crosshair">
+                        <canvas id="gmv-canvas" class="absolute inset-0 w-full h-full touch-none" style="touch-action:none;"></canvas>
+                    </div>
+                </div>
+
+                <div id="gmv-panel-projek" class="gmv-panel hidden space-y-3">
+                    <h3 class="font-black text-xl comic-font">🎯 Cabaran Projek Seni</h3>
+                    <div class="p-5 bg-amber-50 rounded-2xl border-2 border-slate-950 space-y-2">
+                        <p id="gmv-projek-cabaran" class="text-lg font-black"></p>
+                        <p class="text-sm"><span class="font-black">Bahan:</span> <span id="gmv-projek-bahan"></span></p>
+                        <p class="text-sm"><span class="font-black">Masa:</span> <span id="gmv-projek-masa"></span></p>
+                        <p class="text-sm"><span class="font-black">Hasil Pembelajaran:</span> <span id="gmv-projek-hasil"></span></p>
+                    </div>
+                </div>
+
+                <div id="gmv-panel-kuiz2" class="gmv-panel hidden space-y-3">
+                    <h3 class="font-black text-xl comic-font">🧠 Kuiz</h3>
+                    <p class="text-xs text-slate-500">Pratonton soalan kuiz yang akan dijawab murid (3 soalan, perlu 2/3 betul untuk lulus, +20 ⭐).</p>
+                    <div id="gmv-kuiz-preview" class="space-y-2"></div>
+                    <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
+                        <button onclick="janaRPHDariGmv()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
+                        <p id="gmv-rph-feedback" class="hidden text-xs font-bold p-2 mt-2 rounded-lg"></p>
+                    </div>
+                </div>
+
+                <div id="gmv-panel-galeri2" class="gmv-panel hidden space-y-3">
+                    <h3 class="font-black text-xl comic-font">🖼️ Galeri & PBD</h3>
+                    <div id="gmv-galeri-container" class="grid grid-cols-1 gap-2"></div>
+                </div>
+
             </div>
         </div>
 
         <!-- ===== RPH ===== -->
         <div id="guru-view-rph" class="hidden space-y-4">
-            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
                 <h3 class="font-black text-lg comic-font">📝 Penjana RPH Pintar</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -262,7 +432,6 @@
 
         <!-- ===== PBD ===== -->
         <div id="guru-view-pbd" class="hidden space-y-4">
-            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
                 <h3 class="font-black text-lg comic-font">📊 Pentaksiran PSV (PBD)</h3>
                 <div>
@@ -296,9 +465,21 @@
 
         <!-- ===== KARYA MURID (Portfolio) ===== -->
         <div id="guru-view-karya" class="hidden space-y-4">
-            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
-                <h3 class="font-black text-lg comic-font">🖼️ Karya Murid Diterima</h3>
+                <h3 class="font-black text-lg comic-font">🖼️ Karya Murid</h3>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">📸 Lihat</label>
+                    <select id="guru-karya-mode" onchange="onGuruKaryaModeChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <option value="semua">Semua Karya Terkini</option>
+                        <option value="portfolio">Portfolio Seorang Murid</option>
+                    </select>
+                </div>
+                <div id="guru-portfolio-picker" class="hidden">
+                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Murid</label>
+                    <select id="guru-portfolio-murid" onchange="loadPortfolioMurid()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <option value="">-- Pilih murid --</option>
+                    </select>
+                </div>
                 <div id="guru-karya-list" class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <p class="text-xs text-slate-400 italic col-span-full">Belum ada karya diterima.</p>
                 </div>
@@ -307,21 +488,38 @@
 
         <!-- ===== KUIZ ===== -->
         <div id="guru-view-kuiz" class="hidden space-y-4">
-            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
                 <h3 class="font-black text-lg comic-font">🧠 Kuiz</h3>
-                <p class="text-xs text-slate-500">Kuiz diakses terus oleh murid di dalam Modul Pembelajaran setiap unit (tidak berasingan). Markah kuiz (+5 ⭐ setiap jawapan betul) terus disalurkan ke jumlah Bintang Seni murid, yang boleh disemak di bahagian 📊 PBD dan 👩‍🎨 Karya Murid.</p>
+                <p class="text-xs text-slate-500">Kuiz diakses terus oleh murid di dalam Modul Pembelajaran setiap unit (tidak berasingan). Selepas lulus (2/3 betul), +20 ⭐ terus disalurkan ke jumlah Bintang Seni murid, yang boleh disemak di bahagian 📊 PBD dan 🖼️ Galeri Karya.</p>
                 <p class="text-[10px] text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi -- beritahu saya kalau ini diperlukan.</p>
             </div>
         </div>
 
         <!-- ===== BAHAN (BBM) ===== -->
         <div id="guru-view-bahan" class="hidden space-y-4">
-            <button onclick="showGuruView('dashboard')" class="text-xs font-black text-indigo-700">◀ Balik ke Dashboard</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
                 <h3 class="font-black text-lg comic-font">📂 Bahan Bantu Mengajar (BBM)</h3>
                 <p class="text-xs text-slate-500">Senarai alat & bahan setiap unit, dikumpul daripada Modul Pembelajaran.</p>
                 <div id="guru-bahan-list" class="space-y-4"></div>
+            </div>
+        </div>
+
+        <!-- ===== LAPORAN (belum dibina) ===== -->
+        <div id="guru-view-laporan" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
+                <h3 class="font-black text-lg comic-font">📈 Laporan</h3>
+                <p class="text-xs text-slate-500">Belum dibina lagi. Buat masa ini, guna 📊 PBD untuk analisis TP mengikut kelas.</p>
+            </div>
+        </div>
+
+        <!-- ===== TETAPAN (belum dibina) ===== -->
+        <div id="guru-view-tetapan" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
+                <h3 class="font-black text-lg comic-font">⚙️ Tetapan</h3>
+                <p class="text-xs text-slate-500">Belum dibina lagi.</p>
+            </div>
+        </div>
+
             </div>
         </div>
     </div>
@@ -333,7 +531,7 @@
     <div id="screen-murid" class="hidden min-h-screen p-4 lg:p-8 max-w-3xl mx-auto space-y-6">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="font-black text-2xl comic-font">Hai, Pelukis Kecil! 🎨</h1>
+                <h1 id="murid-greeting" class="font-black text-2xl comic-font">Hai! 👋</h1>
                 <p id="murid-email-label" class="text-xs text-slate-500"></p>
             </div>
             <div class="flex items-center gap-3">
@@ -345,48 +543,107 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-            <h3 class="font-black text-lg comic-font">🔑 Sertai Kelas</h3>
-            <div class="flex gap-2">
-                <input id="join-class-code" type="text" placeholder="Contoh: SKR-2A-2026" class="flex-1 p-3 border-2 border-slate-950 rounded-xl text-sm uppercase">
-                <button onclick="joinClass()" class="py-3 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Sertai</button>
+        <!-- ===== HOME (paparan lalai) ===== -->
+        <div id="murid-view-home" class="space-y-5">
+            <div class="bg-gradient-to-r from-rose-400 to-amber-300 text-slate-950 p-5 lg:p-6 rounded-3xl border-4 border-slate-950 shadow-brutal">
+                <h2 class="font-black text-xl comic-font">Jom berkarya hari ini! 🎨</h2>
+                <p class="text-xs font-bold mt-1">Teruskan pembelajaran seni kamu di bawah.</p>
             </div>
-            <div id="join-class-feedback" class="hidden p-3 rounded-xl border-2 text-xs font-bold"></div>
-        </div>
 
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-            <h3 class="font-black text-lg comic-font mb-3">📚 Kelas Saya</h3>
-            <div id="murid-class-list" class="space-y-3">
-                <p class="text-xs text-slate-400 italic">Anda belum menyertai sebarang kelas.</p>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-            <h3 class="font-black text-lg comic-font mb-3">🎨 Modul Pembelajaran PSV</h3>
-            <p class="text-xs text-slate-500 mb-3">Pilih unit untuk tonton video, baca nota, jawab kuiz & lukis di Papan Lukisan!</p>
-            <div id="murid-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-        </div>
-
-        <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-            <h3 class="font-black text-lg comic-font">🎨 Karya Saya</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Kelas</label>
-                    <select id="karya-select-class" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
-                        <option value="">-- Sertai kelas dahulu --</option>
-                    </select>
+            <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-3">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-black uppercase text-slate-600">📈 Kemajuan Pembelajaran</p>
+                    <span id="murid-progress-fraction" class="text-xs font-black text-indigo-700">0 / 0 Unit</span>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tajuk Karya</label>
-                    <input id="karya-tajuk" type="text" placeholder="Contoh: Gajah Menari Saya" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                <div class="w-full bg-slate-100 rounded-full h-4 border-2 border-slate-950 overflow-hidden">
+                    <div id="murid-progress-bar" class="bg-emerald-400 h-full transition-all" style="width:0%"></div>
+                </div>
+                <div class="flex items-center justify-between pt-2 border-t-2 border-dashed border-slate-200">
+                    <div>
+                        <p class="text-[10px] font-black uppercase text-slate-500">🏅 Lencana Semasa</p>
+                        <p id="murid-badge-current" class="font-black text-sm">-</p>
+                    </div>
+                    <p id="murid-badge-next" class="text-[10px] text-slate-400 text-right"></p>
                 </div>
             </div>
-            <input id="karya-file" type="file" accept="image/*" class="w-full text-xs">
-            <button onclick="hantarKarya()" class="py-2.5 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">📷 Hantar Karya</button>
-            <p id="karya-feedback" class="hidden"></p>
 
-            <div id="murid-karya-list" class="grid grid-cols-2 md:grid-cols-3 gap-3 pt-2 border-t-2 border-dashed border-slate-200">
-                <p class="text-xs text-slate-400 italic col-span-full">Belum ada karya dihantar.</p>
+            <div id="murid-unit-saya-card" class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-2">
+                <p class="text-xs font-black uppercase text-slate-600">📚 Unit Saya</p>
+                <p id="murid-unit-saya-tajuk" class="font-black text-lg">Memuatkan...</p>
+                <p id="murid-unit-saya-status" class="text-[10px] font-bold text-emerald-600"></p>
+                <button id="murid-unit-saya-btn" onclick="teruskanBelajar()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Teruskan Belajar \u2192</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="showMuridView('modul')" class="p-4 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-center hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl">📚</span>
+                    <p class="font-black text-xs mt-1">Semua Modul</p>
+                </button>
+                <button onclick="showMuridView('karya')" class="p-4 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-center hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl">🎨</span>
+                    <p class="font-black text-xs mt-1">Karya Saya</p>
+                </button>
+                <button onclick="showMuridView('kelas')" class="p-4 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-center hover:-translate-y-1 transition-transform">
+                    <span class="text-2xl">🔑</span>
+                    <p class="font-black text-xs mt-1">Kelas Saya</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== MODUL (semua) ===== -->
+        <div id="murid-view-modul" class="hidden space-y-4">
+            <button onclick="showMuridView('home')" class="text-xs font-black text-indigo-700">◀ Balik ke Home</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
+                <h3 class="font-black text-lg comic-font mb-3">🎨 Modul Pembelajaran PSV</h3>
+                <p class="text-xs text-slate-500 mb-3">Pilih unit untuk tonton video, baca nota, jawab kuiz & lukis di Papan Lukisan!</p>
+                <div id="murid-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+
+        <!-- ===== KARYA SAYA ===== -->
+        <div id="murid-view-karya" class="hidden space-y-4">
+            <button onclick="showMuridView('home')" class="text-xs font-black text-indigo-700">◀ Balik ke Home</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-lg comic-font">🎨 Karya Saya</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Kelas</label>
+                        <select id="karya-select-class" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                            <option value="">-- Sertai kelas dahulu --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tajuk Karya</label>
+                        <input id="karya-tajuk" type="text" placeholder="Contoh: Gajah Menari Saya" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    </div>
+                </div>
+                <input id="karya-file" type="file" accept="image/*" class="w-full text-xs">
+                <button onclick="hantarKarya()" class="py-2.5 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">📷 Hantar Karya</button>
+                <p id="karya-feedback" class="hidden"></p>
+
+                <div id="murid-karya-list" class="grid grid-cols-2 md:grid-cols-3 gap-3 pt-2 border-t-2 border-dashed border-slate-200">
+                    <p class="text-xs text-slate-400 italic col-span-full">Belum ada karya dihantar.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== KELAS SAYA ===== -->
+        <div id="murid-view-kelas" class="hidden space-y-4">
+            <button onclick="showMuridView('home')" class="text-xs font-black text-indigo-700">◀ Balik ke Home</button>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-lg comic-font">🔑 Sertai Kelas</h3>
+                <div class="flex gap-2">
+                    <input id="join-class-code" type="text" placeholder="Contoh: SKR-2A-2026" class="flex-1 p-3 border-2 border-slate-950 rounded-xl text-sm uppercase">
+                    <button onclick="joinClass()" class="py-3 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Sertai</button>
+                </div>
+                <div id="join-class-feedback" class="hidden p-3 rounded-xl border-2 text-xs font-bold"></div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
+                <h3 class="font-black text-lg comic-font mb-3">📚 Kelas Saya</h3>
+                <div id="murid-class-list" class="space-y-3">
+                    <p class="text-xs text-slate-400 italic">Anda belum menyertai sebarang kelas.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -642,6 +899,20 @@
             { unit: "Unit 8", tajuk: "Uli-uli Tembikar", teknik: "Tembikar \u2013 Teknik Picitan",
               sk: "1.1.4(ii) Bahasa seni visual (bentuk, jalinan, keseimbangan, kepelbagaian) pada karya tembikar (Bidang Mengenal Kraf Tradisional)",
               sp: "2.1.4(ii) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan tembikar: (ii) teknik picitan" },
+            // DITAMBAH & DISAHKAN daripada buku teks m/s 48-53: Unit 6-10 sebelum ini TIADA
+            // LANGSUNG dalam data (bukan sekadar tak tepat) -- kini lengkap ikut buku teks sebenar.
+            { unit: "Unit 6", tajuk: "Cantik Menawan", teknik: "Cetakan \u2013 Blok Corak",
+              sk: "1.1.2(ii) Bahasa seni visual (rupa, warna, kontra, kepelbagaian) pada karya cetakan (Bidang Membuat Corak dan Rekaan)",
+              sp: "2.1.2(ii) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Membuat Corak dan Rekaan: (ii) cetakan" },
+            { unit: "Unit 7", tajuk: "Burung Kenek-kenek", teknik: "Topeng Serkup \u2013 Burung",
+              sk: "1.1.3(ii) Bahasa seni visual (bentuk, jalinan, keseimbangan, penegasan) pada karya topeng serkup (Bidang Membentuk dan Membuat Binaan)",
+              sp: "2.1.3(ii) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Membentuk dan Membuat Binaan: (ii) topeng serkup" },
+            { unit: "Unit 9", tajuk: "Jalan-jalan ke Taman Rama-rama", teknik: "Catan Teknik Basah Atas Kering \u2013 Rama-rama",
+              sk: "1.1.1(ii) Bahasa seni visual (bentuk, warna, kontra, kepelbagaian) pada karya catan basah atas kering (Bidang Menggambar)",
+              sp: "2.1.1(ii) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Menggambar: (ii) teknik basah atas kering" },
+            { unit: "Unit 10", tajuk: "Segarnya Air Terjun", teknik: "Resis \u2013 Krayon/Lilin & Cat Air",
+              sk: "1.1.1(iv) Bahasa seni visual (garisan, warna, kontra, pergerakan) pada karya resis (Bidang Menggambar)",
+              sp: "2.1.1(iv) Mengaplikasikan pengetahuan bahasa seni visual, penggunaan media serta teknik dan proses dalam penghasilan karya Bidang Menggambar: (iv) teknik resis" },
         ];
 
         const CONTENT_TAHUN_5 = [
@@ -676,20 +947,56 @@
         // Tahun 6: DSKP tidak membezakan SK/SP mengikut teknik khusus -- ia bersifat
         // umum merentasi semua bidang (penerokaan media & gabungan teknik). Oleh itu
         // SK/SP yang SAMA digunakan untuk semua unit Tahun 6.
-        const TAHUN_6_SK = "1.1 Bahasa Seni Visual (1.1.1 Menyatakan istilah dan pengertian bahasa seni visual; 1.1.2 Mencirikan bahasa seni visual pada alam semula jadi, objek buatan manusia dan karya seni; 1.1.3 Mencerakinkan bahasa seni visual mengikut bidang: Menggambar, Membuat Corak dan Rekaan, Membentuk dan Membuat Binaan, Mengenal Kraf Tradisional)";
-        const TAHUN_6_SP = "2.1 Kemahiran Seni Visual (2.1.1 Meneroka media berpandukan bahasa seni visual; 2.1.2 Mengaplikasikan bahasa seni visual melalui lakaran berdasarkan jenis dan fungsi; 2.1.3 Mengeksplorasi media dan teknik gabungan antara bidang untuk penghasilan karya atau produk)";
 
         const CONTENT_TAHUN_6 = [
-            { unit: "Unit 1", tajuk: "Gambaran Minda", teknik: "Lukisan Tonasi Pensel", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 2", tajuk: "Pembina Cilik", teknik: "Arca Asemblaj", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 3", tajuk: "Ilusi dan Realiti", teknik: "Perspektif 2 Titik Lenyap", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 4", tajuk: "Cik Lebah dan Madu", teknik: "Catan Warna Harmoni", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 5", tajuk: "Si Cilik Koi", teknik: "Catan Air Basah atas Basah", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 6", tajuk: "Inspirasi Corak Rekaan", teknik: "Pualaman & Cetakan", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 7", tajuk: "Celupan Kreatif", teknik: "Ikat & Celup", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 8", tajuk: "Seni Kraf Warisan", teknik: "Anyaman Kelarai", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 9", tajuk: "Wau Bulan Sirih Pinang", teknik: "Pembuatan Wau Hiasan", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
-            { unit: "Unit 10", tajuk: "Beg Batik Rekaanku", teknik: "Seni Batik Canting", sk: TAHUN_6_SK, sp: TAHUN_6_SP },
+            // DISAHKAN daripada buku teks sebenar (D6_BT_PSV) m/s 8-89, 2026-09-21.
+            // Unit 1-3 (Penggal 1, bukan "Karya Gabungan"): kod SK/SP kongsi standard umum
+            // Bahasa & Kemahiran Seni Visual (1.1.1-1.1.3 / 2.1.1-2.1.3) merentasi ketiga-tiga
+            // unit -- ini BUKAN ralat/placeholder, ia memang begitu dalam buku teks sebenar,
+            // hanya sub-indeks 1.1.3/2.1.3 berbeza mengikut penekanan bidang unit tersebut.
+            { unit: "Unit 1", tajuk: "Gambaran Minda", teknik: "Lukisan Tonasi Pensel \u2013 Kampungku",
+              sk: "1.1.1, 1.1.2(i,ii), 1.1.3(i) Bahasa seni visual (ruang, penegasan, harmoni, imbangan, bentuk) pada karya lukisan/catan dua dimensi",
+              sp: "2.1.1, 2.1.2(i,ii), 2.1.3 Mengaplikasikan bahasa seni visual melalui lakaran/lukisan berdasarkan penerokaan media" },
+            { unit: "Unit 2", tajuk: "Pembina Cilik", teknik: "Arca Asemblaj / Stabail \u2013 Dunia Gemilang",
+              sk: "1.1.1, 1.1.2(i,ii), 1.1.3(iii) Bahasa seni visual (jalinan, kontra, harmoni, bentuk) pada karya arca asemblaj tiga dimensi",
+              sp: "2.1.1, 2.1.2(i,ii), 2.1.3 Mengaplikasikan bahasa seni visual melalui penerokaan media dan cantuman pelbagai bahan" },
+            { unit: "Unit 3", tajuk: "Ilusi dan Realiti", teknik: "Lukisan/Kolaj/Capan \u2013 Kaktus Khatulistiwa",
+              sk: "1.1.1, 1.1.2(i,ii), 1.1.3(i) Bahasa seni visual (ruang, penegasan, warna, kepelbagaian) pada karya lukisan menunjukkan ilusi",
+              sp: "2.1.1, 2.1.2(i,ii), 2.1.3 Mengaplikasikan bahasa seni visual melalui teknik capan, lukisan dan kolaj (jalinan tampak)" },
+            // Unit 4-10 ialah "Karya Gabungan" (projek bersepadu merentasi bidang) -- kod
+            // sebenar tergolong siri 2.2.x/3.2.x (Kreativiti & Inovasi/Apresiasi), berbeza
+            // struktur daripada Unit 1-3. Kod di bawah mewakili kod utama yang disahkan
+            // pada muka surat pembukaan setiap unit; unit ini juga ada beberapa kod tambahan
+            // (contoh 3.2.2, 3.2.3) merentasi peringkat idea/penghasilan/apresiasi yang tidak
+            // disenaraikan berasingan di sini.
+            { unit: "Unit 4", tajuk: "Cik Lebah dan Madu", teknik: "Karya Gabungan (Lukisan+Lipatan+Cantuman) \u2013 Kotak Makanan Bertema Lebah",
+              sk: "3.2.1 Mereka bentuk produk (kotak makanan) menggabungkan bidang menggambar dan membentuk/membuat binaan",
+              sp: "2.1.3, 3.2.1(ii-iv) Mengeksplorasi media dan teknik gabungan lukisan, lipatan dan cantuman untuk penghasilan produk" },
+            { unit: "Unit 5", tajuk: "Si Cilik Koi", teknik: "Karya Gabungan (Arca Stabail+Catan) \u2013 Ikan Koi Tiga Dimensi",
+              sk: "2.2.1 Meneroka reka bentuk hal benda (ikan koi) merentasi bidang menggambar dan membentuk",
+              sp: "3.2.1(iii,iv) Mengeksplorasi media dan teknik gabungan arca stabail dan catan untuk penghasilan karya" },
+            // DIBETULKAN: teknik sebenar ialah Corak Terancang (Stensilan) -- BUKAN "Pualaman &
+            // Cetakan" seperti tersimpan sebelum ini (pualaman tidak disebut langsung di unit ini).
+            { unit: "Unit 6", tajuk: "Inspirasi Corak Rekaan", teknik: "Corak Terancang \u2013 Stensilan (Susunan Dam/Sisik Ikan/Cerminan)",
+              sk: "1.1.2 Bahasa seni visual (rentak, pergerakan, kesatuan, kontra) pada corak terancang (Bidang Membuat Corak dan Rekaan)",
+              sp: "2.1.2 Mengaplikasikan teknik stensilan (juga lukisan, kolaj, capan) dalam penghasilan susunan corak terancang" },
+            // DIBETULKAN & DILUASKAN: unit ini sebenarnya merangkumi 5 teknik "Corak Tidak
+            // Terancang" (titisan, tiupan, ikatan&celupan, renjisan&percikan, lipatan&guntingan)
+            // -- bukan cuma "Ikat & Celup" seperti tersimpan sebelum ini.
+            { unit: "Unit 7", tajuk: "Celupan Kreatif", teknik: "Corak Tidak Terancang \u2013 Titisan, Tiupan, Ikatan & Celupan, Renjisan & Percikan, Lipatan & Guntingan",
+              sk: "1.1.2 Bahasa seni visual (jalinan tampak, rentak, pergerakan, emosi) pada corak tidak terancang (Bidang Membuat Corak dan Rekaan)",
+              sp: "2.1.2 Mengaplikasikan pelbagai teknik pualaman, titisan, ikatan dan celupan dalam penghasilan corak tidak terancang" },
+            // DIBETULKAN: teknik sebenar ialah Loket (perhiasan diri/pendant) -- BUKAN "Anyaman
+            // Kelarai" seperti tersimpan sebelum ini (anyaman tidak disebut langsung di unit ini).
+            { unit: "Unit 8", tajuk: "Seni Kraf Warisan", teknik: "Loket \u2013 Aksesori Hiasan Diri",
+              sk: "1.1.4 Bahasa seni visual (penegasan, kesatuan, harmoni) pada karya loket (Bidang Mengenal Kraf Tradisional)",
+              sp: "2.1.4 Mengaplikasikan pengetahuan bahasa seni visual dalam penghasilan loket sebagai aksesori hiasan diri" },
+            { unit: "Unit 9", tajuk: "Wau Bulan Sirih Pinang", teknik: "Karya Gabungan \u2013 Model Wau Bulan (Kolaj, Gunting, Tampal)",
+              sk: "2.2.1 Meneroka reka bentuk model wau bulan menggabungkan bidang membuat corak dan mengenal kraf tradisional",
+              sp: "3.2.1 Mengeksplorasi teknik kolaj, gunting dan tampal dalam penghasilan model wau bulan tiga dimensi" },
+            { unit: "Unit 10", tajuk: "Beg Batik Rekaanku", teknik: "Karya Gabungan \u2013 Beg Batik (Batik, Tampalan, Cantuman)",
+              sk: "2.2.1 Meneroka reka bentuk beg batik menggabungkan bidang membuat corak dan mengenal kraf tradisional",
+              sp: "3.2.1 Mengeksplorasi teknik batik, tampalan dan cantuman manik dalam penghasilan beg tiga dimensi" },
         ];
 
         // Rujukan pantas: nama tahun -> senarai kandungan
@@ -701,10 +1008,59 @@
         };
 
         // ---------- MASTER TEMPLATE: komponen tambahan (04 Lihat & Perhati, 07 Projek Seni) ----------
-        // Diisi PENUH buat masa ini hanya untuk Tahun 2|Unit 8 (Uli-uli Tembikar) sebagai unit
-        // rujukan/template, seperti yang dicadangkan -- bina 1 unit dahulu sebelum digandakan ke
-        // unit lain. Kandungan diambil terus daripada buku teks (m/s 64-69), bukan tekaan.
+        // Diisi PENUH untuk Tahun 2 Unit 2,3,4,5,6,7,8,9,10 (bermula dari Unit 8 sebagai
+        // template rujukan asal, kini digandakan ke unit lain yang ada data buku teks
+        // disahkan). Kandungan diambil terus daripada buku teks (D2_BT_PKES), bukan tekaan.
         const MASTER_TEMPLATE_EXTRAS = {
+            "Tahun 2|Unit 6": {
+                // DISAHKAN daripada buku teks m/s 48-53.
+                nota: {
+                    bahan: ["Kotak", "Kain putih", "Kad tebal", "Tali tebal", "Gam", "Berus warna", "Gunting", "Pensel", "Palet", "Cat poster"],
+                    langkah: [
+                        "Sediakan kotak.",
+                        "Tanggalkan permukaan kotak.",
+                        "Lakar rupa dan gunting.",
+                        "Gamkan hasil guntingan dan tali tebal pada kad tebal (ini menjadi blok cetakan).",
+                        "Sapu cat poster pada blok corak yang telah dihasilkan.",
+                        "Terap blok corak pada kain putih. Tekan dengan tapak tangan."
+                    ]
+                },
+                lihatPerhati: {
+                    gambarLabel: "Cetakan Blok Corak (rupa organik & geometri)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya cetakan ini:",
+                    pilihan: [
+                        { label: "Rupa", betul: true },
+                        { label: "Warna", betul: true },
+                        { label: "Kontra", betul: true },
+                        { label: "Ruang ilusi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RUPA (organik & geometri), WARNA dan KONTRA untuk unit cetakan ini."
+                }
+            },
+            "Tahun 2|Unit 7": {
+                // DISAHKAN daripada buku teks m/s 56-59.
+                nota: {
+                    bahan: ["Kad manila", "Kertas warna", "Kain felt", "Gam", "Gunting", "Pensel", "Pita pelekat dua muka", "Pengokot", "Bahan hiasan berjalinan"],
+                    langkah: [
+                        "Potong kad manila mengikut saiz yang sesuai.",
+                        "Lakarkan mata burung dengan templat mata pada kedudukan yang sesuai dan gunting.",
+                        "Buat bentuk kon dan tampal pada topeng sebagai paruh burung.",
+                        "Hiaskan topeng serkup dengan bahan berunsur jalinan.",
+                        "Cantumkan kad manila menjadi bentuk silinder."
+                    ]
+                },
+                lihatPerhati: {
+                    gambarLabel: "Topeng Serkup Burung (bentuk silinder)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya topeng ini:",
+                    pilihan: [
+                        { label: "Bentuk", betul: true },
+                        { label: "Jalinan", betul: true },
+                        { label: "Penegasan", betul: true },
+                        { label: "Rupa geometri sahaja", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan BENTUK, JALINAN dan PENEGASAN (paruh burung) untuk unit topeng serkup ini."
+                }
+            },
             "Tahun 2|Unit 8": {
                 // DISAHKAN daripada buku teks m/s 66-69 -- langkah sebenar "Tembikar Comel"
                 // (bukan templat generik teknik "tembikar"), termasuk urutan memicit yang tepat.
@@ -737,6 +1093,382 @@
                     bahan: ["Doh tepung / Air dry clay", "Palet", "Cat poster", "Berus warna"],
                     masa: "60 minit",
                     hasil: "Murid dapat menghasilkan karya tembikar menggunakan teknik picitan dengan baik dan menunjukkan kreativiti dalam bentuk yang dihasilkan."
+                }
+            },
+            "Tahun 2|Unit 9": {
+                // DISAHKAN daripada buku teks m/s 74-79.
+                nota: {
+                    bahan: ["Kertas lukisan", "Berus bulat", "Pensel", "Palet", "Dakwat cina", "Pewarna makanan", "Cat air", "Putik kapas"],
+                    langkah: [
+                        "Lakar lukisan bunga dan rama-rama.",
+                        "Warnakan lakaran dengan cat air.",
+                        "Warnakan lakaran dengan pewarna makanan.",
+                        "Gunakan putik kapas untuk kesan titik-titik.",
+                        "Ulang langkah mewarna dengan dakwat cina.",
+                        "Keringkan dan bingkaikan hasil karya."
+                    ]
+                },
+                lihatPerhati: {
+                    gambarLabel: "Rama-rama Warna-warni (catan basah atas kering)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya catan ini:",
+                    pilihan: [
+                        { label: "Bentuk", betul: true },
+                        { label: "Warna", betul: true },
+                        { label: "Kontra", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan BENTUK, WARNA dan KONTRA (perbezaan saiz rama-rama) untuk unit ini."
+                }
+            },
+            "Tahun 2|Unit 10": {
+                // DISAHKAN daripada buku teks m/s 84-89.
+                nota: {
+                    bahan: ["Kertas lukisan", "Berus warna", "Pensel", "Palet", "Lilin", "Oil pastel", "Cat poster"],
+                    langkah: [
+                        "Buat lakaran pelbagai jenis garisan.",
+                        "Lukis semula lakaran dengan oil pastel.",
+                        "Lukis semula lakaran dengan lilin.",
+                        "Warnakan lakaran dengan cat poster (guna cat air lebih cair untuk kesan mudah)."
+                    ]
+                },
+                lihatPerhati: {
+                    gambarLabel: "Suasana Hidupan Laut / Air Terjun (teknik resis)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya resis ini:",
+                    pilihan: [
+                        { label: "Garisan", betul: true },
+                        { label: "Warna", betul: true },
+                        { label: "Pergerakan", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan GARISAN, WARNA, KONTRA dan PERGERAKAN (aliran air) untuk unit resis ini."
+                }
+            },
+            // ---- Tahun 5: Lihat & Perhati, disahkan daripada buku teks D5_BT_PSV ----
+            "Tahun 5|Unit 1": {
+                lihatPerhati: {
+                    gambarLabel: "Si Putih Menawan (gabungan lukisan & capan angsa)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya ini:",
+                    pilihan: [
+                        { label: "Garisan", betul: true },
+                        { label: "Jalinan", betul: true },
+                        { label: "Ruang tiga dimensi", betul: false },
+                        { label: "Kepelbagaian jenis garisan", betul: true },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan pelbagai jenis GARISAN (melengkung, selari, zigzag) dan JALINAN pada karya lukisan & capan ini."
+                }
+            },
+            "Tahun 5|Unit 2": {
+                lihatPerhati: {
+                    gambarLabel: "Sayangilah Habitat Kita (poster & montaj)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada poster ini:",
+                    pilihan: [
+                        { label: "Rupa", betul: true },
+                        { label: "Ruang", betul: true },
+                        { label: "Penegasan", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RUPA, RUANG, PENEGASAN dan IMBANGAN untuk unit poster & montaj ini."
+                }
+            },
+            "Tahun 5|Unit 4": {
+                lihatPerhati: {
+                    gambarLabel: "Misi Angkasa (model robot 3D)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada model ini:",
+                    pilihan: [
+                        { label: "Penegasan", betul: true },
+                        { label: "Kontra", betul: true },
+                        { label: "Imbangan", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan PENEGASAN (warna merah), KONTRA dan IMBANGAN (simetri & tidak simetri) untuk model robot ini."
+                }
+            },
+            "Tahun 5|Unit 5": {
+                lihatPerhati: {
+                    gambarLabel: "Pasu Mini (tembikar terenang tradisional)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada tembikar ini:",
+                    pilihan: [
+                        { label: "Rupa", betul: true },
+                        { label: "Bentuk", betul: true },
+                        { label: "Imbangan", betul: true },
+                        { label: "Ruang ilusi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RUPA (motif berulang), BENTUK konkrit, IMBANGAN simetri dan PENEGASAN untuk tembikar ini."
+                }
+            },
+            "Tahun 5|Unit 7": {
+                lihatPerhati: {
+                    gambarLabel: "Bunga Kekwa Mekar (mozek & catan)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya ini:",
+                    pilihan: [
+                        { label: "Jalinan", betul: true },
+                        { label: "Warna", betul: true },
+                        { label: "Penegasan", betul: true },
+                        { label: "Ruang tiga dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan JALINAN (sentuh & tampak), WARNA panas, PENEGASAN (saiz bunga) dan KEPELBAGAIAN untuk unit mozek & catan ini."
+                }
+            },
+            "Tahun 5|Unit 8": {
+                lihatPerhati: {
+                    gambarLabel: "Bingkai Gambarku (teknik titisan)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya titisan ini:",
+                    pilihan: [
+                        { label: "Warna", betul: true },
+                        { label: "Harmoni", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                        { label: "Bentuk 3D", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan WARNA (kumpulan warna sejuk/panas) dan HARMONI (saiz & warna titisan yang hampir sama) untuk unit titisan ini."
+                }
+            },
+            "Tahun 5|Unit 3": {
+                lihatPerhati: {
+                    gambarLabel: "Jaket Buku Nota (kolaj kupu-kupu & bunga)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya kolaj ini:",
+                    pilihan: [
+                        { label: "Ruang (ilusi)", betul: true },
+                        { label: "Penegasan", betul: true },
+                        { label: "Harmoni", betul: true },
+                        { label: "Bentuk tiga dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RUANG (kesan ilusi), PENEGASAN (saiz & warna kupu-kupu), HARMONI (warna panas) dan JALINAN untuk unit kolaj ini."
+                }
+            },
+            "Tahun 5|Unit 6": {
+                lihatPerhati: {
+                    gambarLabel: "Pungguk Rindu Akan Bulan (kolaj & gurisan kapal layar)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya ini:",
+                    pilihan: [
+                        { label: "Kontra", betul: true },
+                        { label: "Garisan", betul: true },
+                        { label: "Harmoni", betul: true },
+                        { label: "Ruang tiga dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan KONTRA (warna latar & gurisan), kualiti GARISAN, HARMONI (gabungan teknik) dan JALINAN untuk unit ini."
+                }
+            },
+            "Tahun 5|Unit 9": {
+                lihatPerhati: {
+                    gambarLabel: "Haiwan Peliharaan (arca stabail itik)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada arca ini:",
+                    pilihan: [
+                        { label: "Imbangan", betul: true },
+                        { label: "Ritma dan pergerakan", betul: true },
+                        { label: "Warna panas", betul: false },
+                        { label: "Jalinan tampak", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan IMBANGAN tidak simetri dan RITMA/PERGERAKAN (garisan berulang) untuk arca stabail ini."
+                }
+            },
+            "Tahun 5|Unit 10": {
+                lihatPerhati: {
+                    gambarLabel: "Bunga Kemboja Emas (seni tekat benang emas)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya tekat ini:",
+                    pilihan: [
+                        { label: "Jalinan sentuh", betul: true },
+                        { label: "Rupa", betul: true },
+                        { label: "Kesatuan", betul: true },
+                        { label: "Ruang tiga dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan JALINAN SENTUH (tekat timbul), RUPA organik, KESATUAN dan KONTRA warna untuk unit tekat ini."
+                }
+            },
+            // ---- Tahun 6: Lihat & Perhati, disahkan daripada buku teks D6_BT_PSV ----
+            "Tahun 6|Unit 1": {
+                lihatPerhati: {
+                    gambarLabel: "Gambaran Minda: Kampungku (lukisan tonasi pensel)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya ini:",
+                    pilihan: [
+                        { label: "Ruang", betul: true },
+                        { label: "Harmoni", betul: true },
+                        { label: "Imbangan", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RUANG (tiga bahagian), HARMONI (warna sejuk), IMBANGAN (tidak simetri) dan BENTUK (ton warna) untuk unit ini."
+                }
+            },
+            "Tahun 6|Unit 2": {
+                lihatPerhati: {
+                    gambarLabel: "Pembina Cilik: Dunia Gemilang (arca asemblaj)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada arca ini:",
+                    pilihan: [
+                        { label: "Penegasan", betul: true },
+                        { label: "Imbangan", betul: true },
+                        { label: "Jalinan", betul: true },
+                        { label: "Ruang dua dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan PENEGASAN (struktur di kawasan lapang), IMBANGAN tidak simetri dan JALINAN cantuman bahan untuk arca asemblaj ini."
+                }
+            },
+            "Tahun 6|Unit 3": {
+                lihatPerhati: {
+                    gambarLabel: "Ilusi dan Realiti: Kaktus Khatulistiwa",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya ini:",
+                    pilihan: [
+                        { label: "Ruang", betul: true },
+                        { label: "Penegasan", betul: true },
+                        { label: "Warna", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RUANG (objek bertindih), PENEGASAN (bentuk & saiz kaktus besar) dan WARNA (hijau tenang, merah menyerlah) untuk unit ini."
+                }
+            },
+            "Tahun 6|Unit 4": {
+                lihatPerhati: {
+                    gambarLabel: "Cik Lebah dan Madu (kotak makanan bertema lebah)",
+                    soalan: "Tandakan prinsip rekaan yang kamu nampak pada karya kotak ini:",
+                    pilihan: [
+                        { label: "Kesatuan", betul: true },
+                        { label: "Rupa (organik & geometri)", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                        { label: "Ruang tiga dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan KESATUAN dan RUPA (olahan geometri sarang lebah, organik badan lebah) untuk karya gabungan ini."
+                }
+            },
+            "Tahun 6|Unit 5": {
+                lihatPerhati: {
+                    gambarLabel: "Si Cilik Koi (arca stabail ikan koi)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada arca ini:",
+                    pilihan: [
+                        { label: "Rentak dan pergerakan", betul: true },
+                        { label: "Imbangan", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                        { label: "Rupa geometri", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RENTAK & PERGERAKAN (susunan motif berulang) dan IMBANGAN (arca seimbang & kukuh) untuk unit ini."
+                }
+            },
+            "Tahun 6|Unit 6": {
+                lihatPerhati: {
+                    gambarLabel: "Inspirasi Corak Rekaan (corak terancang stensilan)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada corak ini:",
+                    pilihan: [
+                        { label: "Ritma dan pergerakan", betul: true },
+                        { label: "Kesatuan", betul: true },
+                        { label: "Rupa", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan RITMA & PERGERAKAN (susunan berulang), KESATUAN dan RUPA untuk corak terancang ini."
+                }
+            },
+            "Tahun 6|Unit 7": {
+                lihatPerhati: {
+                    gambarLabel: "Celupan Kreatif (corak tidak terancang)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada corak ini:",
+                    pilihan: [
+                        { label: "Warna", betul: true },
+                        { label: "Ritma dan pergerakan", betul: true },
+                        { label: "Ruang tiga dimensi", betul: false },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan WARNA (kumpulan warna panas) dan RITMA & PERGERAKAN untuk corak tidak terancang ini."
+                }
+            },
+            "Tahun 6|Unit 8": {
+                lihatPerhati: {
+                    gambarLabel: "Seni Kraf Warisan (loket aksesori hiasan diri)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada loket ini:",
+                    pilihan: [
+                        { label: "Penegasan", betul: true },
+                        { label: "Kesatuan", betul: true },
+                        { label: "Harmoni", betul: true },
+                        { label: "Ruang ilusi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan PENEGASAN (motif bunga besar), KESATUAN (ukuran motif & batu permata) dan HARMONI (bentuk, ukiran, komposisi) untuk loket ini."
+                }
+            },
+            // ---- Tahun 1: Lihat & Perhati, disahkan daripada buku teks P_Seni_Tahun_1_SK ----
+            "Tahun 1|Unit 2": {
+                lihatPerhati: {
+                    gambarLabel: "Ikatan dan Celupan (baju bercorak warna-warni)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya ini:",
+                    pilihan: [
+                        { label: "Warna", betul: true },
+                        { label: "Kontra", betul: true },
+                        { label: "Bentuk tiga dimensi", betul: false },
+                        { label: "Ruang ilusi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan WARNA primer (merah, biru, kuning) dan KONTRA WARNA untuk unit ikatan dan celupan ini."
+                }
+            },
+            "Tahun 1|Unit 4": {
+                lihatPerhati: {
+                    gambarLabel: "Batik Cantik (motif bunga & daun)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya batik ini:",
+                    pilihan: [
+                        { label: "Kesatuan", betul: true },
+                        { label: "Rupa", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                        { label: "Bentuk tiga dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan KESATUAN (rupa bunga & daun dalam tema yang sama) untuk unit batik ini."
+                }
+            },
+            "Tahun 1|Unit 5": {
+                lihatPerhati: {
+                    gambarLabel: "Kawanku (lukisan wajah rakan)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada lukisan ini:",
+                    pilihan: [
+                        { label: "Garisan", betul: true },
+                        { label: "Rupa", betul: true },
+                        { label: "Bentuk", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan GARISAN yang menghasilkan RUPA dan BENTUK sehingga menjadi gambar untuk unit lukisan ini."
+                }
+            },
+            "Tahun 1|Unit 6": {
+                lihatPerhati: {
+                    gambarLabel: "Sampan Kecil (arca mobail origami)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada arca ini:",
+                    pilihan: [
+                        { label: "Imbangan", betul: true },
+                        { label: "Ruang", betul: true },
+                        { label: "Warna panas", betul: false },
+                        { label: "Jalinan tampak", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan IMBANGAN (arca mobail perlu seimbang) dan RUANG (jarak antara bahan gantungan) untuk unit arca mobail ini."
+                }
+            },
+            "Tahun 1|Unit 7": {
+                lihatPerhati: {
+                    gambarLabel: "Ayam Kampung (teknik gosokan)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya gosokan ini:",
+                    pilihan: [
+                        { label: "Jalinan", betul: true },
+                        { label: "Ruang tiga dimensi", betul: false },
+                        { label: "Rupa geometri sahaja", betul: false },
+                        { label: "Kesatuan", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan JALINAN (kesan gosokan pada permukaan berjalinan) untuk unit gosokan ini."
+                }
+            },
+            "Tahun 1|Unit 9": {
+                lihatPerhati: {
+                    gambarLabel: "Rumah Burung (model tiga dimensi)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada model ini:",
+                    pilihan: [
+                        { label: "Bentuk (konkrit)", betul: true },
+                        { label: "Imbangan", betul: true },
+                        { label: "Warna panas", betul: false },
+                        { label: "Jalinan tampak", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks menekankan BENTUK KONKRIT (boleh disentuh) dan IMBANGAN (sayap yang serupa & seimbang) untuk unit model ini."
+                }
+            },
+            "Tahun 1|Unit 10": {
+                lihatPerhati: {
+                    gambarLabel: "Bijak Sang Kancil (renjisan & percikan)",
+                    soalan: "Tandakan unsur seni visual yang kamu nampak pada karya ini:",
+                    pilihan: [
+                        { label: "Ruang (hadapan & belakang)", betul: true },
+                        { label: "Kontra", betul: true },
+                        { label: "Jalinan sentuh", betul: false },
+                        { label: "Bentuk tiga dimensi", betul: false },
+                    ],
+                    penjelasan: "Betul! Buku teks melabel terus RUANG HADAPAN, RUANG BELAKANG dan KONTRA pada contoh karya renjisan & percikan ini."
                 }
             }
         };
@@ -820,17 +1552,22 @@
 
         function loadDashboardForRole(role) {
             if (role === 'guru') {
-                document.getElementById('guru-email-label').innerText = currentUser.email;
+                document.getElementById('guru-email-label') && (document.getElementById('guru-email-label').innerText = currentUser.email);
+                document.getElementById('guru-name-label').innerText = (currentUser.displayName || currentUser.email || '').split(' ')[0] || 'Guru';
                 showScreen('screen-guru');
                 showGuruView('dashboard');
                 renderContentList('guru-content-list');
+                renderSidebarModulTree();
                 loadGuruClasses();
                 renderGuruBahanList();
                 document.getElementById('rph-guru-name').value = currentUser.displayName || currentUser.email;
                 document.getElementById('rph-date').value = new Date().toISOString().slice(0, 10);
             } else {
                 document.getElementById('murid-email-label').innerText = currentUser.email;
+                document.getElementById('murid-greeting').innerText = `Hai, ${currentUser.displayName || 'Pelukis Kecil'}! 👋`;
                 showScreen('screen-murid');
+                showMuridView('home');
+                loadMuridUnitFlags();
                 renderContentList('murid-content-list');
                 loadMuridClasses();
                 loadMuridKarya();
@@ -838,14 +1575,243 @@
             }
         }
 
-        // ---------- Navigasi Dashboard Guru ----------
+        // ---------- Navigasi Dashboard Guru (sidebar tetap + header) ----------
+        const GURU_BREADCRUMB_LABEL = {
+            dashboard: '🏠 Dashboard', kelas: '👥 Kelas Saya', modul: '📋 Modul PdP',
+            rph: '📝 RPH', pbd: '📊 PBD', karya: '🖼️ Galeri Karya', bahan: '📂 Bahan PdP',
+            kuiz: '🧠 Kuiz', laporan: '📈 Laporan', tetapan: '⚙️ Tetapan',
+        };
         function showGuruView(view) {
-            ['dashboard', 'modul', 'rph', 'pbd', 'karya', 'kuiz', 'bahan'].forEach(v => {
-                document.getElementById(`guru-view-${v}`).classList.toggle('hidden', v !== view);
+            const allViews = ['dashboard', 'kelas', 'modul', 'modul-viewer', 'rph', 'pbd', 'karya', 'kuiz', 'bahan', 'laporan', 'tetapan'];
+            allViews.forEach(v => {
+                const el = document.getElementById(`guru-view-${v}`);
+                if (el) el.classList.toggle('hidden', v !== view);
             });
+            document.querySelectorAll('.sidebar-nav-btn').forEach(btn => {
+                btn.classList.toggle('bg-indigo-600', btn.dataset.view === view);
+                btn.classList.toggle('text-white', btn.dataset.view === view);
+            });
+            const bc = document.getElementById('guru-breadcrumb');
+            if (bc && GURU_BREADCRUMB_LABEL[view]) bc.innerText = GURU_BREADCRUMB_LABEL[view];
             if (view === 'pbd') populatePBDClassDropdown();
+            closeMobileSidebarIfOpen();
         }
         window.showGuruView = showGuruView;
+
+        function toggleSidebarModulTree() {
+            const tree = document.getElementById('sidebar-modul-tree');
+            const caret = document.getElementById('sidebar-modul-caret');
+            tree.classList.toggle('hidden');
+            caret.style.transform = tree.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+        window.toggleSidebarModulTree = toggleSidebarModulTree;
+
+        function renderSidebarModulTree() {
+            const tree = document.getElementById('sidebar-modul-tree');
+            tree.innerHTML = Object.entries(CONTENT_BY_YEAR).map(([tahun, units]) => `
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-500 px-3 pt-2 pb-1">${tahun}</p>
+                    ${units.map(u => `<button onclick="openGuruModulViewer('${tahun}','${u.unit}')" class="w-full text-left px-3 py-1.5 rounded-lg text-[11px] font-bold text-slate-300 hover:bg-slate-800 hover:text-white truncate">${u.unit}: ${u.tajuk}</button>`).join('')}
+                </div>
+            `).join('');
+        }
+
+        function toggleMobileSidebar() {
+            document.getElementById('guru-sidebar').classList.toggle('hidden');
+            document.getElementById('guru-sidebar').classList.toggle('flex');
+        }
+        window.toggleMobileSidebar = toggleMobileSidebar;
+        function closeMobileSidebarIfOpen() {
+            if (window.innerWidth < 1024) {
+                const sb = document.getElementById('guru-sidebar');
+                if (sb && sb.classList.contains('flex')) { sb.classList.add('hidden'); sb.classList.remove('flex'); }
+            }
+        }
+
+        function runGuruSearch() {
+            const q = document.getElementById('guru-search-input').value.trim().toLowerCase();
+            if (!q) return;
+            for (const [tahun, units] of Object.entries(CONTENT_BY_YEAR)) {
+                const hit = units.find(u => u.tajuk.toLowerCase().includes(q) || u.teknik.toLowerCase().includes(q) || u.unit.toLowerCase().includes(q));
+                if (hit) { openGuruModulViewer(tahun, hit.unit); return; }
+            }
+            alert('Tiada unit dijumpai untuk carian: ' + q);
+        }
+        window.runGuruSearch = runGuruSearch;
+
+        // ---------- Guru Modul Viewer: halaman penuh 8-tab (bukan modal) ----------
+        let gmvYear = '', gmvUnit = '', gmvItem = null;
+        function openGuruModulViewer(tahunLabel, unitCode) {
+            const data = CONTENT_BY_YEAR[tahunLabel] || [];
+            const item = data.find(u => u.unit === unitCode);
+            if (!item) return;
+            gmvYear = tahunLabel; gmvUnit = unitCode; gmvItem = item;
+            const key = `${tahunLabel}|${unitCode}`;
+            const extras = MASTER_TEMPLATE_EXTRAS[key];
+            const nota = (extras && extras.nota) || generateNotaForUnit(item);
+
+            // Hero
+            document.getElementById('gmv-badge').innerText = tahunLabel;
+            document.getElementById('gmv-tajuk').innerText = `${unitCode} ${item.tajuk}`;
+            document.getElementById('gmv-tagline').innerText = item.teknik;
+
+            // 01 Jom Kenali
+            const bidangMatch = (item.sk || item.sp || '').match(/\(Bidang ([^)]+)\)/i);
+            const bidangName = bidangMatch ? bidangMatch[1] : 'Pendidikan Seni Visual';
+            const teknikKeywords = item.teknik.split(/[^A-Za-zÀ-ÿ]+/).filter(w => w.length > 2);
+            document.getElementById('gmv-kenali-bidang').innerText = bidangName;
+            document.getElementById('gmv-kenali-teknik').innerText = item.teknik;
+            document.getElementById('gmv-kenali-katakunci').innerText = [...new Set([bidangName, ...teknikKeywords])].slice(0, 5).join(', ');
+            document.getElementById('gmv-kenali-objektif').innerHTML = `
+                <li>Mengenal pasti dan menerangkan maksud teknik ${item.teknik.toLowerCase()}.</li>
+                <li>Menghasilkan karya menggunakan teknik yang dipelajari.</li>
+                <li>Menyatakan kepentingan bahasa seni visual dalam kehidupan seharian.</li>`;
+
+            // 02 Bahasa Seni Visual
+            document.getElementById('gmv-sk').innerText = item.sk || '-';
+            document.getElementById('gmv-sp').innerText = item.sp || '-';
+
+            // 03 Lihat & Perhati
+            const lpBox = document.getElementById('gmv-lp-container');
+            if (extras && extras.lihatPerhati) {
+                const lp = extras.lihatPerhati;
+                lpBox.innerHTML = `
+                    <p class="text-sm font-bold text-slate-700">🖼️ ${lp.gambarLabel}</p>
+                    <p class="text-sm font-bold bg-indigo-50 p-3 rounded-xl mt-2">${lp.soalan}</p>
+                    <ul class="list-disc pl-5 text-sm mt-2 space-y-1">
+                        ${lp.pilihan.filter(p => p.betul).map(p => `<li>${p.label}</li>`).join('')}
+                    </ul>
+                    <p class="text-xs text-emerald-700 font-bold mt-2 bg-emerald-50 p-2 rounded-lg">${lp.penjelasan}</p>`;
+            } else {
+                lpBox.innerHTML = `<p class="text-xs text-slate-400 italic">Belum disediakan untuk unit ini.</p>`;
+            }
+
+            // 04 Jom Belajar Teknik (video + bahan + langkah)
+            let vidId, videoNote;
+            if (explicitUnitVideoMap[key]) { vidId = explicitUnitVideoMap[key]; videoNote = 'Video disahkan khusus untuk unit ini.'; }
+            else if (unverifiedUnitVideoMap[key]) { vidId = unverifiedUnitVideoMap[key]; videoNote = '⚠️ Video belum disahkan -- sila tonton dahulu sebelum guna dengan murid.'; }
+            else { vidId = getFallbackVideoId(item.teknik); videoNote = '⚠️ Video umum ikut teknik (belum khusus untuk unit ini).'; }
+            document.getElementById('gmv-video').src = `https://www.youtube.com/embed/${vidId}`;
+            document.getElementById('gmv-video-note').innerText = videoNote;
+            document.getElementById('gmv-bahan').innerHTML = nota.bahan.map(b => `<li>${b}</li>`).join('');
+            document.getElementById('gmv-langkah').innerHTML = nota.langkah.map(s => `<li>${s}</li>`).join('');
+
+            // 06 Projek Seni
+            const projek = (extras && extras.projekSeni) || {
+                cabaran: `Hasilkan karya "${item.tajuk}" menggunakan teknik ${item.teknik}.`,
+                bahan: nota.bahan, masa: "60 minit (anggaran)",
+                hasil: `Murid dapat menghasilkan karya menggunakan teknik ${item.teknik} dengan kreatif.`
+            };
+            document.getElementById('gmv-projek-cabaran').innerText = projek.cabaran;
+            document.getElementById('gmv-projek-bahan').innerText = projek.bahan.join(', ');
+            document.getElementById('gmv-projek-masa').innerText = projek.masa;
+            document.getElementById('gmv-projek-hasil').innerText = projek.hasil;
+
+            // 07 Kuiz (pratonton)
+            const previewQ = [
+                `Apakah teknik utama bagi unit "${item.tajuk}"?`,
+                `Rujuk SK/SP unit ini -- yang manakah paling tepat?`,
+                `Selepas menyiapkan karya, langkah penting seterusnya ialah...`,
+            ];
+            document.getElementById('gmv-kuiz-preview').innerHTML = previewQ.map((q, i) => `<p class="text-xs font-bold bg-slate-50 p-2.5 rounded-lg">${i + 1}. ${q}</p>`).join('');
+            document.getElementById('gmv-rph-feedback').classList.add('hidden');
+
+            // 08 Galeri & PBD
+            loadGaleriUnitInto('gmv-galeri-container', tahunLabel, unitCode, true);
+
+            showGuruView('modul-viewer');
+            document.getElementById('guru-breadcrumb').innerText = `📋 Modul PdP › ${tahunLabel} › ${unitCode}`;
+            showGuruModulTab('kenali');
+        }
+        window.openGuruModulViewer = openGuruModulViewer;
+
+        function showGuruModulTab(tab) {
+            document.querySelectorAll('.gmv-panel').forEach(p => p.classList.add('hidden'));
+            const panel = document.getElementById(`gmv-panel-${tab}`);
+            if (panel) panel.classList.remove('hidden');
+            document.querySelectorAll('.gmv-tab-btn').forEach(btn => {
+                const active = btn.dataset.tab === tab;
+                btn.classList.toggle('bg-indigo-600', active);
+                btn.classList.toggle('text-white', active);
+                btn.classList.toggle('bg-white', !active);
+            });
+            if (tab === 'cuba') setTimeout(initGmvCanvas, 50);
+        }
+        window.showGuruModulTab = showGuruModulTab;
+
+        function guruModulPrevUnit() { gmvStepUnit(-1); }
+        function guruModulNextUnit() { gmvStepUnit(1); }
+        window.guruModulPrevUnit = guruModulPrevUnit;
+        window.guruModulNextUnit = guruModulNextUnit;
+        function gmvStepUnit(dir) {
+            const units = CONTENT_BY_YEAR[gmvYear] || [];
+            const idx = units.findIndex(u => u.unit === gmvUnit);
+            const nextIdx = idx + dir;
+            if (nextIdx >= 0 && nextIdx < units.length) {
+                openGuruModulViewer(gmvYear, units[nextIdx].unit);
+            } else {
+                alert(dir < 0 ? 'Ini unit pertama.' : 'Ini unit terakhir.');
+            }
+        }
+
+        // Kanvas demo ringkas untuk tab "Jom Cuba"
+        let gmvCanvasCtx = null, gmvDrawing = false, gmvLastX = 0, gmvLastY = 0, gmvColor = '#0f172a';
+        function initGmvCanvas() {
+            const canvas = document.getElementById('gmv-canvas');
+            if (!canvas) return;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+            canvas.width = rect.width; canvas.height = rect.height;
+            gmvCanvasCtx = canvas.getContext('2d');
+            gmvCanvasCtx.fillStyle = '#fafaf9'; gmvCanvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+            gmvCanvasCtx.lineCap = 'round'; gmvCanvasCtx.lineJoin = 'round';
+            if (canvas.dataset.wired) return;
+            canvas.dataset.wired = '1';
+            const getXY = (e) => {
+                const r = canvas.getBoundingClientRect();
+                const cx = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+                const cy = e.clientY ?? (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+                return [(cx - r.left) * (canvas.width / r.width), (cy - r.top) * (canvas.height / r.height)];
+            };
+            canvas.addEventListener('mousedown', (e) => { gmvDrawing = true; [gmvLastX, gmvLastY] = getXY(e); });
+            canvas.addEventListener('mousemove', (e) => { if (!gmvDrawing) return; gmvDrawTo(getXY(e)); });
+            canvas.addEventListener('mouseup', () => gmvDrawing = false);
+            canvas.addEventListener('mouseout', () => gmvDrawing = false);
+            canvas.addEventListener('touchstart', (e) => { gmvDrawing = true; [gmvLastX, gmvLastY] = getXY(e.touches[0]); e.preventDefault(); }, { passive: false });
+            canvas.addEventListener('touchmove', (e) => { if (!gmvDrawing) return; gmvDrawTo(getXY(e.touches[0])); e.preventDefault(); }, { passive: false });
+            canvas.addEventListener('touchend', () => gmvDrawing = false);
+        }
+        function gmvDrawTo([x, y]) {
+            gmvCanvasCtx.strokeStyle = gmvColor; gmvCanvasCtx.lineWidth = 4;
+            gmvCanvasCtx.beginPath(); gmvCanvasCtx.moveTo(gmvLastX, gmvLastY); gmvCanvasCtx.lineTo(x, y); gmvCanvasCtx.stroke();
+            [gmvLastX, gmvLastY] = [x, y];
+        }
+        function gmvSetColor(hex) { gmvColor = hex; }
+        function gmvClearCanvas() {
+            const canvas = document.getElementById('gmv-canvas');
+            if (!gmvCanvasCtx || !canvas) return;
+            gmvCanvasCtx.fillStyle = '#fafaf9'; gmvCanvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        window.gmvSetColor = gmvSetColor;
+        window.gmvClearCanvas = gmvClearCanvas;
+
+        // Jana RPH terus dari Guru Modul Viewer
+        function janaRPHDariGmv() {
+            const fb = document.getElementById('gmv-rph-feedback');
+            const kelasSepadan = guruClassesData.filter(c => c.tahun === gmvYear);
+            if (kelasSepadan.length === 0) {
+                fb.innerText = `Belum ada kelas ${gmvYear} dicipta. Sila cipta kelas dahulu di "👥 Kelas Saya".`;
+                fb.className = 'text-xs font-bold p-2 mt-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                fb.classList.remove('hidden');
+                return;
+            }
+            showGuruView('rph');
+            document.getElementById('rph-select-class').value = kelasSepadan[0].kod;
+            window.onRphClassChange();
+            document.getElementById('rph-select-unit').value = gmvUnit;
+            window.onRphUnitChange();
+        }
+        window.janaRPHDariGmv = janaRPHDariGmv;
 
         // ---------- Sistem Bintang Ganjaran (Murid) ----------
         async function refreshMuridStars() {
@@ -854,6 +1820,7 @@
                 const bintang = (snap.exists() && snap.data().bintang) || 0;
                 const el = document.getElementById('murid-star-count');
                 if (el) el.innerText = bintang;
+                updateMuridBadge(bintang);
             } catch (e) {
                 console.warn('Gagal muat bintang:', e);
             }
@@ -865,6 +1832,53 @@
                 refreshMuridStars();
             } catch (e) {
                 console.warn('Gagal tambah bintang:', e);
+            }
+        }
+
+        // Muatkan status "unit dibaca" & "unit lengkap" murid ini (untuk elak ulang-beri
+        // mata seni yang sama berkali-kali merentasi sesi log masuk).
+        async function loadMuridUnitFlags() {
+            try {
+                const snap = await getDoc(doc(db, 'users', currentUser.uid));
+                const d = snap.exists() ? snap.data() : {};
+                muridUnitDibaca = new Set(d.unitDibaca || []);
+                muridUnitLengkap = new Set(d.unitLengkap || []);
+            } catch (e) {
+                console.warn('Gagal muat status unit murid:', e);
+            }
+        }
+
+        // +5 sekali sahaja bila murid mula-mula buka modul unit ini ("membaca modul").
+        async function awardBacaanPertamaKali(tahun, unit) {
+            const key = `${tahun}|${unit}`;
+            if (muridUnitDibaca.has(key)) return;
+            muridUnitDibaca.add(key);
+            try {
+                await updateDoc(doc(db, 'users', currentUser.uid), { unitDibaca: arrayUnion(key) });
+                await tambahBintang(5);
+            } catch (e) {
+                console.warn('Gagal rekod bacaan modul:', e);
+            }
+        }
+
+        // +50 bonus sekali sahaja bila DUA-DUA syarat dipenuhi dalam sesi modul semasa:
+        // kuiz lulus DAN karya unit ini dihantar ("lengkap unit").
+        async function checkUnitLengkap(tahun, unit) {
+            const key = `${tahun}|${unit}`;
+            if (muridUnitLengkap.has(key)) return;
+            if (!(modulQuizDone && modulKaryaSubmittedThisUnit)) return;
+            muridUnitLengkap.add(key);
+            try {
+                await updateDoc(doc(db, 'users', currentUser.uid), { unitLengkap: arrayUnion(key) });
+                await tambahBintang(50);
+                const fb = document.getElementById('modul-galeri-feedback');
+                if (fb) {
+                    fb.innerText = '🎉 Unit Lengkap! +50 ⭐ Bonus!';
+                    fb.className = 'text-xs font-bold p-2 rounded-lg bg-amber-50 border border-amber-500 text-amber-700';
+                    fb.classList.remove('hidden');
+                }
+            } catch (e) {
+                console.warn('Gagal rekod unit lengkap:', e);
             }
         }
 
@@ -880,8 +1894,9 @@
                 <button onclick="renderContentList('${containerId}', '${y}')" class="px-3 py-1.5 rounded-xl border-2 border-slate-950 text-xs font-black transition-colors ${y === activeYear ? 'bg-indigo-600 text-white' : 'bg-white hover:bg-slate-50'}">${y}</button>
             `).join('')}</div>`;
 
+            const openFn = containerId === 'guru-content-list' ? 'openGuruModulViewer' : 'openModulPembelajaran';
             const unitsHTML = (CONTENT_BY_YEAR[activeYear] || []).map(item => `
-                <div onclick="openModulPembelajaran('${activeYear}', '${item.unit}')" class="p-3 bg-slate-50 hover:bg-yellow-50 border-2 border-slate-950 rounded-xl cursor-pointer transition-colors flex items-center justify-between gap-2 group">
+                <div onclick="${openFn}('${activeYear}', '${item.unit}')" class="p-3 bg-slate-50 hover:bg-yellow-50 border-2 border-slate-950 rounded-xl cursor-pointer transition-colors flex items-center justify-between gap-2 group">
                     <div>
                         <span class="text-[9px] font-black uppercase px-2 py-0.5 bg-yellow-300 border border-slate-900 rounded-full">${activeYear} \u2022 ${item.unit}</span>
                         <p class="font-bold text-sm mt-1">${item.tajuk}</p>
@@ -908,6 +1923,21 @@
             "Tahun 2|Unit 1": "CIYPAktSclQ", "Tahun 2|Unit 2": "6Tce-jyT8EI", "Tahun 2|Unit 3": "TTwLEZB0uBo",
             "Tahun 2|Unit 4": "JO-U2b6jUs0", "Tahun 2|Unit 5": "p0k67tzQICk", "Tahun 2|Unit 6": "OvI55p8aRRg",
             "Tahun 2|Unit 7": "cc_Ib7qXwIM", "Tahun 2|Unit 8": "0cTeS3Y83go", "Tahun 2|Unit 9": "bJnH9NluVoA",
+            // Tahun 5 (10 unit) & Tahun 6 (Unit 1,2,3,4,10): disahkan ditonton oleh Ai pada
+            // 2026-09-21, kandungan sepadan dengan unit termasuk Unit 3 & 6 Tahun 6 yang disyaki.
+            "Tahun 5|Unit 1": "uCMe912dSAw", "Tahun 5|Unit 2": "SKXz1Cu7_s4", "Tahun 5|Unit 3": "HvocwBewbyk",
+            "Tahun 5|Unit 4": "oq6q695OPpA", "Tahun 5|Unit 5": "Eg22ITRfD-E", "Tahun 5|Unit 6": "Pl4n817X_zY",
+            "Tahun 5|Unit 7": "Xp8juA4D7J4", "Tahun 5|Unit 8": "zHYBelvoCc0", "Tahun 5|Unit 9": "_xjh6Pr3D6A",
+            "Tahun 5|Unit 10": "Htns9vE_ZMs",
+            "Tahun 6|Unit 1": "uE7DxcvNv-Q", "Tahun 6|Unit 2": "w2OXhBuhbIs", "Tahun 6|Unit 3": "OJiOO5spwgI",
+            "Tahun 6|Unit 4": "hEkyxdHlMjg", "Tahun 6|Unit 10": "UUDrI03Rd4g",
+            // Tahun 2 Unit 10 & Tahun 6 Unit 5-8: disahkan ditonton oleh Ai pada 2026-09-21.
+            "Tahun 2|Unit 10": "Pp-R39VONbY",
+            "Tahun 6|Unit 5": "huki8hlOmVE", "Tahun 6|Unit 6": "7z1Y56-7JOo",
+            "Tahun 6|Unit 7": "62JpFYFfrA4", "Tahun 6|Unit 8": "UNlRoMynIsQ",
+            // Tahun 6 Unit 9: disahkan ditonton oleh Ai pada 2026-09-21 -- VIDEO TERAKHIR,
+            // melengkapkan liputan video 41/41 unit merentasi Tahun 1, 2, 5 dan 6.
+            "Tahun 6|Unit 9": "HZu21FbzrnY",
         };
         // BELUM DISAHKAN: dicadangkan oleh AI lain (ChatGPT), belum ditonton/disahkan sendiri.
         // Jangan naik taraf ke explicitUnitVideoMap sehingga seseorang benar-benar tonton &
@@ -953,6 +1983,33 @@
             } else if (t.includes('lipatan') || t.includes('guntingan')) {
                 bahan = ["Kertas warna", "Gunting", "Gam"];
                 langkah = ["Lipat kertas mengikut susunan corak.", "Gunting motif pada bahagian lipatan.", "Buka lipatan untuk lihat corak simetri.", "Tampal pada bahan/objek akhir."];
+            } else if (t.includes('ikat') || t.includes('celup')) {
+                bahan = ["Kain putih (kapas)", "Tali rafia / getah gelang", "Pewarna fabrik / pewarna makanan", "Baldi/besen", "Air"];
+                langkah = ["Lipat atau kedutkan kain mengikut corak yang dirancang.", "Ikat bahagian kain dengan tali rafia atau getah gelang secara ketat.", "Bancuh pewarna fabrik dengan air suam di dalam baldi.", "Rendam kain yang telah diikat ke dalam bancuhan pewarna.", "Buka ikatan dan keringkan kain untuk lihat corak yang terhasil."];
+            } else if (t.includes('boneka')) {
+                bahan = ["Kain / stokin lama", "Kapas / bahan pengisi", "Gam / jarum dan benang", "Gunting", "Mata boneka / gombol"];
+                langkah = ["Gunting kain mengikut bentuk boneka yang dirancang.", "Jahit atau gamkan tepi kain, biarkan satu bahagian terbuka.", "Isikan kapas ke dalam boneka melalui bahagian terbuka.", "Tutup bahagian terbuka dengan jahitan/gam.", "Tampal mata dan ciri muka menggunakan gombol atau kain."];
+            } else if (t.includes('tiupan')) {
+                bahan = ["Dakwat / cat air cair", "Penyedut minuman", "Kertas lukisan", "Berus warna (untuk butiran)"];
+                langkah = ["Titiskan sedikit dakwat atau cat air cair di atas kertas.", "Gunakan penyedut minuman untuk meniup titisan warna ke arah yang dikehendaki.", "Ulang dengan warna lain untuk menambah kesan.", "Tambah butiran akhir dengan berus jika perlu."];
+            } else if (t.includes('renjis') || t.includes('percik')) {
+                bahan = ["Cat air / cat poster cair", "Berus tua / sikat gigi", "Kertas lukisan", "Daun atau objek untuk kesan rintangan (pilihan)"];
+                langkah = ["Bancuh cat dengan air secukupnya (cair).", "Celup berus tua atau sikat gigi ke dalam cat.", "Renjis atau percikkan cat ke atas kertas dengan menggosok bulu berus.", "Ulang dengan warna lain untuk kesan bertindih.", "Keringkan hasil karya."];
+            } else if (t.includes('model') && !t.includes('modeling')) {
+                bahan = ["Kotak / kadbod / bahan kitar semula", "Gunting / pisau pemotong (bimbingan guru)", "Gam / pita pelekat", "Warna hiasan"];
+                langkah = ["Rancang bentuk 3D yang hendak dibina.", "Potong dan bentuk bahan mengikut rangka yang dirancang.", "Cantumkan bahagian-bahagian dengan gam atau pita pelekat.", "Warna dan hias hasil akhir model."];
+            } else if (t.includes('perhiasan diri') || t.includes('dokoh') || t.includes('loket') || t.includes('hiasan diri')) {
+                bahan = ["Kadbod / kertas keras", "Manik / gombol", "Tali / reben", "Gam", "Kertas warna emas/perak (pilihan)"];
+                langkah = ["Lakar dan gunting rangka asas perhiasan pada kadbod.", "Hiaskan permukaan dengan manik atau kertas warna.", "Buat lubang dan pasangkan tali/reben untuk disarungkan.", "Kemaskan hiasan akhir."];
+            } else if (t.includes('montaj') || t.includes('poster')) {
+                bahan = ["Kertas poster / mahjong", "Keratan gambar majalah/akhbar lama", "Gunting", "Gam", "Marker / pensel warna"];
+                langkah = ["Rancang tema dan susunan poster.", "Gunting gambar/keratan yang berkaitan tema.", "Susun dan gamkan keratan pada kertas poster secara terancang.", "Tambah tajuk dan maklumat menggunakan marker atau pensel warna."];
+            } else if (t.includes('titisan') || t.includes('stensilan')) {
+                bahan = ["Cat air / cat poster cair", "Berus warna", "Kertas keras untuk templat stensil", "Cutter / gunting (bimbingan guru)"];
+                langkah = ["Potong templat stensil pada kertas keras mengikut rupa yang dirancang.", "Letakkan templat di atas kertas lukisan.", "Titiskan atau sapukan cat cair melalui templat.", "Angkat templat dengan berhati-hati untuk lihat corak yang terhasil.", "Keringkan hasil karya."];
+            } else if (t.includes('pualaman')) {
+                bahan = ["Cat minyak / dakwat pualaman", "Baldi/besen berisi air", "Kertas lukisan", "Kayu/lidi untuk mengacau corak"];
+                langkah = ["Titiskan cat minyak ke atas permukaan air dalam besen.", "Acau/gerakkan cat dengan lidi untuk membentuk corak.", "Letakkan kertas lukisan secara mendatar di atas permukaan air.", "Angkat kertas dengan segera untuk mencetak corak pualaman.", "Keringkan hasil karya."];
             } else if (t.includes('arca') || t.includes('stabail') || t.includes('mobail')) {
                 bahan = ["Kadbod/bahan kitar semula", "Gunting/pisau pemotong (bimbingan guru)", "Gam/pita pelekat"];
                 langkah = ["Rancang bentuk 3D yang hendak dibina.", "Potong & bentuk bahan mengikut rangka.", "Cantum bahagian-bahagian dengan gam/pita.", "Warna & hias hasil akhir."];
@@ -976,12 +2033,19 @@
         let activeModulYear = '';
         let activeModulUnit = '';
         let modulCanvasReady = false;
+        let modulQuizDone = false;
+        let modulKaryaSubmittedThisUnit = false;
+        let muridUnitDibaca = new Set();   // unit yang sudah diberi +5 "baca modul" (tahun|unit)
+        let muridUnitLengkap = new Set();  // unit yang sudah diberi +50 "unit lengkap" (tahun|unit)
         function openModulPembelajaran(tahunLabel, unitCode) {
             const data = CONTENT_BY_YEAR[tahunLabel] || [];
             const item = data.find(u => u.unit === unitCode);
             if (!item) return;
             activeModulItem = item; activeModulYear = tahunLabel; activeModulUnit = unitCode;
             modulCanvasReady = false;
+            modulQuizDone = false;
+            modulKaryaSubmittedThisUnit = false;
+            modulLihatPerhatiAwarded = false;
 
             document.getElementById('modul-badge').innerText = `${tahunLabel} \u2022 ${unitCode}`;
             document.getElementById('modul-title').innerText = item.tajuk;
@@ -1052,7 +2116,7 @@
             document.getElementById('modul-hantar-lukisan-btn').classList.toggle('hidden', isGuru);
             document.getElementById('modul-guru-rph-feedback').classList.add('hidden');
             document.getElementById('modul-galeri-feedback').classList.add('hidden');
-            if (!isGuru) initModulQuiz(item);
+            if (!isGuru) { initModulQuiz(item); awardBacaanPertamaKali(tahunLabel, unitCode); }
             loadGaleriUnit(tahunLabel, unitCode, isGuru);
 
             // Susun senarai halaman ikut aliran pengajaran sebenar: pengenalan -> video ->
@@ -1120,7 +2184,7 @@
 
         // Murid: kuiz pantas 3 soalan dibina terus daripada SK/SP/teknik unit (data yang sama
         // dipaparkan dalam modul ini -- bukan tekaan berasingan, supaya kekal tepat).
-        let modulQuizQuestions = []; let modulQuizIndex = 0;
+        let modulQuizQuestions = []; let modulQuizIndex = 0; let modulQuizScore = 0; let modulQuizAwarded = false;
         function initModulQuiz(item) {
             modulQuizQuestions = [
                 { q: `Apakah teknik utama bagi unit "${item.tajuk}"?`, a: [item.teknik, "Origami", "Kraf logam", "Fotografi"], c: 0 },
@@ -1137,13 +2201,25 @@
                 qq.c = qq.a.indexOf(correctVal);
             });
             modulQuizIndex = 0;
+            modulQuizScore = 0;
+            modulQuizAwarded = false;
             loadModulQuizQuestion();
         }
         function loadModulQuizQuestion() {
             if (modulQuizIndex >= modulQuizQuestions.length) {
-                document.getElementById('modul-quiz-question').innerText = 'Tahniah! Kuiz selesai. \ud83c\udf89';
-                document.getElementById('modul-quiz-options').innerHTML = '';
+                const lulus = modulQuizScore >= 2; // sekurang-kurangnya 2/3 betul = lulus
+                document.getElementById('modul-quiz-question').innerText = lulus
+                    ? `\ud83c\udf89 Tahniah! Anda LULUS kuiz (${modulQuizScore}/${modulQuizQuestions.length} betul)${modulQuizAwarded ? '' : ' -- +20 \u2b50'}`
+                    : `Kuiz selesai (${modulQuizScore}/${modulQuizQuestions.length} betul). Cuba lagi untuk lulus (perlu 2/3).`;
+                document.getElementById('modul-quiz-options').innerHTML = lulus ? '' :
+                    `<button onclick="restartModulQuiz()" class="col-span-2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-lg border-2 border-slate-950">Cuba Lagi \ud83d\udd04</button>`;
                 document.getElementById('modul-quiz-index').innerText = `${modulQuizQuestions.length} / ${modulQuizQuestions.length}`;
+                if (lulus && !modulQuizAwarded) {
+                    modulQuizAwarded = true;
+                    tambahBintang(20);
+                    modulQuizDone = true;
+                    checkUnitLengkap(activeModulYear, activeModulUnit);
+                }
                 return;
             }
             const qq = modulQuizQuestions[modulQuizIndex];
@@ -1158,9 +2234,9 @@
             const qq = modulQuizQuestions[modulQuizIndex];
             const fb = document.getElementById('modul-quiz-feedback');
             if (idx === qq.c) {
-                fb.innerText = '\u2705 Betul! +5 Bintang';
+                modulQuizScore++;
+                fb.innerText = '\u2705 Betul!';
                 fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
-                tambahBintang(5);
             } else {
                 fb.innerText = `\u274c Kurang tepat. Jawapan betul: ${qq.a[qq.c]}`;
                 fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
@@ -1224,6 +2300,8 @@
         window.closeModulPembelajaran = closeModulPembelajaran;
         window.janaRPHDariModul = janaRPHDariModul;
         window.submitModulQuizAnswer = submitModulQuizAnswer;
+        function restartModulQuiz() { initModulQuiz(activeModulItem); }
+        window.restartModulQuiz = restartModulQuiz;
         window.modulSetColor = modulSetColor;
         window.modulClearCanvas = modulClearCanvas;
         window.modulDownloadCanvas = modulDownloadCanvas;
@@ -1245,15 +2323,18 @@
             window._lpPenjelasan = lp.penjelasan;
         }
         window.lpAnswerState = lpAnswerState;
+        let modulLihatPerhatiAwarded = false;
         function semakLihatPerhati() {
             const pilihan = window._lpCurrentPilihan || [];
             const betul = pilihan.every((p, idx) => !!lpAnswerState[idx] === p.betul);
             const fb = document.getElementById('modul-lp-feedback');
             if (betul) {
-                fb.innerText = '\u2705 ' + (window._lpPenjelasan || 'Betul!');
+                fb.innerText = '\u2705 ' + (window._lpPenjelasan || 'Betul!') + (modulLihatPerhatiAwarded ? '' : ' (+10 \u2b50)');
                 fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
-                if (document.getElementById('modul-murid-quiz') && !document.getElementById('modul-murid-quiz').classList.contains('hidden')) {
-                    tambahBintang(3);
+                const isMuridSection = document.getElementById('modul-murid-quiz') && !document.getElementById('modul-murid-quiz').classList.contains('hidden');
+                if (isMuridSection && !modulLihatPerhatiAwarded) {
+                    modulLihatPerhatiAwarded = true;
+                    tambahBintang(10);
                 }
             } else {
                 fb.innerText = '\u274c Cuba lagi -- semak semula unsur yang kelihatan pada karya.';
@@ -1267,7 +2348,10 @@
         // Guna medan `tahun` & `unit` pada dokumen 'karya' (hanya wujud untuk karya yang
         // dihantar terus dari Modul Pembelajaran) supaya boleh ditapis khusus unit ini.
         async function loadGaleriUnit(tahunLabel, unitCode, isGuru) {
-            const container = document.getElementById('modul-galeri-unit');
+            return loadGaleriUnitInto('modul-galeri-unit', tahunLabel, unitCode, isGuru);
+        }
+        async function loadGaleriUnitInto(containerId, tahunLabel, unitCode, isGuru) {
+            const container = document.getElementById(containerId);
             container.innerHTML = '<p class="text-[10px] text-slate-400 italic">Memuatkan...</p>';
             try {
                 const q = query(collection(db, 'karya'), where('tahun', '==', tahunLabel), where('unit', '==', unitCode), orderBy('tarikh', 'desc'));
@@ -1300,6 +2384,7 @@
                 container.innerHTML = `<p class="text-[10px] text-rose-600 font-bold">Ralat memuatkan galeri: ${e.message} (mungkin perlu cipta index Firestore -- ikut pautan dalam ralat console)</p>`;
             }
         }
+        window.loadGaleriUnitInto = loadGaleriUnitInto;
         async function simpanUlasanPBD(karyaId) {
             try {
                 const tp = document.getElementById(`tp-${karyaId}`).value;
@@ -1350,6 +2435,8 @@
                 fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
                 fb.innerText = 'Lukisan berjaya dihantar ke Galeri! +20 \u2b50';
                 loadGaleriUnit(activeModulYear, activeModulUnit, false);
+                modulKaryaSubmittedThisUnit = true;
+                checkUnitLengkap(activeModulYear, activeModulUnit);
             } catch (e) {
                 fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
                 fb.innerText = 'Ralat menghantar: ' + e.message;
@@ -1618,6 +2705,16 @@
                 const kodList = guruClassesData.map(c => c.kod).slice(0, 10); // had 'in' query Firestore ialah 10
                 const q = query(collection(db, 'karya'), where('kodKelas', 'in', kodList), orderBy('tarikh', 'desc'));
                 const snap = await getDocs(q);
+
+                // Kumpul senarai murid unik (untuk dropdown Portfolio) daripada karya yang sama.
+                const muridMap = new Map();
+                snap.forEach((d) => { const k = d.data(); if (k.uid) muridMap.set(k.uid, k.namaMurid); });
+                const portfolioSel = document.getElementById('guru-portfolio-murid');
+                if (portfolioSel) {
+                    portfolioSel.innerHTML = '<option value="">-- Pilih murid --</option>' +
+                        [...muridMap.entries()].map(([uid, nama]) => `<option value="${uid}">${nama}</option>`).join('');
+                }
+
                 if (snap.empty) {
                     container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Belum ada karya diterima.</p>';
                     return;
@@ -1630,7 +2727,7 @@
                             <img src="${k.imageUrl}" class="w-full aspect-square object-cover">
                             <div class="p-2">
                                 <p class="text-[10px] font-black truncate">${k.tajuk}</p>
-                                <p class="text-[9px] text-slate-500 truncate">${k.namaMurid}</p>
+                                <p class="text-[9px] text-slate-500 truncate">${k.namaMurid}${k.unit ? ` \u2022 ${k.unit}` : ''}</p>
                             </div>
                         </div>`;
                 });
@@ -1638,6 +2735,45 @@
                 container.innerHTML = `<p class="text-xs text-rose-600 font-bold col-span-full">Ralat memuatkan karya: ${e.message} (mungkin perlu cipta index Firestore -- ikut pautan dalam ralat console jika ada)</p>`;
             }
         }
+
+        // ---------- Portfolio Murid (guru lihat semua karya SATU murid, tersusun) ----------
+        function onGuruKaryaModeChange() {
+            const mode = document.getElementById('guru-karya-mode').value;
+            document.getElementById('guru-portfolio-picker').classList.toggle('hidden', mode !== 'portfolio');
+            if (mode === 'semua') loadGuruKarya();
+            else document.getElementById('guru-karya-list').innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Pilih murid di atas.</p>';
+        }
+        window.onGuruKaryaModeChange = onGuruKaryaModeChange;
+
+        async function loadPortfolioMurid() {
+            const uid = document.getElementById('guru-portfolio-murid').value;
+            const container = document.getElementById('guru-karya-list');
+            if (!uid) { container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Pilih murid di atas.</p>'; return; }
+            container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Memuatkan portfolio...</p>';
+            try {
+                const q = query(collection(db, 'karya'), where('uid', '==', uid), orderBy('tarikh', 'asc'));
+                const snap = await getDocs(q);
+                if (snap.empty) {
+                    container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Murid ini belum menghantar sebarang karya.</p>';
+                    return;
+                }
+                container.innerHTML = '<div class="col-span-full grid grid-cols-2 md:grid-cols-4 gap-3">' + [...snap.docs].map((d, idx) => {
+                    const k = d.data();
+                    return `
+                        <div class="border-2 border-slate-950 rounded-xl overflow-hidden relative">
+                            <span class="absolute top-1 left-1 bg-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full">#${idx + 1}</span>
+                            <img src="${k.imageUrl}" class="w-full aspect-square object-cover">
+                            <div class="p-2">
+                                <p class="text-[10px] font-black truncate">${k.tajuk}</p>
+                                <p class="text-[9px] text-slate-500 truncate">${k.unit ? `${k.tahun} \u2022 ${k.unit}` : 'Karya umum'}${k.tp ? ` \u2022 TP${k.tp}` : ''}</p>
+                            </div>
+                        </div>`;
+                }).join('') + '</div>';
+            } catch (e) {
+                container.innerHTML = `<p class="text-xs text-rose-600 font-bold col-span-full">Ralat: ${e.message}</p>`;
+            }
+        }
+        window.loadPortfolioMurid = loadPortfolioMurid;
 
         function populateKaryaClassDropdown() {
             const sel = document.getElementById('karya-select-class');
@@ -1805,6 +2941,7 @@
                     container.innerHTML = '<p class="text-xs text-slate-400 italic">Anda belum menyertai sebarang kelas. Sertai kelas menggunakan kod di atas.</p>';
                     muridJoinedClasses = [];
                     populateKaryaClassDropdown();
+                    loadMuridProgress();
                     return;
                 }
 
@@ -1832,10 +2969,90 @@
                 }
 
                 populateKaryaClassDropdown();
+                loadMuridProgress();
             } catch (e) {
                 container.innerHTML = `<p class="text-xs text-rose-600 font-bold">Ralat memuatkan kelas: ${e.message}</p>`;
             }
         }
+
+        // ---------- Navigasi Dashboard Murid ----------
+        function showMuridView(view) {
+            ['home', 'modul', 'karya', 'kelas'].forEach(v => {
+                document.getElementById(`murid-view-${v}`).classList.toggle('hidden', v !== view);
+            });
+        }
+        window.showMuridView = showMuridView;
+
+        // Tangga lencana ringkas ikut jumlah Bintang Seni terkumpul.
+        const LENCANA_TIERS = [
+            { min: 0, nama: "Artis Baru", emoji: "🌱" },
+            { min: 50, nama: "Art Explorer", emoji: "🏅" },
+            { min: 150, nama: "Art Creator", emoji: "🎨" },
+            { min: 300, nama: "Master of Technique", emoji: "🖌️" },
+            { min: 500, nama: "Young Artist", emoji: "🏆" },
+        ];
+        function updateMuridBadge(bintang) {
+            let current = LENCANA_TIERS[0], next = LENCANA_TIERS[1];
+            for (let i = 0; i < LENCANA_TIERS.length; i++) {
+                if (bintang >= LENCANA_TIERS[i].min) { current = LENCANA_TIERS[i]; next = LENCANA_TIERS[i + 1] || null; }
+            }
+            const badgeEl = document.getElementById('murid-badge-current');
+            const nextEl = document.getElementById('murid-badge-next');
+            if (badgeEl) badgeEl.innerText = `${current.emoji} ${current.nama}`;
+            if (nextEl) nextEl.innerText = next ? `${next.min - bintang} ⭐ lagi ke ${next.emoji} ${next.nama}` : 'Lencana tertinggi dicapai! 🎉';
+        }
+
+        // Unit dicadangkan seterusnya + bar kemajuan, dikira daripada kelas yang disertai
+        // dan karya (bertag unit) yang sudah dihantar oleh murid ini.
+        let muridSuggestedUnit = null; // { tahun, unit }
+        async function loadMuridProgress() {
+            const fractionEl = document.getElementById('murid-progress-fraction');
+            const barEl = document.getElementById('murid-progress-bar');
+            const unitTajukEl = document.getElementById('murid-unit-saya-tajuk');
+            const unitStatusEl = document.getElementById('murid-unit-saya-status');
+            const unitBtn = document.getElementById('murid-unit-saya-btn');
+            if (muridJoinedClasses.length === 0) {
+                fractionEl.innerText = '0 / 0 Unit';
+                barEl.style.width = '0%';
+                unitTajukEl.innerText = 'Sertai kelas dahulu';
+                unitStatusEl.innerText = '';
+                unitBtn.classList.add('hidden');
+                return;
+            }
+            unitBtn.classList.remove('hidden');
+            try {
+                const semuaUnit = []; // { tahun, unit, tajuk }
+                muridJoinedClasses.forEach(c => (CONTENT_BY_YEAR[c.tahun] || []).forEach(item => semuaUnit.push({ tahun: c.tahun, unit: item.unit, tajuk: item.tajuk })));
+
+                const karyaSnap = await getDocs(query(collection(db, 'karya'), where('uid', '==', currentUser.uid)));
+                const selesaiSet = new Set();
+                karyaSnap.forEach(d => { const k = d.data(); if (k.unit) selesaiSet.add(`${k.tahun}|${k.unit}`); });
+
+                const totalUnit = semuaUnit.length;
+                const selesaiCount = semuaUnit.filter(u => selesaiSet.has(`${u.tahun}|${u.unit}`)).length;
+                fractionEl.innerText = `${selesaiCount} / ${totalUnit} Unit`;
+                barEl.style.width = totalUnit > 0 ? `${Math.round((selesaiCount / totalUnit) * 100)}%` : '0%';
+
+                const belumSelesai = semuaUnit.find(u => !selesaiSet.has(`${u.tahun}|${u.unit}`));
+                if (belumSelesai) {
+                    muridSuggestedUnit = belumSelesai;
+                    unitTajukEl.innerText = `${belumSelesai.unit}: ${belumSelesai.tajuk}`;
+                    unitStatusEl.innerText = `🟢 Sedang dipelajari (${belumSelesai.tahun})`;
+                } else {
+                    muridSuggestedUnit = null;
+                    unitTajukEl.innerText = 'Semua unit selesai! 🎉';
+                    unitStatusEl.innerText = 'Syabas! Terokai semula mana-mana unit di Semua Modul.';
+                    unitBtn.classList.add('hidden');
+                }
+            } catch (e) {
+                fractionEl.innerText = 'Ralat memuat kemajuan';
+            }
+        }
+        function teruskanBelajar() {
+            if (!muridSuggestedUnit) return;
+            openModulPembelajaran(muridSuggestedUnit.tahun, muridSuggestedUnit.unit);
+        }
+        window.teruskanBelajar = teruskanBelajar;
     </script>
 </body>
 </html>
