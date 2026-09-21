@@ -284,116 +284,124 @@
     </div>
 
     <!-- MODAL: Modul Pembelajaran (dibuka bila kad unit Kandungan PSV diklik) -->
-    <div id="modul-overlay" class="hidden fixed inset-0 bg-slate-900/80 z-[100] flex items-center justify-center p-3">
-        <div class="bg-white w-full max-w-2xl border-4 border-slate-950 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
-            <div class="p-4 bg-indigo-600 text-white flex items-center justify-between gap-3 shrink-0">
-                <div>
-                    <span id="modul-badge" class="bg-yellow-300 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Tahun 1 \u2022 Unit 1</span>
-                    <h3 id="modul-title" class="font-black text-lg leading-tight mt-1">Tajuk Unit</h3>
+    <!-- Paparan besar bersaiz hampir skrin penuh, dipaparkan sebagai "slaid" satu demi satu
+         (bukan satu scroll panjang) supaya guru boleh projek terus depan kelas dan tekan
+         Seterus/Sebelum ikut rentak pengajaran. -->
+    <div id="modul-overlay" class="hidden fixed inset-0 bg-slate-900/90 z-[100] flex items-center justify-center p-0 lg:p-4">
+        <div class="bg-white w-full h-full lg:h-[95vh] lg:max-w-6xl border-4 border-slate-950 lg:rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="p-3 lg:p-5 bg-indigo-600 text-white flex items-center justify-between gap-3 shrink-0">
+                <div class="min-w-0">
+                    <span id="modul-badge" class="bg-yellow-300 text-slate-900 text-[10px] lg:text-xs font-black px-2 py-0.5 rounded-full uppercase">Tahun 1 \u2022 Unit 1</span>
+                    <h3 id="modul-title" class="font-black text-lg lg:text-2xl leading-tight mt-1 truncate">Tajuk Unit</h3>
                 </div>
-                <button onclick="closeModulPembelajaran()" class="shrink-0 w-9 h-9 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center font-black">✕</button>
+                <div class="flex items-center gap-2 shrink-0">
+                    <span id="modul-page-indicator" class="text-[10px] lg:text-xs bg-white/20 px-2.5 py-1.5 rounded-full font-black">1 / 1</span>
+                    <button onclick="closeModulPembelajaran()" class="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center font-black">✕</button>
+                </div>
             </div>
 
-            <div class="p-4 space-y-4 overflow-y-auto">
-                <div class="space-y-1">
-                    <h4 class="text-[10px] font-black uppercase text-indigo-700">🎯 Objektif & Kriteria Kejayaan (SK/SP)</h4>
-                    <p id="modul-sk" class="text-xs font-bold text-slate-800 bg-indigo-50 p-2.5 rounded-lg"></p>
-                    <p id="modul-sp" class="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg"></p>
+            <!-- Viewport: hanya SATU slaid kelihatan pada satu masa -->
+            <div id="modul-slide-viewport" class="flex-1 overflow-y-auto p-4 lg:p-10 flex flex-col justify-center">
+
+                <div class="modul-slide space-y-3 lg:space-y-5 max-w-3xl mx-auto w-full" data-slide="intro">
+                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🎯 Objektif & Kriteria Kejayaan</h4>
+                    <p id="modul-sk" class="text-sm lg:text-xl font-bold text-slate-800 bg-indigo-50 p-3 lg:p-5 rounded-xl text-center"></p>
+                    <p id="modul-sp" class="text-xs lg:text-base text-slate-700 bg-slate-50 p-3 lg:p-5 rounded-xl text-center"></p>
                 </div>
 
-                <div class="space-y-2">
-                    <h4 class="text-[10px] font-black uppercase text-indigo-700">🎬 Video Demonstrasi</h4>
+                <div class="modul-slide hidden space-y-3 max-w-4xl mx-auto w-full" data-slide="video">
+                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🎬 Video Demonstrasi</h4>
                     <div class="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-slate-950 bg-black">
                         <iframe id="modul-video" class="absolute inset-0 w-full h-full" src="" title="Video Modul" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
-                    <p id="modul-video-note" class="text-[9px] text-slate-400 italic"></p>
+                    <p id="modul-video-note" class="text-[10px] lg:text-xs text-slate-400 italic text-center"></p>
                 </div>
 
-                <div class="space-y-1">
-                    <h4 class="text-[10px] font-black uppercase text-indigo-700">📝 Nota Ringkas</h4>
-                    <div class="text-xs text-slate-700 bg-slate-50 p-3 rounded-lg space-y-2">
-                        <div>
-                            <span class="font-black">Alat & Bahan:</span>
-                            <ul id="modul-bahan" class="list-disc pl-5"></ul>
-                        </div>
-                        <div>
-                            <span class="font-black">Langkah:</span>
-                            <ol id="modul-langkah" class="list-decimal pl-5"></ol>
-                        </div>
-                    </div>
+                <div id="modul-lihat-perhati" class="modul-slide hidden space-y-3 max-w-2xl mx-auto w-full p-4 lg:p-6 bg-sky-50 border-2 border-slate-950 rounded-xl" data-slide="lihatperhati">
+                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">👀 Lihat & Perhati</h4>
+                    <p id="modul-lp-gambar-label" class="text-sm lg:text-lg font-bold text-slate-700 text-center"></p>
+                    <p id="modul-lp-soalan" class="text-sm lg:text-lg font-bold bg-white p-3 rounded-lg border border-slate-900 text-center"></p>
+                    <div id="modul-lp-pilihan" class="grid grid-cols-2 gap-2 lg:gap-3"></div>
+                    <button onclick="semakLihatPerhati()" class="w-full py-2.5 lg:py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-lg border-2 border-slate-950">Semak Jawapan</button>
+                    <p id="modul-lp-feedback" class="hidden text-xs font-bold p-2.5 rounded-lg text-center"></p>
+                </div>
+
+                <div class="modul-slide hidden space-y-3 max-w-2xl mx-auto w-full" data-slide="notabahan">
+                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🧰 Alat & Bahan</h4>
+                    <ul id="modul-bahan" class="list-disc pl-6 lg:pl-8 text-sm lg:text-xl font-medium text-slate-800 bg-slate-50 p-4 lg:p-6 rounded-xl space-y-1.5 lg:space-y-2"></ul>
+                </div>
+
+                <!-- Slaid langkah dijana secara dinamik (bilangan berbeza ikut unit) -->
+                <div id="modul-langkah-container"></div>
+
+                <div id="modul-projek-seni" class="modul-slide hidden space-y-2 lg:space-y-3 max-w-2xl mx-auto w-full p-4 lg:p-8 bg-amber-50 border-2 border-slate-950 rounded-xl" data-slide="projek">
+                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🎯 Cabaran Projek Seni</h4>
+                    <p id="modul-projek-cabaran" class="text-sm lg:text-xl font-black text-center"></p>
+                    <p class="text-xs lg:text-base text-slate-600"><span class="font-black">Bahan:</span> <span id="modul-projek-bahan"></span></p>
+                    <p class="text-xs lg:text-base text-slate-600"><span class="font-black">Masa:</span> <span id="modul-projek-masa"></span></p>
+                    <p class="text-xs lg:text-base text-slate-600"><span class="font-black">Hasil Pembelajaran:</span> <span id="modul-projek-hasil"></span></p>
                 </div>
 
                 <!-- GURU: Jana RPH terus -->
-                <div id="modul-guru-actions" class="hidden p-3 bg-amber-50 border-2 border-slate-950 rounded-xl space-y-2">
-                    <p class="text-[10px] font-bold text-slate-600">Sudah tonton & baca? Terus jana RPH untuk unit ini.</p>
-                    <button onclick="janaRPHDariModul()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
-                    <p id="modul-guru-rph-feedback" class="hidden text-[10px] font-bold p-2 rounded-lg"></p>
+                <div id="modul-guru-actions" class="modul-slide hidden space-y-3 max-w-xl mx-auto w-full p-4 lg:p-8 bg-amber-50 border-2 border-slate-950 rounded-xl" data-slide="guruaction">
+                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">⚡ Jana RPH</h4>
+                    <p class="text-xs lg:text-sm font-bold text-slate-600 text-center">Sudah tonton & baca? Terus jana RPH untuk unit ini.</p>
+                    <button onclick="janaRPHDariModul()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
+                    <p id="modul-guru-rph-feedback" class="hidden text-xs font-bold p-2 rounded-lg text-center"></p>
                 </div>
 
                 <!-- MURID: Kuiz ringkas -->
-                <div id="modul-murid-quiz" class="hidden p-3 bg-lime-50 border-2 border-slate-950 rounded-xl space-y-2">
+                <div id="modul-murid-quiz" class="modul-slide hidden space-y-3 max-w-xl mx-auto w-full p-4 lg:p-8 bg-lime-50 border-2 border-slate-950 rounded-xl" data-slide="quiz">
                     <div class="flex items-center justify-between">
-                        <h4 class="text-[10px] font-black uppercase text-slate-700">🧠 Kuiz Pantas</h4>
-                        <span id="modul-quiz-index" class="text-[9px] font-bold bg-white px-2 py-0.5 rounded-full border border-slate-900">1 / 3</span>
+                        <h4 class="text-xs lg:text-sm font-black uppercase text-slate-700">🧠 Kuiz Pantas</h4>
+                        <span id="modul-quiz-index" class="text-[10px] font-bold bg-white px-2 py-0.5 rounded-full border border-slate-900">1 / 3</span>
                     </div>
-                    <p id="modul-quiz-question" class="text-xs font-bold bg-white p-2.5 rounded-lg border border-slate-900"></p>
+                    <p id="modul-quiz-question" class="text-sm lg:text-lg font-bold bg-white p-3 rounded-lg border border-slate-900"></p>
                     <div id="modul-quiz-options" class="grid grid-cols-1 gap-2"></div>
-                    <p id="modul-quiz-feedback" class="hidden text-[10px] font-bold p-2 rounded-lg"></p>
-                </div>
-
-                <!-- 04: Lihat & Perhati (interaktif) -->
-                <div id="modul-lihat-perhati" class="hidden space-y-2 p-3 bg-sky-50 border-2 border-slate-950 rounded-xl">
-                    <h4 class="text-[10px] font-black uppercase text-indigo-700">👀 Lihat & Perhati</h4>
-                    <p id="modul-lp-gambar-label" class="text-xs font-bold text-slate-700"></p>
-                    <p id="modul-lp-soalan" class="text-xs font-bold bg-white p-2 rounded-lg border border-slate-900"></p>
-                    <div id="modul-lp-pilihan" class="grid grid-cols-2 gap-2"></div>
-                    <button onclick="semakLihatPerhati()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-lg border-2 border-slate-950">Semak Jawapan</button>
-                    <p id="modul-lp-feedback" class="hidden text-[10px] font-bold p-2 rounded-lg"></p>
-                </div>
-
-                <!-- 07: Projek Seni (cabaran formal) -->
-                <div id="modul-projek-seni" class="hidden space-y-1.5 p-3 bg-amber-50 border-2 border-slate-950 rounded-xl">
-                    <h4 class="text-[10px] font-black uppercase text-indigo-700">🎯 Cabaran Projek Seni</h4>
-                    <p id="modul-projek-cabaran" class="text-xs font-black"></p>
-                    <p class="text-[10px] text-slate-600"><span class="font-black">Bahan:</span> <span id="modul-projek-bahan"></span></p>
-                    <p class="text-[10px] text-slate-600"><span class="font-black">Masa:</span> <span id="modul-projek-masa"></span></p>
-                    <p class="text-[10px] text-slate-600"><span class="font-black">Hasil Pembelajaran:</span> <span id="modul-projek-hasil"></span></p>
-                </div>
-
-                <!-- 09: Galeri Unit Ini + 10: PBD (guru boleh ulas & tanda TP) -->
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-[10px] font-black uppercase text-indigo-700">📸 Galeri Unit Ini</h4>
-                        <button id="modul-hantar-lukisan-btn" onclick="hantarKaryaDariModul()" class="hidden text-[9px] font-black px-2 py-1 bg-rose-500 text-white rounded-lg border border-slate-950">Hantar Lukisan Papan Ini 🖼️</button>
-                    </div>
-                    <p id="modul-galeri-feedback" class="hidden text-[10px] font-bold p-2 rounded-lg"></p>
-                    <div id="modul-galeri-unit" class="grid grid-cols-1 gap-2">
-                        <p class="text-[10px] text-slate-400 italic">Memuatkan...</p>
-                    </div>
+                    <p id="modul-quiz-feedback" class="hidden text-xs font-bold p-2 rounded-lg"></p>
                 </div>
 
                 <!-- Papan Lukisan (kedua-dua peranan) -->
-                <div class="space-y-2">
+                <div class="modul-slide hidden space-y-2 max-w-3xl mx-auto w-full" data-slide="papan">
                     <div class="flex items-center justify-between">
-                        <h4 class="text-[10px] font-black uppercase text-indigo-700">🖌️ Papan Lukisan</h4>
+                        <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700">🖌️ Papan Lukisan</h4>
                         <div class="flex gap-1.5">
-                            <button onclick="modulClearCanvas()" class="text-[9px] font-black px-2 py-1 bg-rose-500 text-white rounded-lg border border-slate-950">Padam</button>
-                            <button onclick="modulDownloadCanvas()" class="text-[9px] font-black px-2 py-1 bg-amber-400 rounded-lg border border-slate-950">Muat Turun 💾</button>
+                            <button onclick="modulClearCanvas()" class="text-[10px] font-black px-2.5 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Padam</button>
+                            <button onclick="modulDownloadCanvas()" class="text-[10px] font-black px-2.5 py-1.5 bg-amber-400 rounded-lg border border-slate-950">Muat Turun 💾</button>
                         </div>
                     </div>
                     <div class="relative w-full aspect-[4/3] rounded-xl border-2 border-slate-950 bg-slate-50 overflow-hidden cursor-crosshair">
                         <canvas id="modul-canvas" class="absolute inset-0 w-full h-full touch-none" style="touch-action:none;"></canvas>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <button onclick="modulSetColor('#0f172a')" class="w-6 h-6 rounded-full border-2 border-slate-950" style="background:#0f172a"></button>
-                        <button onclick="modulSetColor('#ef4444')" class="w-6 h-6 rounded-full border-2 border-slate-950" style="background:#ef4444"></button>
-                        <button onclick="modulSetColor('#f59e0b')" class="w-6 h-6 rounded-full border-2 border-slate-950" style="background:#f59e0b"></button>
-                        <button onclick="modulSetColor('#10b981')" class="w-6 h-6 rounded-full border-2 border-slate-950" style="background:#10b981"></button>
-                        <button onclick="modulSetColor('#3b82f6')" class="w-6 h-6 rounded-full border-2 border-slate-950" style="background:#3b82f6"></button>
+                        <button onclick="modulSetColor('#0f172a')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#0f172a"></button>
+                        <button onclick="modulSetColor('#ef4444')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#ef4444"></button>
+                        <button onclick="modulSetColor('#f59e0b')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#f59e0b"></button>
+                        <button onclick="modulSetColor('#10b981')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#10b981"></button>
+                        <button onclick="modulSetColor('#3b82f6')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#3b82f6"></button>
                         <input type="range" id="modul-brush-size" min="1" max="30" value="4" class="flex-1">
                     </div>
-                    <p class="text-[9px] text-slate-400 italic">Guna butang "Hantar Lukisan Papan Ini 🖼️" di atas untuk hantar terus ke Galeri Unit Ini, atau muat turun untuk simpan.</p>
+                    <p id="modul-hantar-lukisan-note" class="text-[10px] text-slate-400 italic">Guna butang "Hantar Lukisan Papan Ini 🖼️" di halaman Galeri untuk hantar terus, atau muat turun untuk simpan.</p>
                 </div>
+
+                <!-- Galeri Unit Ini + PBD -->
+                <div class="modul-slide hidden space-y-2 max-w-3xl mx-auto w-full" data-slide="galeri">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700">📸 Galeri Unit Ini</h4>
+                        <button id="modul-hantar-lukisan-btn" onclick="hantarKaryaDariModul()" class="hidden text-[10px] font-black px-2.5 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Hantar Lukisan Papan Ini 🖼️</button>
+                    </div>
+                    <p id="modul-galeri-feedback" class="hidden text-xs font-bold p-2 rounded-lg"></p>
+                    <div id="modul-galeri-unit" class="grid grid-cols-1 gap-2 max-h-[50vh] overflow-y-auto">
+                        <p class="text-[10px] text-slate-400 italic">Memuatkan...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigasi bawah: Sebelum / Seterus -->
+            <div class="p-3 lg:p-4 border-t-4 border-slate-950 bg-slate-50 flex items-center justify-between gap-3 shrink-0">
+                <button onclick="modulPrevPage()" id="modul-prev-btn" class="py-2.5 lg:py-3.5 px-4 lg:px-8 bg-white border-2 border-slate-950 rounded-xl font-black text-xs lg:text-sm shadow-brutal-sm disabled:opacity-30" disabled>◀ Sebelum</button>
+                <div id="modul-page-dots" class="hidden md:flex gap-1.5 flex-wrap justify-center"></div>
+                <button onclick="modulNextPage()" id="modul-next-btn" class="py-2.5 lg:py-3.5 px-4 lg:px-8 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-slate-950 rounded-xl font-black text-xs lg:text-sm shadow-brutal-sm">Seterus ▶</button>
             </div>
         </div>
     </div>
@@ -703,23 +711,31 @@
             }
         }
 
-        function renderContentList(containerId) {
+        let contentListSelectedYear = {}; // { containerId: "Tahun X" } -- ingat pilihan tahun per senarai
+        function renderContentList(containerId, forceYear) {
             const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            Object.entries(CONTENT_BY_YEAR).map(([label, data]) => ({ label, data })).forEach(group => {
-                group.data.forEach(item => {
-                    container.innerHTML += `
-                        <div onclick="openModulPembelajaran('${group.label}', '${item.unit}')" class="p-3 bg-slate-50 hover:bg-yellow-50 border-2 border-slate-950 rounded-xl cursor-pointer transition-colors flex items-center justify-between gap-2 group">
-                            <div>
-                                <span class="text-[9px] font-black uppercase px-2 py-0.5 bg-yellow-300 border border-slate-900 rounded-full">${group.label} \u2022 ${item.unit}</span>
-                                <p class="font-bold text-sm mt-1">${item.tajuk}</p>
-                                <p class="text-[10px] text-slate-500">${item.teknik}</p>
-                            </div>
-                            <span class="shrink-0 text-[10px] font-black px-2.5 py-1.5 rounded-lg bg-white border-2 border-slate-950 group-hover:bg-indigo-600 group-hover:text-white transition-colors">📖 Modul</span>
-                        </div>`;
-                });
-            });
+            const years = Object.keys(CONTENT_BY_YEAR);
+            if (forceYear) contentListSelectedYear[containerId] = forceYear;
+            if (!contentListSelectedYear[containerId]) contentListSelectedYear[containerId] = years[0];
+            const activeYear = contentListSelectedYear[containerId];
+
+            const tabsHTML = `<div class="flex flex-wrap gap-2 mb-3">${years.map(y => `
+                <button onclick="renderContentList('${containerId}', '${y}')" class="px-3 py-1.5 rounded-xl border-2 border-slate-950 text-xs font-black transition-colors ${y === activeYear ? 'bg-indigo-600 text-white' : 'bg-white hover:bg-slate-50'}">${y}</button>
+            `).join('')}</div>`;
+
+            const unitsHTML = (CONTENT_BY_YEAR[activeYear] || []).map(item => `
+                <div onclick="openModulPembelajaran('${activeYear}', '${item.unit}')" class="p-3 bg-slate-50 hover:bg-yellow-50 border-2 border-slate-950 rounded-xl cursor-pointer transition-colors flex items-center justify-between gap-2 group">
+                    <div>
+                        <span class="text-[9px] font-black uppercase px-2 py-0.5 bg-yellow-300 border border-slate-900 rounded-full">${activeYear} \u2022 ${item.unit}</span>
+                        <p class="font-bold text-sm mt-1">${item.tajuk}</p>
+                        <p class="text-[10px] text-slate-500">${item.teknik}</p>
+                    </div>
+                    <span class="shrink-0 text-[10px] font-black px-2.5 py-1.5 rounded-lg bg-white border-2 border-slate-950 group-hover:bg-indigo-600 group-hover:text-white transition-colors">📖 Modul</span>
+                </div>`).join('');
+
+            container.innerHTML = tabsHTML + `<div class="grid grid-cols-1 md:grid-cols-2 gap-3">${unitsHTML}</div>`;
         }
+        window.renderContentList = renderContentList;
 
         // ---------- Modul Pembelajaran (Video, Nota, Kuiz, Papan Lukisan) ----------
         // Video disahkan khusus untuk 11 unit Tahun 1 (dari portal SeniKreatif asal).
@@ -802,11 +818,13 @@
         let activeModulItem = null;
         let activeModulYear = '';
         let activeModulUnit = '';
+        let modulCanvasReady = false;
         function openModulPembelajaran(tahunLabel, unitCode) {
             const data = CONTENT_BY_YEAR[tahunLabel] || [];
             const item = data.find(u => u.unit === unitCode);
             if (!item) return;
             activeModulItem = item; activeModulYear = tahunLabel; activeModulUnit = unitCode;
+            modulCanvasReady = false;
 
             document.getElementById('modul-badge').innerText = `${tahunLabel} \u2022 ${unitCode}`;
             document.getElementById('modul-title').innerText = item.tajuk;
@@ -830,20 +848,23 @@
 
             const nota = generateNotaForUnit(item);
             document.getElementById('modul-bahan').innerHTML = nota.bahan.map(b => `<li>${b}</li>`).join('');
-            document.getElementById('modul-langkah').innerHTML = nota.langkah.map(s => `<li>${s}</li>`).join('');
+
+            // Setiap langkah dijana sebagai SATU slaid besar tersendiri (bukan senarai
+            // panjang), supaya guru boleh projek satu langkah pada satu masa depan kelas.
+            const langkahContainer = document.getElementById('modul-langkah-container');
+            langkahContainer.innerHTML = nota.langkah.map((step, idx) => `
+                <div class="modul-slide hidden space-y-4 max-w-2xl mx-auto w-full text-center" data-slide="langkah-${idx}">
+                    <span class="inline-block bg-indigo-600 text-white text-xs lg:text-sm font-black px-4 py-1.5 rounded-full uppercase">Langkah ${idx + 1} / ${nota.langkah.length}</span>
+                    <p class="text-lg lg:text-3xl font-bold text-slate-800 leading-snug">${step}</p>
+                </div>
+            `).join('');
 
             // 04 & 07: guna data Master Template jika ada untuk unit ini; kalau tiada, sembunyikan
             // (04) atau jana versi generik daripada nota sedia ada (07) supaya tak kosong terus.
             const extras = MASTER_TEMPLATE_EXTRAS[key];
-            const lpBox = document.getElementById('modul-lihat-perhati');
-            if (extras && extras.lihatPerhati) {
-                lpBox.classList.remove('hidden');
-                renderLihatPerhati(extras.lihatPerhati);
-            } else {
-                lpBox.classList.add('hidden');
-            }
-            const projekBox = document.getElementById('modul-projek-seni');
-            projekBox.classList.remove('hidden');
+            const hasLihatPerhati = !!(extras && extras.lihatPerhati);
+            if (hasLihatPerhati) renderLihatPerhati(extras.lihatPerhati);
+
             const projek = (extras && extras.projekSeni) || {
                 cabaran: `Hasilkan karya "${item.tajuk}" menggunakan teknik ${item.teknik}.`,
                 bahan: nota.bahan, masa: "60 minit (anggaran)",
@@ -855,17 +876,52 @@
             document.getElementById('modul-projek-hasil').innerText = projek.hasil;
 
             const isGuru = document.getElementById('screen-guru') && !document.getElementById('screen-guru').classList.contains('hidden');
-            document.getElementById('modul-guru-actions').classList.toggle('hidden', !isGuru);
-            document.getElementById('modul-murid-quiz').classList.toggle('hidden', isGuru);
             document.getElementById('modul-hantar-lukisan-btn').classList.toggle('hidden', isGuru);
             document.getElementById('modul-guru-rph-feedback').classList.add('hidden');
             document.getElementById('modul-galeri-feedback').classList.add('hidden');
             if (!isGuru) initModulQuiz(item);
             loadGaleriUnit(tahunLabel, unitCode, isGuru);
 
+            // Susun senarai halaman ikut aliran pengajaran sebenar: pengenalan -> video ->
+            // (lihat&perhati jika ada) -> bahan -> setiap langkah -> projek -> jana
+            // RPH(guru)/kuiz(murid) -> papan lukisan -> galeri.
+            modulSlideOrder = ['intro', 'video'];
+            if (hasLihatPerhati) modulSlideOrder.push('lihatperhati');
+            modulSlideOrder.push('notabahan');
+            nota.langkah.forEach((_, idx) => modulSlideOrder.push(`langkah-${idx}`));
+            modulSlideOrder.push('projek', isGuru ? 'guruaction' : 'quiz', 'papan', 'galeri');
+
             document.getElementById('modul-overlay').classList.remove('hidden');
-            setTimeout(initModulCanvas, 80);
+            showModulSlide(0);
         }
+        // Senarai jujukan halaman (data-slide) untuk unit yang sedang dibuka, dan indeks semasa.
+        let modulSlideOrder = [];
+        let modulSlideIndex = 0;
+        function showModulSlide(idx) {
+            if (idx < 0 || idx >= modulSlideOrder.length) return;
+            modulSlideIndex = idx;
+            document.querySelectorAll('#modul-slide-viewport .modul-slide').forEach(el => el.classList.add('hidden'));
+            const target = document.querySelector(`#modul-slide-viewport .modul-slide[data-slide="${modulSlideOrder[idx]}"]`);
+            if (target) target.classList.remove('hidden');
+            document.getElementById('modul-slide-viewport').scrollTop = 0;
+            document.getElementById('modul-page-indicator').innerText = `${idx + 1} / ${modulSlideOrder.length}`;
+            document.getElementById('modul-prev-btn').disabled = (idx === 0);
+            const nextBtn = document.getElementById('modul-next-btn');
+            nextBtn.innerText = (idx === modulSlideOrder.length - 1) ? 'Tamat \u2713' : 'Seterus \u25b6';
+            nextBtn.disabled = (idx === modulSlideOrder.length - 1);
+            // Kanvas perlu di-resize semula sebaik halaman Papan Lukisan kelihatan
+            // (ia 0x0 selagi hidden -- lihat nota dalam initModulCanvas).
+            if (modulSlideOrder[idx] === 'papan' && !modulCanvasReady) {
+                setTimeout(() => { initModulCanvas(); modulCanvasReady = true; }, 50);
+            }
+
+            const dots = document.getElementById('modul-page-dots');
+            dots.innerHTML = modulSlideOrder.map((_, i) => `<span class="w-2 h-2 rounded-full ${i === idx ? 'bg-indigo-600' : 'bg-slate-300'}"></span>`).join('');
+        }
+        function modulNextPage() { showModulSlide(modulSlideIndex + 1); }
+        function modulPrevPage() { showModulSlide(modulSlideIndex - 1); }
+        window.modulNextPage = modulNextPage;
+        window.modulPrevPage = modulPrevPage;
         function closeModulPembelajaran() {
             document.getElementById('modul-overlay').classList.add('hidden');
             document.getElementById('modul-video').src = '';
