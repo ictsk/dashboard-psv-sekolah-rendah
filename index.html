@@ -303,7 +303,30 @@
             <!-- Viewport: hanya SATU slaid kelihatan pada satu masa -->
             <div id="modul-slide-viewport" class="flex-1 overflow-y-auto p-4 lg:p-10 flex flex-col justify-center">
 
-                <div class="modul-slide space-y-3 lg:space-y-5 max-w-3xl mx-auto w-full" data-slide="intro">
+                <div class="modul-slide space-y-4 lg:space-y-6 max-w-3xl mx-auto w-full text-center" data-slide="pengenalan">
+                    <span id="modul-pengenalan-badge" class="inline-block bg-yellow-300 border-2 border-slate-950 text-slate-900 text-[10px] lg:text-xs font-black px-3 py-1 rounded-full uppercase"></span>
+                    <h2 id="modul-pengenalan-tajuk" class="font-black text-2xl lg:text-4xl comic-font leading-tight"></h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                        <div class="p-3 lg:p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
+                            <p class="text-[10px] font-black uppercase text-indigo-700">🎨 Bidang</p>
+                            <p id="modul-pengenalan-bidang" class="text-sm lg:text-lg font-bold"></p>
+                        </div>
+                        <div class="p-3 lg:p-4 bg-emerald-50 rounded-xl border-2 border-slate-950">
+                            <p class="text-[10px] font-black uppercase text-emerald-700">🖌️ Teknik</p>
+                            <p id="modul-pengenalan-teknik" class="text-sm lg:text-lg font-bold"></p>
+                        </div>
+                    </div>
+                    <div class="p-3 lg:p-4 bg-amber-50 rounded-xl border-2 border-slate-950 text-left">
+                        <p class="text-[10px] font-black uppercase text-amber-700">🔑 Kata Kunci</p>
+                        <p id="modul-pengenalan-katakunci" class="text-sm lg:text-lg font-bold"></p>
+                    </div>
+                    <div class="p-3 lg:p-4 bg-slate-50 rounded-xl border-2 border-slate-950 text-left">
+                        <p class="text-[10px] font-black uppercase text-slate-600">🧰 Bahan Diperlukan (ringkas)</p>
+                        <p id="modul-pengenalan-bahan" class="text-sm lg:text-lg font-bold"></p>
+                    </div>
+                </div>
+
+                <div class="modul-slide hidden space-y-3 lg:space-y-5 max-w-3xl mx-auto w-full" data-slide="intro">
                     <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🎯 Objektif & Kriteria Kejayaan</h4>
                     <p id="modul-sk" class="text-sm lg:text-xl font-bold text-slate-800 bg-indigo-50 p-3 lg:p-5 rounded-xl text-center"></p>
                     <p id="modul-sp" class="text-xs lg:text-base text-slate-700 bg-slate-50 p-3 lg:p-5 rounded-xl text-center"></p>
@@ -575,6 +598,21 @@
         // unit lain. Kandungan diambil terus daripada buku teks (m/s 64-69), bukan tekaan.
         const MASTER_TEMPLATE_EXTRAS = {
             "Tahun 2|Unit 8": {
+                // DISAHKAN daripada buku teks m/s 66-69 -- langkah sebenar "Tembikar Comel"
+                // (bukan templat generik teknik "tembikar"), termasuk urutan memicit yang tepat.
+                nota: {
+                    bahan: ["Doh tepung", "Palet", "Cat poster", "Berus warna"],
+                    langkah: [
+                        "Bentukkan doh tepung menjadi sfera (bulat).",
+                        "Pegang dan picit doh di bahagian tengah dengan ibu jari.",
+                        "Picit doh untuk bukaan yang seimbang dengan dua ibu jari.",
+                        "Gunakan ibu jari dan jari telunjuk semasa memicit untuk mendapatkan bentuk tembikar yang diingini.",
+                        "Picit adunan secara sekata untuk membentuk badan tembikar.",
+                        "Bentukkan bibir tembikar.",
+                        "Warnakan tembikar dengan cat poster.",
+                        "Keringkan tembikar di bawah cahaya matahari."
+                    ]
+                },
                 lihatPerhati: {
                     gambarLabel: "Tembikar Comel (hasil teknik picitan)",
                     soalan: "Tandakan unsur seni visual yang kamu nampak pada karya tembikar ini:",
@@ -831,6 +869,19 @@
             document.getElementById('modul-sk').innerText = item.sk || '-';
             document.getElementById('modul-sp').innerText = item.sp || '-';
 
+            // 01 Pengenalan Unit: bidang diambil dari teks "(Bidang ...)" dalam SK/SP sedia ada
+            // (bukan tekaan berasingan), kata kunci dijana daripada teknik + bidang tersebut.
+            const bidangMatch = (item.sk || item.sp || '').match(/\(Bidang ([^)]+)\)/i);
+            const bidangName = bidangMatch ? bidangMatch[1] : 'Pendidikan Seni Visual';
+            const teknikKeywords = item.teknik.split(/[^A-Za-zÀ-ÿ]+/).filter(w => w.length > 2);
+            const kataKunci = [...new Set([bidangName, ...teknikKeywords])].slice(0, 5).join(', ');
+
+            document.getElementById('modul-pengenalan-badge').innerText = `${tahunLabel} \u2022 ${unitCode}`;
+            document.getElementById('modul-pengenalan-tajuk').innerText = item.tajuk;
+            document.getElementById('modul-pengenalan-bidang').innerText = bidangName;
+            document.getElementById('modul-pengenalan-teknik').innerText = item.teknik;
+            document.getElementById('modul-pengenalan-katakunci').innerText = kataKunci;
+
             const key = `${tahunLabel}|${unitCode}`;
             let vidId, videoNote;
             if (explicitUnitVideoMap[key]) {
@@ -846,8 +897,12 @@
             document.getElementById('modul-video').src = `https://www.youtube.com/embed/${vidId}`;
             document.getElementById('modul-video-note').innerText = videoNote;
 
-            const nota = generateNotaForUnit(item);
+            // Guna nota Master Template yang disahkan (jika ada untuk unit ini) berbanding
+            // templat generik ikut kata kunci teknik.
+            const extras = MASTER_TEMPLATE_EXTRAS[key];
+            const nota = (extras && extras.nota) || generateNotaForUnit(item);
             document.getElementById('modul-bahan').innerHTML = nota.bahan.map(b => `<li>${b}</li>`).join('');
+            document.getElementById('modul-pengenalan-bahan').innerText = nota.bahan.join(', ');
 
             // Setiap langkah dijana sebagai SATU slaid besar tersendiri (bukan senarai
             // panjang), supaya guru boleh projek satu langkah pada satu masa depan kelas.
@@ -861,7 +916,6 @@
 
             // 04 & 07: guna data Master Template jika ada untuk unit ini; kalau tiada, sembunyikan
             // (04) atau jana versi generik daripada nota sedia ada (07) supaya tak kosong terus.
-            const extras = MASTER_TEMPLATE_EXTRAS[key];
             const hasLihatPerhati = !!(extras && extras.lihatPerhati);
             if (hasLihatPerhati) renderLihatPerhati(extras.lihatPerhati);
 
@@ -885,7 +939,7 @@
             // Susun senarai halaman ikut aliran pengajaran sebenar: pengenalan -> video ->
             // (lihat&perhati jika ada) -> bahan -> setiap langkah -> projek -> jana
             // RPH(guru)/kuiz(murid) -> papan lukisan -> galeri.
-            modulSlideOrder = ['intro', 'video'];
+            modulSlideOrder = ['pengenalan', 'intro', 'video'];
             if (hasLihatPerhati) modulSlideOrder.push('lihatperhati');
             modulSlideOrder.push('notabahan');
             nota.langkah.forEach((_, idx) => modulSlideOrder.push(`langkah-${idx}`));
