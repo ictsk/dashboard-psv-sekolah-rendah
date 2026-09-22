@@ -528,42 +528,83 @@
     <!-- ============================================================ -->
     <!-- DASHBOARD MURID -->
     <!-- ============================================================ -->
-    <div id="screen-murid" class="hidden min-h-screen p-4 lg:p-8 max-w-3xl mx-auto space-y-6">
-        <div class="flex items-center justify-between">
+    <div id="screen-murid" class="hidden min-h-screen flex">
+        <!-- ===== SIDEBAR (tetap) ===== -->
+        <aside id="murid-sidebar" class="hidden lg:flex w-64 bg-slate-950 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
             <div>
-                <h1 id="murid-greeting" class="font-black text-2xl comic-font">Hai! 👋</h1>
-                <p id="murid-email-label" class="text-xs text-slate-500"></p>
-            </div>
-            <div class="flex items-center gap-3">
-                <div class="bg-indigo-900 text-white px-4 py-2 rounded-xl border-2 border-slate-950 shadow-brutal-sm">
-                    <p class="text-[9px] uppercase font-bold text-indigo-300">Bintang Saya</p>
-                    <p class="font-black text-lg comic-font"><span id="murid-star-count">0</span> ⭐</p>
+                <div class="p-5 border-b border-slate-800">
+                    <h1 class="font-black text-xl comic-font leading-tight">PSV <span class="text-indigo-400">DIGITAL</span></h1>
+                    <p class="text-[9px] text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
                 </div>
-                <button onclick="signOutUser()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-bold shadow-brutal-sm">Log Keluar</button>
+                <nav class="p-3 space-y-1 text-sm font-bold">
+                    <button onclick="showMuridView('home')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="home">🏠 Laman Utama</button>
+                    <button onclick="showMuridView('modul')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">📖 Unit Saya</button>
+                    <button onclick="showMuridView('kuiz')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kuiz">🎮 Kuiz Saya</button>
+                    <button onclick="showMuridView('karya')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="karya">🖼️ Karya Saya</button>
+                    <button onclick="showMuridView('lencana')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="lencana">🏆 Lencana Saya</button>
+                    <button onclick="showMuridView('kemajuan')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kemajuan">📊 Kemajuan Saya</button>
+                    <button onclick="showMuridView('kelas')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kelas">🔑 Kelas Saya</button>
+                    <button onclick="showMuridView('bantuan')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="bantuan">❓ Bantuan</button>
+                </nav>
             </div>
-        </div>
+            <div class="p-5 text-[10px] text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif 🎨</div>
+        </aside>
+
+        <!-- ===== MAIN ===== -->
+        <div class="flex-1 min-w-0 flex flex-col h-screen overflow-hidden">
+            <!-- HEADER -->
+            <header class="bg-white border-b-2 border-slate-200 px-4 lg:px-6 py-3 flex items-center justify-between gap-3 shrink-0">
+                <div class="flex items-center gap-3 min-w-0">
+                    <button onclick="toggleMobileMuridSidebar()" class="lg:hidden w-9 h-9 shrink-0 rounded-lg bg-slate-100 flex items-center justify-center">☰</button>
+                    <p class="hidden md:block text-xs font-black text-indigo-700 comic-font italic">Seni Kecil, Impak Besar ✨</p>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="hidden md:flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-1.5">
+                        <span class="text-slate-400 text-xs">🔍</span>
+                        <input type="text" placeholder="Cari sesuatu..." class="bg-transparent text-xs outline-none w-32">
+                    </div>
+                    <div class="bg-indigo-900 text-white px-3 py-1.5 rounded-xl">
+                        <p class="text-[8px] uppercase font-bold text-indigo-300 leading-none">Bintang</p>
+                        <p class="font-black text-sm comic-font leading-tight"><span id="murid-star-count">0</span> ⭐</p>
+                    </div>
+                    <div class="text-right hidden sm:block">
+                        <p id="murid-greeting-mini" class="text-xs font-black leading-tight">Hai!</p>
+                        <p id="murid-tahun-label" class="text-[9px] text-slate-400"></p>
+                    </div>
+                    <button onclick="signOutUser()" class="w-9 h-9 rounded-full bg-rose-500 text-white font-black text-xs flex items-center justify-center" title="Log Keluar">👤</button>
+                </div>
+            </header>
+
+            <!-- KANDUNGAN (scroll) -->
+            <div class="flex-1 overflow-y-auto p-4 lg:p-8 space-y-5">
 
         <!-- ===== HOME (paparan lalai) ===== -->
         <div id="murid-view-home" class="space-y-5">
             <div class="bg-gradient-to-r from-rose-400 to-amber-300 text-slate-950 p-5 lg:p-6 rounded-3xl border-4 border-slate-950 shadow-brutal">
-                <h2 class="font-black text-xl comic-font">Jom berkarya hari ini! 🎨</h2>
-                <p class="text-xs font-bold mt-1">Teruskan pembelajaran seni kamu di bawah.</p>
+                <h2 id="murid-greeting" class="font-black text-2xl comic-font">Hai! 👋</h2>
+                <p class="font-black text-lg comic-font">Jom berkarya hari ini!</p>
+                <p class="text-xs font-bold mt-1">Terokai dunia seni, belajar teknik baharu, cipta karya yang unik dan tunjukkan bakat kamu.</p>
+                <p class="text-[10px] italic mt-2 bg-white/40 inline-block px-3 py-1.5 rounded-full">"Setiap kanak-kanak ialah seorang artis." \u2013 Pablo Picasso</p>
             </div>
 
             <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-3">
-                <div class="flex items-center justify-between">
-                    <p class="text-xs font-black uppercase text-slate-600">📈 Kemajuan Pembelajaran</p>
-                    <span id="murid-progress-fraction" class="text-xs font-black text-indigo-700">0 / 0 Unit</span>
-                </div>
-                <div class="w-full bg-slate-100 rounded-full h-4 border-2 border-slate-950 overflow-hidden">
-                    <div id="murid-progress-bar" class="bg-emerald-400 h-full transition-all" style="width:0%"></div>
-                </div>
-                <div class="flex items-center justify-between pt-2 border-t-2 border-dashed border-slate-200">
-                    <div>
-                        <p class="text-[10px] font-black uppercase text-slate-500">🏅 Lencana Semasa</p>
-                        <p id="murid-badge-current" class="font-black text-sm">-</p>
+                <p class="text-xs font-black uppercase text-slate-600">📈 Kemajuan Saya</p>
+                <div class="flex items-center gap-4">
+                    <div class="relative w-20 h-20 shrink-0">
+                        <svg viewBox="0 0 36 36" class="w-20 h-20 -rotate-90">
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="3"></path>
+                            <path id="murid-progress-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="0, 100"></path>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="murid-progress-pct" class="text-sm font-black">0%</span>
+                        </div>
                     </div>
-                    <p id="murid-badge-next" class="text-[10px] text-slate-400 text-right"></p>
+                    <div class="flex-1 grid grid-cols-1 gap-1.5">
+                        <p class="text-[10px] font-bold text-slate-500"><span id="murid-progress-fraction">0 / 0</span> unit selesai</p>
+                        <p class="text-[10px] font-bold text-slate-500">⭐ Mata Seni: <span id="murid-mata-seni" class="font-black text-slate-800">0</span></p>
+                        <p class="text-[10px] font-bold text-slate-500">🏅 Lencana: <span id="murid-lencana-count" class="font-black text-slate-800">0</span></p>
+                        <p class="text-[10px] font-bold text-slate-500">📊 Kedudukan Kelas: <span id="murid-kedudukan-kelas" class="font-black text-slate-800">-</span></p>
+                    </div>
                 </div>
             </div>
 
@@ -574,25 +615,35 @@
                 <button id="murid-unit-saya-btn" onclick="teruskanBelajar()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Teruskan Belajar \u2192</button>
             </div>
 
-            <div class="grid grid-cols-3 gap-3">
-                <button onclick="showMuridView('modul')" class="p-4 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-center hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl">📚</span>
-                    <p class="font-black text-xs mt-1">Semua Modul</p>
-                </button>
-                <button onclick="showMuridView('karya')" class="p-4 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-center hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl">🎨</span>
-                    <p class="font-black text-xs mt-1">Karya Saya</p>
-                </button>
-                <button onclick="showMuridView('kelas')" class="p-4 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-center hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl">🔑</span>
-                    <p class="font-black text-xs mt-1">Kelas Saya</p>
-                </button>
+            <!-- Pilih Unit Saya: senarai unit dengan status -->
+            <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-3">
+                <p class="text-xs font-black uppercase text-slate-600">📖 Pilih Unit Saya</p>
+                <div id="murid-unit-cards" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <p class="text-xs text-slate-400 italic col-span-full">Sertai kelas untuk lihat unit anda.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <!-- Aktiviti Akan Datang (auto-jana dari unit belum selesai) -->
+                <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-2">
+                    <p class="text-xs font-black uppercase text-slate-600">🗓️ Aktiviti Seterusnya</p>
+                    <div id="murid-aktiviti-akan-datang" class="space-y-2">
+                        <p class="text-xs text-slate-400 italic">Memuatkan...</p>
+                    </div>
+                </div>
+                <!-- Lencana Saya ringkas -->
+                <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-2">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-black uppercase text-slate-600">🏆 Lencana Saya</p>
+                        <button onclick="showMuridView('lencana')" class="text-[10px] font-bold text-indigo-600">Lihat Semua ›</button>
+                    </div>
+                    <div id="murid-lencana-ringkas" class="grid grid-cols-3 gap-2"></div>
+                </div>
             </div>
         </div>
 
-        <!-- ===== MODUL (semua) ===== -->
+        <!-- ===== MODUL (semua / Unit Saya) ===== -->
         <div id="murid-view-modul" class="hidden space-y-4">
-            <button onclick="showMuridView('home')" class="text-xs font-black text-indigo-700">◀ Balik ke Home</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
                 <h3 class="font-black text-lg comic-font mb-3">🎨 Modul Pembelajaran PSV</h3>
                 <p class="text-xs text-slate-500 mb-3">Pilih unit untuk tonton video, baca nota, jawab kuiz & lukis di Papan Lukisan!</p>
@@ -600,9 +651,18 @@
             </div>
         </div>
 
+        <!-- ===== KUIZ SAYA ===== -->
+        <div id="murid-view-kuiz" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
+                <h3 class="font-black text-lg comic-font">🎮 Kuiz Saya</h3>
+                <p class="text-xs text-slate-500">Kuiz boleh dijawab terus di dalam setiap unit (📖 Unit Saya → buka unit → tab Kuiz). Lulus (2/3 betul) beri +20 ⭐.</p>
+                <p class="text-[10px] text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi.</p>
+                <button onclick="showMuridView('modul')" class="mt-2 py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Pergi ke Unit Saya \u2192</button>
+            </div>
+        </div>
+
         <!-- ===== KARYA SAYA ===== -->
         <div id="murid-view-karya" class="hidden space-y-4">
-            <button onclick="showMuridView('home')" class="text-xs font-black text-indigo-700">◀ Balik ke Home</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
                 <h3 class="font-black text-lg comic-font">🎨 Karya Saya</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -627,9 +687,25 @@
             </div>
         </div>
 
+        <!-- ===== LENCANA SAYA (penuh) ===== -->
+        <div id="murid-view-lencana" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-lg comic-font">🏆 Lencana Saya</h3>
+                <p class="text-xs text-slate-500">Kumpul Bintang Seni untuk buka lencana baharu!</p>
+                <div id="murid-lencana-penuh" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+            </div>
+        </div>
+
+        <!-- ===== KEMAJUAN SAYA (penuh) ===== -->
+        <div id="murid-view-kemajuan" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-lg comic-font">📊 Kemajuan Saya</h3>
+                <div id="murid-kemajuan-detail" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+
         <!-- ===== KELAS SAYA ===== -->
         <div id="murid-view-kelas" class="hidden space-y-4">
-            <button onclick="showMuridView('home')" class="text-xs font-black text-indigo-700">◀ Balik ke Home</button>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
                 <h3 class="font-black text-lg comic-font">🔑 Sertai Kelas</h3>
                 <div class="flex gap-2">
@@ -644,6 +720,22 @@
                 <div id="murid-class-list" class="space-y-3">
                     <p class="text-xs text-slate-400 italic">Anda belum menyertai sebarang kelas.</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- ===== BANTUAN ===== -->
+        <div id="murid-view-bantuan" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
+                <h3 class="font-black text-lg comic-font">❓ Bantuan</h3>
+                <div class="space-y-2 text-xs text-slate-600">
+                    <p><b>Macam mana nak mula?</b> Sertai kelas guna kod dari cikgu di "🔑 Kelas Saya", kemudian buka unit di "📖 Unit Saya".</p>
+                    <p><b>Macam mana dapat Bintang Seni?</b> Baca modul (+5), jawab Lihat & Perhati (+10), lulus kuiz (+20), hantar karya (+20), siapkan unit penuh (+50 bonus).</p>
+                    <p><b>Karya saya hilang?</b> Semak "🖼️ Karya Saya" -- karya tersimpan mengikut kelas yang disertai.</p>
+                    <p>Ada masalah lain? Beritahu cikgu anda.</p>
+                </div>
+            </div>
+        </div>
+
             </div>
         </div>
     </div>
@@ -1563,8 +1655,9 @@
                 document.getElementById('rph-guru-name').value = currentUser.displayName || currentUser.email;
                 document.getElementById('rph-date').value = new Date().toISOString().slice(0, 10);
             } else {
-                document.getElementById('murid-email-label').innerText = currentUser.email;
-                document.getElementById('murid-greeting').innerText = `Hai, ${currentUser.displayName || 'Pelukis Kecil'}! 👋`;
+                const namaDepan = (currentUser.displayName || 'Pelukis Kecil').split(' ')[0];
+                document.getElementById('murid-greeting').innerText = `Hai, ${currentUser.displayName || 'Pelukis Kecil'}!`;
+                document.getElementById('murid-greeting-mini').innerText = `Hai, ${namaDepan}!`;
                 showScreen('screen-murid');
                 showMuridView('home');
                 loadMuridUnitFlags();
@@ -2970,6 +3063,8 @@
 
                 populateKaryaClassDropdown();
                 loadMuridProgress();
+                const tahunLabelEl = document.getElementById('murid-tahun-label');
+                if (tahunLabelEl) tahunLabelEl.innerText = muridJoinedClasses.length > 0 ? muridJoinedClasses[0].tahun : '';
             } catch (e) {
                 container.innerHTML = `<p class="text-xs text-rose-600 font-bold">Ralat memuatkan kelas: ${e.message}</p>`;
             }
@@ -2977,11 +3072,32 @@
 
         // ---------- Navigasi Dashboard Murid ----------
         function showMuridView(view) {
-            ['home', 'modul', 'karya', 'kelas'].forEach(v => {
-                document.getElementById(`murid-view-${v}`).classList.toggle('hidden', v !== view);
+            const allViews = ['home', 'modul', 'kuiz', 'karya', 'lencana', 'kemajuan', 'kelas', 'bantuan'];
+            allViews.forEach(v => {
+                const el = document.getElementById(`murid-view-${v}`);
+                if (el) el.classList.toggle('hidden', v !== view);
             });
+            document.querySelectorAll('.msb-nav-btn').forEach(btn => {
+                btn.classList.toggle('bg-indigo-600', btn.dataset.view === view);
+                btn.classList.toggle('text-white', btn.dataset.view === view);
+            });
+            if (view === 'lencana') renderLencanaGallery('murid-lencana-penuh');
+            if (view === 'kemajuan') renderKemajuanDetail();
+            closeMobileMuridSidebarIfOpen();
         }
         window.showMuridView = showMuridView;
+
+        function toggleMobileMuridSidebar() {
+            const sb = document.getElementById('murid-sidebar');
+            sb.classList.toggle('hidden'); sb.classList.toggle('flex');
+        }
+        window.toggleMobileMuridSidebar = toggleMobileMuridSidebar;
+        function closeMobileMuridSidebarIfOpen() {
+            if (window.innerWidth < 1024) {
+                const sb = document.getElementById('murid-sidebar');
+                if (sb && sb.classList.contains('flex')) { sb.classList.add('hidden'); sb.classList.remove('flex'); }
+            }
+        }
 
         // Tangga lencana ringkas ikut jumlah Bintang Seni terkumpul.
         const LENCANA_TIERS = [
@@ -2991,32 +3107,71 @@
             { min: 300, nama: "Master of Technique", emoji: "🖌️" },
             { min: 500, nama: "Young Artist", emoji: "🏆" },
         ];
+        let muridCurrentBintang = 0;
         function updateMuridBadge(bintang) {
-            let current = LENCANA_TIERS[0], next = LENCANA_TIERS[1];
+            muridCurrentBintang = bintang;
+            const matEl = document.getElementById('murid-mata-seni');
+            if (matEl) matEl.innerText = bintang;
+            let current = LENCANA_TIERS[0], achievedCount = 1;
             for (let i = 0; i < LENCANA_TIERS.length; i++) {
-                if (bintang >= LENCANA_TIERS[i].min) { current = LENCANA_TIERS[i]; next = LENCANA_TIERS[i + 1] || null; }
+                if (bintang >= LENCANA_TIERS[i].min) { current = LENCANA_TIERS[i]; achievedCount = i + 1; }
             }
-            const badgeEl = document.getElementById('murid-badge-current');
-            const nextEl = document.getElementById('murid-badge-next');
-            if (badgeEl) badgeEl.innerText = `${current.emoji} ${current.nama}`;
-            if (nextEl) nextEl.innerText = next ? `${next.min - bintang} ⭐ lagi ke ${next.emoji} ${next.nama}` : 'Lencana tertinggi dicapai! 🎉';
+            const lencanaCountEl = document.getElementById('murid-lencana-count');
+            if (lencanaCountEl) lencanaCountEl.innerText = achievedCount;
+            renderLencanaGallery('murid-lencana-ringkas', 3);
+        }
+        function renderLencanaGallery(containerId, limit) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const tiers = limit ? LENCANA_TIERS.slice(0, limit) : LENCANA_TIERS;
+            container.innerHTML = tiers.map(t => {
+                const achieved = muridCurrentBintang >= t.min;
+                return `<div class="p-3 rounded-xl border-2 border-slate-950 text-center ${achieved ? 'bg-amber-50' : 'bg-slate-50 opacity-50'}">
+                    <span class="text-2xl">${achieved ? t.emoji : '🔒'}</span>
+                    <p class="text-[9px] font-black mt-1">${t.nama}</p>
+                    <p class="text-[8px] text-slate-400">${t.min} ⭐</p>
+                </div>`;
+            }).join('');
+        }
+
+        // Kedudukan murid dalam kelas (ranking ikut jumlah Bintang Seni sebenar).
+        async function loadKedudukanKelas() {
+            const el = document.getElementById('murid-kedudukan-kelas');
+            if (!el) return;
+            if (muridJoinedClasses.length === 0) { el.innerText = '-'; return; }
+            try {
+                const kod = muridJoinedClasses[0].kod;
+                const snap = await getDocs(query(collection(db, 'users'), where('kelasDisertai', 'array-contains', kod)));
+                const senarai = [];
+                snap.forEach(d => senarai.push({ uid: d.id, bintang: d.data().bintang || 0 }));
+                senarai.sort((a, b) => b.bintang - a.bintang);
+                const rank = senarai.findIndex(s => s.uid === currentUser.uid) + 1;
+                el.innerText = rank > 0 ? `#${rank} / ${senarai.length}` : '-';
+            } catch (e) {
+                el.innerText = 'Ralat';
+            }
         }
 
         // Unit dicadangkan seterusnya + bar kemajuan, dikira daripada kelas yang disertai
         // dan karya (bertag unit) yang sudah dihantar oleh murid ini.
         let muridSuggestedUnit = null; // { tahun, unit }
+        let muridSemuaUnitStatus = []; // { tahun, unit, tajuk, status }
         async function loadMuridProgress() {
             const fractionEl = document.getElementById('murid-progress-fraction');
-            const barEl = document.getElementById('murid-progress-bar');
+            const pctEl = document.getElementById('murid-progress-pct');
+            const ringEl = document.getElementById('murid-progress-ring');
             const unitTajukEl = document.getElementById('murid-unit-saya-tajuk');
             const unitStatusEl = document.getElementById('murid-unit-saya-status');
             const unitBtn = document.getElementById('murid-unit-saya-btn');
+            const unitCardsEl = document.getElementById('murid-unit-cards');
             if (muridJoinedClasses.length === 0) {
-                fractionEl.innerText = '0 / 0 Unit';
-                barEl.style.width = '0%';
+                fractionEl.innerText = '0 / 0';
+                pctEl.innerText = '0%'; ringEl.setAttribute('stroke-dasharray', '0, 100');
                 unitTajukEl.innerText = 'Sertai kelas dahulu';
                 unitStatusEl.innerText = '';
                 unitBtn.classList.add('hidden');
+                unitCardsEl.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Sertai kelas untuk lihat unit anda.</p>';
+                renderAktivitiAkanDatang();
                 return;
             }
             unitBtn.classList.remove('hidden');
@@ -3025,13 +3180,35 @@
                 muridJoinedClasses.forEach(c => (CONTENT_BY_YEAR[c.tahun] || []).forEach(item => semuaUnit.push({ tahun: c.tahun, unit: item.unit, tajuk: item.tajuk })));
 
                 const karyaSnap = await getDocs(query(collection(db, 'karya'), where('uid', '==', currentUser.uid)));
-                const selesaiSet = new Set();
+                const selesaiSet = new Set(); // ada karya dihantar utk unit ini
                 karyaSnap.forEach(d => { const k = d.data(); if (k.unit) selesaiSet.add(`${k.tahun}|${k.unit}`); });
 
                 const totalUnit = semuaUnit.length;
                 const selesaiCount = semuaUnit.filter(u => selesaiSet.has(`${u.tahun}|${u.unit}`)).length;
-                fractionEl.innerText = `${selesaiCount} / ${totalUnit} Unit`;
-                barEl.style.width = totalUnit > 0 ? `${Math.round((selesaiCount / totalUnit) * 100)}%` : '0%';
+                const pct = totalUnit > 0 ? Math.round((selesaiCount / totalUnit) * 100) : 0;
+                fractionEl.innerText = `${selesaiCount} / ${totalUnit}`;
+                pctEl.innerText = `${pct}%`;
+                ringEl.setAttribute('stroke-dasharray', `${pct}, 100`);
+
+                // Status setiap unit: Selesai (karya dihantar & kuiz lulus) / Dalam Pembelajaran
+                // (dah baca modul) / Belum Mula.
+                muridSemuaUnitStatus = semuaUnit.map(u => {
+                    const key = `${u.tahun}|${u.unit}`;
+                    let status = 'belum';
+                    if (muridUnitLengkap.has(key)) status = 'selesai';
+                    else if (selesaiSet.has(key) || muridUnitDibaca.has(key)) status = 'belajar';
+                    return { ...u, status };
+                });
+                unitCardsEl.innerHTML = muridSemuaUnitStatus.map(u => {
+                    const cfg = u.status === 'selesai' ? { bg: 'bg-emerald-50', label: '✅ Selesai', text: 'text-emerald-600' }
+                        : u.status === 'belajar' ? { bg: 'bg-sky-50', label: '🔵 Dalam Pembelajaran', text: 'text-sky-600' }
+                        : { bg: 'bg-slate-50', label: '⚪ Belum Mula', text: 'text-slate-400' };
+                    return `<div onclick="openModulPembelajaran('${u.tahun}','${u.unit}')" class="p-3 ${cfg.bg} border-2 border-slate-950 rounded-xl cursor-pointer hover:-translate-y-0.5 transition-transform">
+                        <p class="text-[9px] font-black text-slate-500">${u.unit}</p>
+                        <p class="text-xs font-black truncate">${u.tajuk}</p>
+                        <p class="text-[9px] font-bold ${cfg.text} mt-1">${cfg.label}</p>
+                    </div>`;
+                }).join('');
 
                 const belumSelesai = semuaUnit.find(u => !selesaiSet.has(`${u.tahun}|${u.unit}`));
                 if (belumSelesai) {
@@ -3041,13 +3218,57 @@
                 } else {
                     muridSuggestedUnit = null;
                     unitTajukEl.innerText = 'Semua unit selesai! 🎉';
-                    unitStatusEl.innerText = 'Syabas! Terokai semula mana-mana unit di Semua Modul.';
+                    unitStatusEl.innerText = 'Syabas! Terokai semula mana-mana unit di Unit Saya.';
                     unitBtn.classList.add('hidden');
                 }
+                renderAktivitiAkanDatang();
+                loadKedudukanKelas();
             } catch (e) {
                 fractionEl.innerText = 'Ralat memuat kemajuan';
             }
         }
+
+        // "Aktiviti Akan Datang" dijana automatik daripada unit yang belum selesai
+        // (BUKAN tarikh tugasan sebenar -- kita tiada sistem deadline lagi).
+        function renderAktivitiAkanDatang() {
+            const container = document.getElementById('murid-aktiviti-akan-datang');
+            if (!container) return;
+            const belumSelesai = muridSemuaUnitStatus.filter(u => u.status !== 'selesai').slice(0, 3);
+            if (belumSelesai.length === 0) {
+                container.innerHTML = '<p class="text-xs text-emerald-600 font-bold">🎉 Semua unit siap! Tiada aktiviti tertunggak.</p>';
+                return;
+            }
+            container.innerHTML = belumSelesai.map(u => {
+                const teks = u.status === 'belajar' ? `Siapkan kuiz & hantar karya untuk ${u.unit}` : `Mula baca modul ${u.unit}: ${u.tajuk}`;
+                return `<div onclick="openModulPembelajaran('${u.tahun}','${u.unit}')" class="flex items-center gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-100">
+                    <span class="text-lg">📌</span>
+                    <p class="text-xs font-bold flex-1">${teks}</p>
+                </div>`;
+            }).join('');
+        }
+
+        function renderKemajuanDetail() {
+            const container = document.getElementById('murid-kemajuan-detail');
+            if (!container) return;
+            container.innerHTML = `
+                <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
+                    <p class="text-[10px] font-black uppercase text-indigo-700">Unit Selesai</p>
+                    <p class="text-2xl font-black">${document.getElementById('murid-progress-fraction').innerText}</p>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-xl border-2 border-slate-950">
+                    <p class="text-[10px] font-black uppercase text-amber-700">Mata Seni</p>
+                    <p class="text-2xl font-black">${muridCurrentBintang} ⭐</p>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-xl border-2 border-slate-950">
+                    <p class="text-[10px] font-black uppercase text-emerald-700">Kedudukan Kelas</p>
+                    <p class="text-2xl font-black">${document.getElementById('murid-kedudukan-kelas').innerText}</p>
+                </div>
+                <div class="p-4 bg-rose-50 rounded-xl border-2 border-slate-950">
+                    <p class="text-[10px] font-black uppercase text-rose-700">Lencana Dicapai</p>
+                    <p class="text-2xl font-black">${document.getElementById('murid-lencana-count').innerText}</p>
+                </div>`;
+        }
+
         function teruskanBelajar() {
             if (!muridSuggestedUnit) return;
             openModulPembelajaran(muridSuggestedUnit.tahun, muridSuggestedUnit.unit);
