@@ -50,39 +50,39 @@
     <!-- ============================================================ -->
     <div id="screen-login" class="min-h-screen flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md border-4 border-slate-950 rounded-3xl shadow-brutal p-8 space-y-6 text-center">
-            <div class="w-16 h-16 mx-auto rounded-2xl bg-indigo-500 border-4 border-slate-950 flex items-center justify-center text-white text-3xl">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-indigo-500 border-4 border-slate-950 flex items-center justify-center text-white text-5xl">
                 <i class="fa-solid fa-palette"></i>
             </div>
             <div>
-                <h1 class="font-black text-2xl comic-font">SeniKreatif 2.0</h1>
-                <p class="text-xs text-slate-500 font-medium mt-1">Platform PdP Pendidikan Seni Visual untuk Guru & Murid</p>
+                <h1 class="font-black text-4xl comic-font">SeniKreatif 2.0</h1>
+                <p class="text-lg text-slate-500 font-medium mt-1">Platform PdP Pendidikan Seni Visual untuk Guru & Murid</p>
             </div>
 
             <div class="space-y-3">
-                <button onclick="signInWithGoogleProvider()" class="w-full py-3 px-4 bg-white hover:bg-slate-50 text-slate-900 font-bold text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
+                <button onclick="signInWithGoogleProvider()" class="w-full py-3 px-4 bg-white hover:bg-slate-50 text-slate-900 font-bold text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
                     <i class="fa-brands fa-google text-rose-500"></i> Teruskan dengan Google
                 </button>
-                <button onclick="signInWithMicrosoftProvider()" class="w-full py-3 px-4 bg-white hover:bg-slate-50 text-slate-900 font-bold text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
+                <button onclick="signInWithMicrosoftProvider()" class="w-full py-3 px-4 bg-white hover:bg-slate-50 text-slate-900 font-bold text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
                     <i class="fa-brands fa-microsoft text-sky-600"></i> Teruskan dengan Microsoft
                 </button>
 
                 <div class="flex items-center gap-2 py-1">
                     <div class="flex-1 h-px bg-slate-200"></div>
-                    <span class="text-[10px] text-slate-400 font-bold">ATAU EMEL</span>
+                    <span class="text-lg text-slate-400 font-bold">ATAU EMEL</span>
                     <div class="flex-1 h-px bg-slate-200"></div>
                 </div>
 
-                <input id="login-email" type="email" placeholder="Emel" class="w-full p-3 border-2 border-slate-950 rounded-xl text-sm">
-                <input id="login-password" type="password" placeholder="Kata Laluan" class="w-full p-3 border-2 border-slate-950 rounded-xl text-sm">
+                <input id="login-email" type="email" placeholder="Emel" class="w-full p-3 border-2 border-slate-950 rounded-xl text-xl">
+                <input id="login-password" type="password" placeholder="Kata Laluan" class="w-full p-3 border-2 border-slate-950 rounded-xl text-xl">
 
                 <div class="flex gap-2">
-                    <button onclick="signInWithEmail()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Log Masuk</button>
-                    <button onclick="signUpWithEmail()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Daftar Baharu</button>
+                    <button onclick="signInWithEmail()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Log Masuk</button>
+                    <button onclick="signUpWithEmail()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Daftar Baharu</button>
                 </div>
             </div>
 
-            <div id="login-error" class="hidden p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-xs font-bold text-left"></div>
-            <p class="text-[10px] text-slate-400">Firebase belum dikonfigurasi? Lihat komen FIREBASE_CONFIG dalam kod.</p>
+            <div id="login-error" class="hidden p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-lg font-bold text-left"></div>
+            <p class="text-lg text-slate-400">Firebase belum dikonfigurasi? Lihat komen FIREBASE_CONFIG dalam kod.</p>
         </div>
     </div>
 
@@ -91,11 +91,11 @@
     <!-- ============================================================ -->
     <div id="screen-role" class="hidden min-h-screen flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md border-4 border-slate-950 rounded-3xl shadow-brutal p-8 space-y-5 text-center">
-            <h2 class="font-black text-xl comic-font">Saya seorang...</h2>
-            <button onclick="chooseRole('guru')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
+            <h2 class="font-black text-3xl comic-font">Saya seorang...</h2>
+            <button onclick="chooseRole('guru')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
                 <i class="fa-solid fa-chalkboard-user"></i> GURU
             </button>
-            <button onclick="chooseRole('murid')" class="w-full py-4 bg-rose-500 hover:bg-rose-600 text-white font-black text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
+            <button onclick="chooseRole('murid')" class="w-full py-4 bg-rose-500 hover:bg-rose-600 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
                 <i class="fa-solid fa-child-reaching"></i> MURID
             </button>
         </div>
@@ -109,15 +109,15 @@
         <aside id="guru-sidebar" class="hidden lg:flex w-64 bg-slate-950 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
             <div>
                 <div class="p-5 border-b border-slate-800">
-                    <h1 class="font-black text-xl comic-font leading-tight">PSV <span class="text-indigo-400">DIGITAL</span></h1>
-                    <p class="text-[9px] text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
+                    <h1 class="font-black text-3xl comic-font leading-tight">PSV <span class="text-indigo-400">DIGITAL</span></h1>
+                    <p class="text-base text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
                 </div>
-                <nav class="p-3 space-y-1 text-sm font-bold">
+                <nav class="p-3 space-y-1 text-xl font-bold">
                     <button onclick="showGuruView('dashboard')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="dashboard">🏠 Dashboard</button>
                     <button onclick="showGuruView('kelas')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kelas">👥 Kelas Saya</button>
                     <button onclick="toggleSidebarModulTree()" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">
                         <span class="flex items-center gap-2.5">📋 Modul PdP</span>
-                        <span id="sidebar-modul-caret" class="text-[10px] transition-transform">▼</span>
+                        <span id="sidebar-modul-caret" class="text-lg transition-transform">▼</span>
                     </button>
                     <div id="sidebar-modul-tree" class="pl-3 space-y-0.5 hidden"></div>
                     <button onclick="showGuruView('rph')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="rph">📝 RPH</button>
@@ -129,7 +129,7 @@
                     <button onclick="showGuruView('tetapan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="tetapan">⚙️ Tetapan</button>
                 </nav>
             </div>
-            <div class="p-5 text-[10px] text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif</div>
+            <div class="p-5 text-lg text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif</div>
         </aside>
 
         <!-- ===== MAIN (header + kandungan) ===== -->
@@ -138,18 +138,18 @@
             <header class="bg-white border-b-2 border-slate-200 px-4 lg:px-6 py-3 flex items-center justify-between gap-3 shrink-0">
                 <div class="flex items-center gap-3 min-w-0">
                     <button onclick="toggleMobileSidebar()" class="lg:hidden w-9 h-9 shrink-0 rounded-lg bg-slate-100 flex items-center justify-center">☰</button>
-                    <p id="guru-breadcrumb" class="text-xs font-bold text-slate-500 truncate">🏠 Dashboard</p>
+                    <p id="guru-breadcrumb" class="text-lg font-bold text-slate-500 truncate">🏠 Dashboard</p>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
                     <div class="hidden md:flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-1.5">
-                        <span class="text-slate-400 text-xs">🔍</span>
-                        <input id="guru-search-input" onkeydown="if(event.key==='Enter') runGuruSearch()" type="text" placeholder="Cari unit, bahan..." class="bg-transparent text-xs outline-none w-40">
+                        <span class="text-slate-400 text-lg">🔍</span>
+                        <input id="guru-search-input" onkeydown="if(event.key==='Enter') runGuruSearch()" type="text" placeholder="Cari unit, bahan..." class="bg-transparent text-lg outline-none w-40">
                     </div>
                     <div class="text-right hidden sm:block">
-                        <p class="text-xs font-black leading-tight">Cikgu <span id="guru-name-label"></span></p>
-                        <p class="text-[9px] text-slate-400">Guru PSV</p>
+                        <p class="text-lg font-black leading-tight">Cikgu <span id="guru-name-label"></span></p>
+                        <p class="text-base text-slate-400">Guru PSV</p>
                     </div>
-                    <button onclick="signOutUser()" class="w-9 h-9 rounded-full bg-indigo-600 text-white font-black text-xs flex items-center justify-center" title="Log Keluar">👤</button>
+                    <button onclick="signOutUser()" class="w-9 h-9 rounded-full bg-indigo-600 text-white font-black text-lg flex items-center justify-center" title="Log Keluar">👤</button>
                 </div>
             </header>
 
@@ -159,40 +159,40 @@
         <!-- ===== DASHBOARD ===== -->
         <div id="guru-view-dashboard" class="space-y-6">
             <div class="bg-gradient-to-r from-indigo-500 to-violet-500 text-white p-5 lg:p-6 rounded-3xl border-4 border-slate-950 shadow-brutal">
-                <h2 class="font-black text-xl comic-font">Selamat Datang, Cikgu 👋</h2>
-                <p class="text-xs lg:text-sm text-indigo-100 mt-1">Urus pembelajaran PSV, bahan PdP, aktiviti dan pentaksiran murid dalam satu tempat.</p>
+                <h2 class="font-black text-3xl comic-font">Selamat Datang, Cikgu 👋</h2>
+                <p class="text-lg lg:text-xl text-indigo-100 mt-1">Urus pembelajaran PSV, bahan PdP, aktiviti dan pentaksiran murid dalam satu tempat.</p>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 lg:gap-4">
                 <button onclick="showGuruView('modul')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl lg:text-3xl">📚</span>
-                    <p class="font-black text-sm lg:text-base mt-2">Modul PSV</p>
-                    <p class="text-[10px] text-slate-500">Tahun 1–6</p>
+                    <span class="text-4xl lg:text-5xl">📚</span>
+                    <p class="font-black text-xl lg:text-xl mt-2">Modul PSV</p>
+                    <p class="text-lg text-slate-500">Tahun 1–6</p>
                 </button>
                 <button onclick="showGuruView('rph')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl lg:text-3xl">📝</span>
-                    <p class="font-black text-sm lg:text-base mt-2">RPH</p>
-                    <p class="text-[10px] text-slate-500">Jana & simpan RPH</p>
+                    <span class="text-4xl lg:text-5xl">📝</span>
+                    <p class="font-black text-xl lg:text-xl mt-2">RPH</p>
+                    <p class="text-lg text-slate-500">Jana & simpan RPH</p>
                 </button>
                 <button onclick="showGuruView('pbd')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl lg:text-3xl">📊</span>
-                    <p class="font-black text-sm lg:text-base mt-2">PBD</p>
-                    <p class="text-[10px] text-slate-500">Rekod TP</p>
+                    <span class="text-4xl lg:text-5xl">📊</span>
+                    <p class="font-black text-xl lg:text-xl mt-2">PBD</p>
+                    <p class="text-lg text-slate-500">Rekod TP</p>
                 </button>
                 <button onclick="showGuruView('karya')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl lg:text-3xl">👩‍🎨</span>
-                    <p class="font-black text-sm lg:text-base mt-2">Karya Murid</p>
-                    <p class="text-[10px] text-slate-500">Portfolio murid</p>
+                    <span class="text-4xl lg:text-5xl">👩‍🎨</span>
+                    <p class="font-black text-xl lg:text-xl mt-2">Karya Murid</p>
+                    <p class="text-lg text-slate-500">Portfolio murid</p>
                 </button>
                 <button onclick="showGuruView('kuiz')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl lg:text-3xl">🧠</span>
-                    <p class="font-black text-sm lg:text-base mt-2">Kuiz</p>
-                    <p class="text-[10px] text-slate-500">Semak pencapaian</p>
+                    <span class="text-4xl lg:text-5xl">🧠</span>
+                    <p class="font-black text-xl lg:text-xl mt-2">Kuiz</p>
+                    <p class="text-lg text-slate-500">Semak pencapaian</p>
                 </button>
                 <button onclick="showGuruView('bahan')" class="p-4 lg:p-6 bg-white border-4 border-slate-950 rounded-2xl shadow-brutal text-left hover:-translate-y-1 transition-transform">
-                    <span class="text-2xl lg:text-3xl">📂</span>
-                    <p class="font-black text-sm lg:text-base mt-2">Bahan</p>
-                    <p class="text-[10px] text-slate-500">BBM & bahan</p>
+                    <span class="text-4xl lg:text-5xl">📂</span>
+                    <p class="font-black text-xl lg:text-xl mt-2">Bahan</p>
+                    <p class="text-lg text-slate-500">BBM & bahan</p>
                 </button>
             </div>
         </div>
@@ -200,26 +200,26 @@
         <!-- ===== KELAS SAYA ===== -->
         <div id="guru-view-kelas" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-                <h3 class="font-black text-lg comic-font">🎯 Kelas Saya</h3>
+                <h3 class="font-black text-2xl comic-font">🎯 Kelas Saya</h3>
                 <div class="flex flex-wrap gap-3 items-end p-4 bg-slate-50 rounded-2xl border-2 border-slate-950">
                     <div class="flex-1 min-w-[140px]">
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Nama Kelas</label>
-                        <input id="new-class-name" type="text" placeholder="Contoh: 2 Cemerlang" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Nama Kelas</label>
+                        <input id="new-class-name" type="text" placeholder="Contoh: 2 Cemerlang" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tahun</label>
-                        <select id="new-class-year" class="p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Tahun</label>
+                        <select id="new-class-year" class="p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                             <option value="Tahun 1">Tahun 1</option>
                             <option value="Tahun 2">Tahun 2</option>
                             <option value="Tahun 5">Tahun 5</option>
                             <option value="Tahun 6">Tahun 6</option>
                         </select>
                     </div>
-                    <button onclick="createClass()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">+ Cipta Kelas</button>
+                    <button onclick="createClass()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">+ Cipta Kelas</button>
                 </div>
 
                 <div id="guru-class-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <p class="text-xs text-slate-400 italic">Memuatkan senarai kelas...</p>
+                    <p class="text-lg text-slate-400 italic">Memuatkan senarai kelas...</p>
                 </div>
             </div>
         </div>
@@ -227,8 +227,8 @@
         <!-- ===== MODUL PSV (senarai ringkas, guna sama seperti sebelum ini) ===== -->
         <div id="guru-view-modul" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-                <h3 class="font-black text-lg comic-font mb-3">🎨 Kandungan PSV (Tahun 1, 2, 5 & 6)</h3>
-                <p class="text-xs text-slate-500 mb-3">Atau guna "📋 Modul PdP" di sidebar untuk terus ke unit tertentu.</p>
+                <h3 class="font-black text-2xl comic-font mb-3">🎨 Kandungan PSV (Tahun 1, 2, 5 & 6)</h3>
+                <p class="text-lg text-slate-500 mb-3">Atau guna "📋 Modul PdP" di sidebar untuk terus ke unit tertentu.</p>
                 <div id="guru-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
         </div>
@@ -236,85 +236,85 @@
         <!-- ===== MODUL PDP: PAPARAN UNIT PENUH (8 TAB) ===== -->
         <div id="guru-view-modul-viewer" class="hidden space-y-4">
             <div class="flex items-center justify-end gap-2">
-                <button onclick="guruModulPrevUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-black shadow-brutal-sm">◀ Unit Sebelumnya</button>
-                <button onclick="guruModulNextUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-xs font-black shadow-brutal-sm">Unit Seterusnya ▶</button>
+                <button onclick="guruModulPrevUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-lg font-black shadow-brutal-sm">◀ Unit Sebelumnya</button>
+                <button onclick="guruModulNextUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-lg font-black shadow-brutal-sm">Unit Seterusnya ▶</button>
             </div>
 
             <!-- Hero banner -->
             <div class="relative bg-gradient-to-r from-amber-100 to-orange-100 rounded-3xl border-4 border-slate-950 shadow-brutal p-6 lg:p-8 overflow-hidden">
-                <span id="gmv-badge" class="inline-block bg-rose-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase mb-2">Tahun 2</span>
-                <h2 id="gmv-tajuk" class="font-black text-3xl lg:text-4xl comic-font leading-tight">Unit 8 Uli-uli Tembikar</h2>
-                <p id="gmv-tagline" class="text-sm text-slate-600 mt-1">Membentuk kreativiti, menzahirkan imaginasi</p>
+                <span id="gmv-badge" class="inline-block bg-rose-500 text-white text-lg font-black px-3 py-1 rounded-full uppercase mb-2">Tahun 2</span>
+                <h2 id="gmv-tajuk" class="font-black text-5xl lg:text-6xl comic-font leading-tight">Unit 8 Uli-uli Tembikar</h2>
+                <p id="gmv-tagline" class="text-xl text-slate-600 mt-1">Membentuk kreativiti, menzahirkan imaginasi</p>
             </div>
 
             <!-- 8 Tab -->
             <div class="flex flex-wrap gap-2" id="gmv-tabs">
-                <button onclick="showGuruModulTab('kenali')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="kenali">01 Jom Kenali</button>
-                <button onclick="showGuruModulTab('bahasa')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="bahasa">02 Bahasa Seni Visual</button>
-                <button onclick="showGuruModulTab('lihatperhati')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="lihatperhati">03 Lihat & Perhati</button>
-                <button onclick="showGuruModulTab('teknik')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="teknik">04 Jom Belajar Teknik</button>
-                <button onclick="showGuruModulTab('cuba')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="cuba">05 Jom Cuba</button>
-                <button onclick="showGuruModulTab('projek')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="projek">06 Projek Seni</button>
-                <button onclick="showGuruModulTab('kuiz2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="kuiz2">07 Kuiz</button>
-                <button onclick="showGuruModulTab('galeri2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-xs font-black" data-tab="galeri2">08 Galeri & PBD</button>
+                <button onclick="showGuruModulTab('kenali')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="kenali">01 Jom Kenali</button>
+                <button onclick="showGuruModulTab('bahasa')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="bahasa">02 Bahasa Seni Visual</button>
+                <button onclick="showGuruModulTab('lihatperhati')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="lihatperhati">03 Lihat & Perhati</button>
+                <button onclick="showGuruModulTab('teknik')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="teknik">04 Jom Belajar Teknik</button>
+                <button onclick="showGuruModulTab('cuba')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="cuba">05 Jom Cuba</button>
+                <button onclick="showGuruModulTab('projek')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="projek">06 Projek Seni</button>
+                <button onclick="showGuruModulTab('kuiz2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="kuiz2">07 Kuiz</button>
+                <button onclick="showGuruModulTab('galeri2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="galeri2">08 Galeri & PBD</button>
             </div>
 
             <!-- Tab panels -->
             <div class="bg-white rounded-3xl border-4 border-slate-950 shadow-brutal p-5 lg:p-8">
 
                 <div id="gmv-panel-kenali" class="gmv-panel space-y-4">
-                    <h3 class="font-black text-xl comic-font">📖 Jom Kenali</h3>
+                    <h3 class="font-black text-3xl comic-font">📖 Jom Kenali</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
-                            <p class="text-[10px] font-black uppercase text-indigo-700 mb-1">Bidang & Teknik</p>
-                            <p id="gmv-kenali-bidang" class="text-sm font-bold"></p>
-                            <p id="gmv-kenali-teknik" class="text-sm"></p>
+                            <p class="text-lg font-black uppercase text-indigo-700 mb-1">Bidang & Teknik</p>
+                            <p id="gmv-kenali-bidang" class="text-xl font-bold"></p>
+                            <p id="gmv-kenali-teknik" class="text-xl"></p>
                         </div>
                         <div class="p-4 bg-amber-50 rounded-xl border-2 border-slate-950">
-                            <p class="text-[10px] font-black uppercase text-amber-700 mb-1">🔑 Kata Kunci</p>
-                            <p id="gmv-kenali-katakunci" class="text-sm font-bold"></p>
+                            <p class="text-lg font-black uppercase text-amber-700 mb-1">🔑 Kata Kunci</p>
+                            <p id="gmv-kenali-katakunci" class="text-xl font-bold"></p>
                         </div>
                     </div>
                     <div class="p-4 bg-blue-50 rounded-xl border-2 border-slate-950">
-                        <p class="text-[10px] font-black uppercase text-blue-700 mb-2">🎯 Objektif Pembelajaran</p>
-                        <p class="text-xs text-slate-600 mb-2">Pada akhir pembelajaran, murid dapat:</p>
-                        <ol id="gmv-kenali-objektif" class="list-decimal pl-5 text-sm space-y-1"></ol>
+                        <p class="text-lg font-black uppercase text-blue-700 mb-2">🎯 Objektif Pembelajaran</p>
+                        <p class="text-lg text-slate-600 mb-2">Pada akhir pembelajaran, murid dapat:</p>
+                        <ol id="gmv-kenali-objektif" class="list-decimal pl-5 text-xl space-y-1"></ol>
                     </div>
                 </div>
 
                 <div id="gmv-panel-bahasa" class="gmv-panel hidden space-y-4">
-                    <h3 class="font-black text-xl comic-font">🎨 Bahasa Seni Visual (SK/SP)</h3>
-                    <p class="text-[10px] font-black uppercase text-indigo-700">Standard Kandungan</p>
-                    <p id="gmv-sk" class="text-sm font-bold bg-indigo-50 p-4 rounded-xl"></p>
-                    <p class="text-[10px] font-black uppercase text-slate-600">Standard Pembelajaran</p>
-                    <p id="gmv-sp" class="text-sm bg-slate-50 p-4 rounded-xl"></p>
+                    <h3 class="font-black text-3xl comic-font">🎨 Bahasa Seni Visual (SK/SP)</h3>
+                    <p class="text-lg font-black uppercase text-indigo-700">Standard Kandungan</p>
+                    <p id="gmv-sk" class="text-xl font-bold bg-indigo-50 p-4 rounded-xl"></p>
+                    <p class="text-lg font-black uppercase text-slate-600">Standard Pembelajaran</p>
+                    <p id="gmv-sp" class="text-xl bg-slate-50 p-4 rounded-xl"></p>
                 </div>
 
                 <div id="gmv-panel-lihatperhati" class="gmv-panel hidden space-y-3">
-                    <h3 class="font-black text-xl comic-font">👀 Lihat & Perhati</h3>
+                    <h3 class="font-black text-3xl comic-font">👀 Lihat & Perhati</h3>
                     <div id="gmv-lp-container"></div>
                 </div>
 
                 <div id="gmv-panel-teknik" class="gmv-panel hidden space-y-4">
-                    <h3 class="font-black text-xl comic-font">🎬 Jom Belajar Teknik</h3>
+                    <h3 class="font-black text-3xl comic-font">🎬 Jom Belajar Teknik</h3>
                     <div class="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-slate-950 bg-black">
                         <iframe id="gmv-video" class="absolute inset-0 w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
                     </div>
-                    <p id="gmv-video-note" class="text-[10px] text-slate-400 italic"></p>
+                    <p id="gmv-video-note" class="text-lg text-slate-400 italic"></p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <p class="text-[10px] font-black uppercase text-indigo-700 mb-1">🧰 Alat & Bahan</p>
-                            <ul id="gmv-bahan" class="list-disc pl-5 text-sm space-y-1"></ul>
+                            <p class="text-lg font-black uppercase text-indigo-700 mb-1">🧰 Alat & Bahan</p>
+                            <ul id="gmv-bahan" class="list-disc pl-5 text-xl space-y-1"></ul>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black uppercase text-indigo-700 mb-1">📝 Langkah</p>
-                            <ol id="gmv-langkah" class="list-decimal pl-5 text-sm space-y-1"></ol>
+                            <p class="text-lg font-black uppercase text-indigo-700 mb-1">📝 Langkah</p>
+                            <ol id="gmv-langkah" class="list-decimal pl-5 text-xl space-y-1"></ol>
                         </div>
                     </div>
                 </div>
 
                 <div id="gmv-panel-cuba" class="gmv-panel hidden space-y-3">
-                    <h3 class="font-black text-xl comic-font">✏️ Jom Cuba (Papan Lukisan Demo)</h3>
+                    <h3 class="font-black text-3xl comic-font">✏️ Jom Cuba (Papan Lukisan Demo)</h3>
                     <div class="flex items-center justify-between">
                         <div class="flex gap-1.5">
                             <button onclick="gmvSetColor('#0f172a')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#0f172a"></button>
@@ -323,7 +323,7 @@
                             <button onclick="gmvSetColor('#10b981')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#10b981"></button>
                             <button onclick="gmvSetColor('#3b82f6')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#3b82f6"></button>
                         </div>
-                        <button onclick="gmvClearCanvas()" class="text-[10px] font-black px-3 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Padam</button>
+                        <button onclick="gmvClearCanvas()" class="text-lg font-black px-3 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Padam</button>
                     </div>
                     <div class="relative w-full aspect-[16/9] rounded-xl border-2 border-slate-950 bg-slate-50 overflow-hidden cursor-crosshair">
                         <canvas id="gmv-canvas" class="absolute inset-0 w-full h-full touch-none" style="touch-action:none;"></canvas>
@@ -331,27 +331,27 @@
                 </div>
 
                 <div id="gmv-panel-projek" class="gmv-panel hidden space-y-3">
-                    <h3 class="font-black text-xl comic-font">🎯 Cabaran Projek Seni</h3>
+                    <h3 class="font-black text-3xl comic-font">🎯 Cabaran Projek Seni</h3>
                     <div class="p-5 bg-amber-50 rounded-2xl border-2 border-slate-950 space-y-2">
-                        <p id="gmv-projek-cabaran" class="text-lg font-black"></p>
-                        <p class="text-sm"><span class="font-black">Bahan:</span> <span id="gmv-projek-bahan"></span></p>
-                        <p class="text-sm"><span class="font-black">Masa:</span> <span id="gmv-projek-masa"></span></p>
-                        <p class="text-sm"><span class="font-black">Hasil Pembelajaran:</span> <span id="gmv-projek-hasil"></span></p>
+                        <p id="gmv-projek-cabaran" class="text-2xl font-black"></p>
+                        <p class="text-xl"><span class="font-black">Bahan:</span> <span id="gmv-projek-bahan"></span></p>
+                        <p class="text-xl"><span class="font-black">Masa:</span> <span id="gmv-projek-masa"></span></p>
+                        <p class="text-xl"><span class="font-black">Hasil Pembelajaran:</span> <span id="gmv-projek-hasil"></span></p>
                     </div>
                 </div>
 
                 <div id="gmv-panel-kuiz2" class="gmv-panel hidden space-y-3">
-                    <h3 class="font-black text-xl comic-font">🧠 Kuiz</h3>
-                    <p class="text-xs text-slate-500">Pratonton soalan kuiz yang akan dijawab murid (3 soalan, perlu 2/3 betul untuk lulus, +20 ⭐).</p>
+                    <h3 class="font-black text-3xl comic-font">🧠 Kuiz</h3>
+                    <p class="text-lg text-slate-500">Pratonton soalan kuiz yang akan dijawab murid (3 soalan, perlu 2/3 betul untuk lulus, +20 ⭐).</p>
                     <div id="gmv-kuiz-preview" class="space-y-2"></div>
                     <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
-                        <button onclick="janaRPHDariGmv()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
-                        <p id="gmv-rph-feedback" class="hidden text-xs font-bold p-2 mt-2 rounded-lg"></p>
+                        <button onclick="janaRPHDariGmv()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
+                        <p id="gmv-rph-feedback" class="hidden text-lg font-bold p-2 mt-2 rounded-lg"></p>
                     </div>
                 </div>
 
                 <div id="gmv-panel-galeri2" class="gmv-panel hidden space-y-3">
-                    <h3 class="font-black text-xl comic-font">🖼️ Galeri & PBD</h3>
+                    <h3 class="font-black text-3xl comic-font">🖼️ Galeri & PBD</h3>
                     <div id="gmv-galeri-container" class="grid grid-cols-1 gap-2"></div>
                 </div>
 
@@ -361,41 +361,41 @@
         <!-- ===== RPH ===== -->
         <div id="guru-view-rph" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-                <h3 class="font-black text-lg comic-font">📝 Penjana RPH Pintar</h3>
+                <h3 class="font-black text-2xl comic-font">📝 Penjana RPH Pintar</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Kelas</label>
-                        <select id="rph-select-class" onchange="onRphClassChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Pilih Kelas</label>
+                        <select id="rph-select-class" onchange="onRphClassChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                             <option value="">-- Cipta kelas dahulu --</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Unit</label>
-                        <select id="rph-select-unit" onchange="onRphUnitChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></select>
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Pilih Unit</label>
+                        <select id="rph-select-unit" onchange="onRphUnitChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl"></select>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Nama Guru</label>
-                        <input id="rph-guru-name" type="text" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Nama Guru</label>
+                        <input id="rph-guru-name" type="text" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tarikh</label>
-                        <input id="rph-date" type="date" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Tarikh</label>
+                        <input id="rph-date" type="date" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Kandungan (SK) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
-                        <textarea id="rph-sk" rows="2" placeholder="Contoh: 1.1 Persepsi Estetik" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Standard Kandungan (SK) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
+                        <textarea id="rph-sk" rows="2" placeholder="Contoh: 1.1 Persepsi Estetik" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl"></textarea>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Standard Pembelajaran (SP) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
-                        <textarea id="rph-sp" rows="2" placeholder="Contoh: 1.1.1 Murid dapat mengenal pasti..." class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm"></textarea>
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Standard Pembelajaran (SP) <span class="font-normal normal-case text-slate-400">- salin dari DSKP anda</span></label>
+                        <textarea id="rph-sp" rows="2" placeholder="Contoh: 1.1.1 Murid dapat mengenal pasti..." class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl"></textarea>
                     </div>
                 </div>
-                <button onclick="generateRPH()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH</button>
+                <button onclick="generateRPH()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH</button>
 
-                <div id="rph-preview" class="hidden border-2 border-slate-300 p-5 rounded-2xl bg-slate-50 space-y-2 text-xs">
+                <div id="rph-preview" class="hidden border-2 border-slate-300 p-5 rounded-2xl bg-slate-50 space-y-2 text-lg">
                     <div class="text-center border-b-2 border-slate-900 pb-2 mb-2">
-                        <p class="font-black uppercase text-sm">Rancangan Pengajaran Harian (RPH)</p>
-                        <p class="text-[9px] text-slate-400 normal-case font-normal">(Klik mana-mana teks di bawah untuk edit terus sebelum cetak)</p>
+                        <p class="font-black uppercase text-xl">Rancangan Pengajaran Harian (RPH)</p>
+                        <p class="text-base text-slate-400 normal-case font-normal">(Klik mana-mana teks di bawah untuk edit terus sebelum cetak)</p>
                     </div>
                     <p><b>Nama Guru:</b> <span id="rph-out-guru" contenteditable="true"></span></p>
                     <p><b>Tarikh:</b> <span id="rph-out-date" contenteditable="true"></span></p>
@@ -410,22 +410,22 @@
                     <ol id="rph-out-steps" contenteditable="true" class="list-decimal pl-5 space-y-1"></ol>
 
                     <div class="pt-3 mt-2 border-t-2 border-dashed border-slate-300 space-y-2">
-                        <p class="font-black uppercase text-[11px]">Refleksi PdPc</p>
+                        <p class="font-black uppercase text-lg">Refleksi PdPc</p>
                         <div>
-                            <p class="font-bold text-[10px] text-emerald-700">✅ Kekuatan</p>
-                            <textarea id="rph-refleksi-kekuatan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                            <p class="font-bold text-lg text-emerald-700">✅ Kekuatan</p>
+                            <textarea id="rph-refleksi-kekuatan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-lg" placeholder="Tulis selepas sesi selesai..."></textarea>
                         </div>
                         <div>
-                            <p class="font-bold text-[10px] text-rose-700">⚠️ Kelemahan</p>
-                            <textarea id="rph-refleksi-kelemahan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                            <p class="font-bold text-lg text-rose-700">⚠️ Kelemahan</p>
+                            <textarea id="rph-refleksi-kelemahan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-lg" placeholder="Tulis selepas sesi selesai..."></textarea>
                         </div>
                         <div>
-                            <p class="font-bold text-[10px] text-indigo-700">🔄 Cadangan Penambahbaikan</p>
-                            <textarea id="rph-refleksi-penambahbaikan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-xs" placeholder="Tulis selepas sesi selesai..."></textarea>
+                            <p class="font-bold text-lg text-indigo-700">🔄 Cadangan Penambahbaikan</p>
+                            <textarea id="rph-refleksi-penambahbaikan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-lg" placeholder="Tulis selepas sesi selesai..."></textarea>
                         </div>
                     </div>
 
-                    <button id="rph-print-btn" onclick="window.print()" class="mt-2 py-2 px-4 bg-lime-300 hover:bg-lime-400 text-xs font-black rounded-lg border-2 border-slate-950">🖨️ Cetak</button>
+                    <button id="rph-print-btn" onclick="window.print()" class="mt-2 py-2 px-4 bg-lime-300 hover:bg-lime-400 text-lg font-black rounded-lg border-2 border-slate-950">🖨️ Cetak</button>
                 </div>
             </div>
         </div>
@@ -433,19 +433,19 @@
         <!-- ===== PBD ===== -->
         <div id="guru-view-pbd" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-                <h3 class="font-black text-lg comic-font">📊 Pentaksiran PSV (PBD)</h3>
+                <h3 class="font-black text-2xl comic-font">📊 Pentaksiran PSV (PBD)</h3>
                 <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Kelas</label>
-                    <select id="pbd-select-class" onchange="loadPBDDashboard()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    <label class="block text-lg font-black uppercase text-slate-600 mb-1">Pilih Kelas</label>
+                    <select id="pbd-select-class" onchange="loadPBDDashboard()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                         <option value="">-- Cipta kelas dahulu --</option>
                     </select>
                 </div>
                 <div id="pbd-analisis" class="hidden p-4 bg-slate-50 border-2 border-slate-950 rounded-2xl">
-                    <p class="text-[10px] font-black uppercase text-slate-600 mb-2">📈 Analisis Kelas (bilangan rekod ikut TP)</p>
+                    <p class="text-lg font-black uppercase text-slate-600 mb-2">📈 Analisis Kelas (bilangan rekod ikut TP)</p>
                     <div id="pbd-analisis-bars" class="space-y-1.5"></div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-xs border-collapse">
+                    <table class="w-full text-lg border-collapse">
                         <thead>
                             <tr class="bg-slate-950 text-white text-left">
                                 <th class="p-2 rounded-tl-lg">Murid</th>
@@ -466,22 +466,22 @@
         <!-- ===== KARYA MURID (Portfolio) ===== -->
         <div id="guru-view-karya" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
-                <h3 class="font-black text-lg comic-font">🖼️ Karya Murid</h3>
+                <h3 class="font-black text-2xl comic-font">🖼️ Karya Murid</h3>
                 <div>
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">📸 Lihat</label>
-                    <select id="guru-karya-mode" onchange="onGuruKaryaModeChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    <label class="block text-lg font-black uppercase text-slate-600 mb-1">📸 Lihat</label>
+                    <select id="guru-karya-mode" onchange="onGuruKaryaModeChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                         <option value="semua">Semua Karya Terkini</option>
                         <option value="portfolio">Portfolio Seorang Murid</option>
                     </select>
                 </div>
                 <div id="guru-portfolio-picker" class="hidden">
-                    <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Pilih Murid</label>
-                    <select id="guru-portfolio-murid" onchange="loadPortfolioMurid()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                    <label class="block text-lg font-black uppercase text-slate-600 mb-1">Pilih Murid</label>
+                    <select id="guru-portfolio-murid" onchange="loadPortfolioMurid()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                         <option value="">-- Pilih murid --</option>
                     </select>
                 </div>
                 <div id="guru-karya-list" class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <p class="text-xs text-slate-400 italic col-span-full">Belum ada karya diterima.</p>
+                    <p class="text-lg text-slate-400 italic col-span-full">Belum ada karya diterima.</p>
                 </div>
             </div>
         </div>
@@ -489,17 +489,17 @@
         <!-- ===== KUIZ ===== -->
         <div id="guru-view-kuiz" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
-                <h3 class="font-black text-lg comic-font">🧠 Kuiz</h3>
-                <p class="text-xs text-slate-500">Kuiz diakses terus oleh murid di dalam Modul Pembelajaran setiap unit (tidak berasingan). Selepas lulus (2/3 betul), +20 ⭐ terus disalurkan ke jumlah Bintang Seni murid, yang boleh disemak di bahagian 📊 PBD dan 🖼️ Galeri Karya.</p>
-                <p class="text-[10px] text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi -- beritahu saya kalau ini diperlukan.</p>
+                <h3 class="font-black text-2xl comic-font">🧠 Kuiz</h3>
+                <p class="text-lg text-slate-500">Kuiz diakses terus oleh murid di dalam Modul Pembelajaran setiap unit (tidak berasingan). Selepas lulus (2/3 betul), +20 ⭐ terus disalurkan ke jumlah Bintang Seni murid, yang boleh disemak di bahagian 📊 PBD dan 🖼️ Galeri Karya.</p>
+                <p class="text-lg text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi -- beritahu saya kalau ini diperlukan.</p>
             </div>
         </div>
 
         <!-- ===== BAHAN (BBM) ===== -->
         <div id="guru-view-bahan" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
-                <h3 class="font-black text-lg comic-font">📂 Bahan Bantu Mengajar (BBM)</h3>
-                <p class="text-xs text-slate-500">Senarai alat & bahan setiap unit, dikumpul daripada Modul Pembelajaran.</p>
+                <h3 class="font-black text-2xl comic-font">📂 Bahan Bantu Mengajar (BBM)</h3>
+                <p class="text-lg text-slate-500">Senarai alat & bahan setiap unit, dikumpul daripada Modul Pembelajaran.</p>
                 <div id="guru-bahan-list" class="space-y-4"></div>
             </div>
         </div>
@@ -507,16 +507,16 @@
         <!-- ===== LAPORAN (belum dibina) ===== -->
         <div id="guru-view-laporan" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
-                <h3 class="font-black text-lg comic-font">📈 Laporan</h3>
-                <p class="text-xs text-slate-500">Belum dibina lagi. Buat masa ini, guna 📊 PBD untuk analisis TP mengikut kelas.</p>
+                <h3 class="font-black text-2xl comic-font">📈 Laporan</h3>
+                <p class="text-lg text-slate-500">Belum dibina lagi. Buat masa ini, guna 📊 PBD untuk analisis TP mengikut kelas.</p>
             </div>
         </div>
 
         <!-- ===== TETAPAN (belum dibina) ===== -->
         <div id="guru-view-tetapan" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
-                <h3 class="font-black text-lg comic-font">⚙️ Tetapan</h3>
-                <p class="text-xs text-slate-500">Belum dibina lagi.</p>
+                <h3 class="font-black text-2xl comic-font">⚙️ Tetapan</h3>
+                <p class="text-lg text-slate-500">Belum dibina lagi.</p>
             </div>
         </div>
 
@@ -533,10 +533,10 @@
         <aside id="murid-sidebar" class="hidden lg:flex w-64 bg-slate-950 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
             <div>
                 <div class="p-5 border-b border-slate-800">
-                    <h1 class="font-black text-xl comic-font leading-tight">PSV <span class="text-indigo-400">DIGITAL</span></h1>
-                    <p class="text-[9px] text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
+                    <h1 class="font-black text-3xl comic-font leading-tight">PSV <span class="text-indigo-400">DIGITAL</span></h1>
+                    <p class="text-base text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
                 </div>
-                <nav class="p-3 space-y-1 text-sm font-bold">
+                <nav class="p-3 space-y-1 text-xl font-bold">
                     <button onclick="showMuridView('home')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="home">🏠 Laman Utama</button>
                     <button onclick="showMuridView('modul')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">📖 Unit Saya</button>
                     <button onclick="showMuridView('kuiz')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kuiz">🎮 Kuiz Saya</button>
@@ -547,7 +547,7 @@
                     <button onclick="showMuridView('bantuan')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="bantuan">❓ Bantuan</button>
                 </nav>
             </div>
-            <div class="p-5 text-[10px] text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif 🎨</div>
+            <div class="p-5 text-lg text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif 🎨</div>
         </aside>
 
         <!-- ===== MAIN ===== -->
@@ -556,22 +556,22 @@
             <header class="bg-white border-b-2 border-slate-200 px-4 lg:px-6 py-3 flex items-center justify-between gap-3 shrink-0">
                 <div class="flex items-center gap-3 min-w-0">
                     <button onclick="toggleMobileMuridSidebar()" class="lg:hidden w-9 h-9 shrink-0 rounded-lg bg-slate-100 flex items-center justify-center">☰</button>
-                    <p class="hidden md:block text-xs font-black text-indigo-700 comic-font italic">Seni Kecil, Impak Besar ✨</p>
+                    <p class="hidden md:block text-lg font-black text-indigo-700 comic-font italic">Seni Kecil, Impak Besar ✨</p>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
                     <div class="hidden md:flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-1.5">
-                        <span class="text-slate-400 text-xs">🔍</span>
-                        <input type="text" placeholder="Cari sesuatu..." class="bg-transparent text-xs outline-none w-32">
+                        <span class="text-slate-400 text-lg">🔍</span>
+                        <input type="text" placeholder="Cari sesuatu..." class="bg-transparent text-lg outline-none w-32">
                     </div>
                     <div class="bg-indigo-900 text-white px-3 py-1.5 rounded-xl">
-                        <p class="text-[8px] uppercase font-bold text-indigo-300 leading-none">Bintang</p>
-                        <p class="font-black text-sm comic-font leading-tight"><span id="murid-star-count">0</span> ⭐</p>
+                        <p class="text-base uppercase font-bold text-indigo-300 leading-none">Bintang</p>
+                        <p class="font-black text-xl comic-font leading-tight"><span id="murid-star-count">0</span> ⭐</p>
                     </div>
                     <div class="text-right hidden sm:block">
-                        <p id="murid-greeting-mini" class="text-xs font-black leading-tight">Hai!</p>
-                        <p id="murid-tahun-label" class="text-[9px] text-slate-400"></p>
+                        <p id="murid-greeting-mini" class="text-lg font-black leading-tight">Hai!</p>
+                        <p id="murid-tahun-label" class="text-base text-slate-400"></p>
                     </div>
-                    <button onclick="signOutUser()" class="w-9 h-9 rounded-full bg-rose-500 text-white font-black text-xs flex items-center justify-center" title="Log Keluar">👤</button>
+                    <button onclick="signOutUser()" class="w-9 h-9 rounded-full bg-rose-500 text-white font-black text-lg flex items-center justify-center" title="Log Keluar">👤</button>
                 </div>
             </header>
 
@@ -581,14 +581,14 @@
         <!-- ===== HOME (paparan lalai) ===== -->
         <div id="murid-view-home" class="space-y-5">
             <div class="bg-gradient-to-r from-rose-400 to-amber-300 text-slate-950 p-5 lg:p-6 rounded-3xl border-4 border-slate-950 shadow-brutal">
-                <h2 id="murid-greeting" class="font-black text-2xl comic-font">Hai! 👋</h2>
-                <p class="font-black text-lg comic-font">Jom berkarya hari ini!</p>
-                <p class="text-xs font-bold mt-1">Terokai dunia seni, belajar teknik baharu, cipta karya yang unik dan tunjukkan bakat kamu.</p>
-                <p class="text-[10px] italic mt-2 bg-white/40 inline-block px-3 py-1.5 rounded-full">"Setiap kanak-kanak ialah seorang artis." \u2013 Pablo Picasso</p>
+                <h2 id="murid-greeting" class="font-black text-4xl comic-font">Hai! 👋</h2>
+                <p class="font-black text-2xl comic-font">Jom berkarya hari ini!</p>
+                <p class="text-lg font-bold mt-1">Terokai dunia seni, belajar teknik baharu, cipta karya yang unik dan tunjukkan bakat kamu.</p>
+                <p class="text-lg italic mt-2 bg-white/40 inline-block px-3 py-1.5 rounded-full">"Setiap kanak-kanak ialah seorang artis." \u2013 Pablo Picasso</p>
             </div>
 
             <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-3">
-                <p class="text-xs font-black uppercase text-slate-600">📈 Kemajuan Saya</p>
+                <p class="text-lg font-black uppercase text-slate-600">📈 Kemajuan Saya</p>
                 <div class="flex items-center gap-4">
                     <div class="relative w-20 h-20 shrink-0">
                         <svg viewBox="0 0 36 36" class="w-20 h-20 -rotate-90">
@@ -596,46 +596,46 @@
                             <path id="murid-progress-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="0, 100"></path>
                         </svg>
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <span id="murid-progress-pct" class="text-sm font-black">0%</span>
+                            <span id="murid-progress-pct" class="text-xl font-black">0%</span>
                         </div>
                     </div>
                     <div class="flex-1 grid grid-cols-1 gap-1.5">
-                        <p class="text-[10px] font-bold text-slate-500"><span id="murid-progress-fraction">0 / 0</span> unit selesai</p>
-                        <p class="text-[10px] font-bold text-slate-500">⭐ Mata Seni: <span id="murid-mata-seni" class="font-black text-slate-800">0</span></p>
-                        <p class="text-[10px] font-bold text-slate-500">🏅 Lencana: <span id="murid-lencana-count" class="font-black text-slate-800">0</span></p>
-                        <p class="text-[10px] font-bold text-slate-500">📊 Kedudukan Kelas: <span id="murid-kedudukan-kelas" class="font-black text-slate-800">-</span></p>
+                        <p class="text-lg font-bold text-slate-500"><span id="murid-progress-fraction">0 / 0</span> unit selesai</p>
+                        <p class="text-lg font-bold text-slate-500">⭐ Mata Seni: <span id="murid-mata-seni" class="font-black text-slate-800">0</span></p>
+                        <p class="text-lg font-bold text-slate-500">🏅 Lencana: <span id="murid-lencana-count" class="font-black text-slate-800">0</span></p>
+                        <p class="text-lg font-bold text-slate-500">📊 Kedudukan Kelas: <span id="murid-kedudukan-kelas" class="font-black text-slate-800">-</span></p>
                     </div>
                 </div>
             </div>
 
             <div id="murid-unit-saya-card" class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-2">
-                <p class="text-xs font-black uppercase text-slate-600">📚 Unit Saya</p>
-                <p id="murid-unit-saya-tajuk" class="font-black text-lg">Memuatkan...</p>
-                <p id="murid-unit-saya-status" class="text-[10px] font-bold text-emerald-600"></p>
-                <button id="murid-unit-saya-btn" onclick="teruskanBelajar()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Teruskan Belajar \u2192</button>
+                <p class="text-lg font-black uppercase text-slate-600">📚 Unit Saya</p>
+                <p id="murid-unit-saya-tajuk" class="font-black text-2xl">Memuatkan...</p>
+                <p id="murid-unit-saya-status" class="text-lg font-bold text-emerald-600"></p>
+                <button id="murid-unit-saya-btn" onclick="teruskanBelajar()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Teruskan Belajar \u2192</button>
             </div>
 
             <!-- Pilih Unit Saya: senarai unit dengan status -->
             <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-3">
-                <p class="text-xs font-black uppercase text-slate-600">📖 Pilih Unit Saya</p>
+                <p class="text-lg font-black uppercase text-slate-600">📖 Pilih Unit Saya</p>
                 <div id="murid-unit-cards" class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <p class="text-xs text-slate-400 italic col-span-full">Sertai kelas untuk lihat unit anda.</p>
+                    <p class="text-lg text-slate-400 italic col-span-full">Sertai kelas untuk lihat unit anda.</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <!-- Aktiviti Akan Datang (auto-jana dari unit belum selesai) -->
                 <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-2">
-                    <p class="text-xs font-black uppercase text-slate-600">🗓️ Aktiviti Seterusnya</p>
+                    <p class="text-lg font-black uppercase text-slate-600">🗓️ Aktiviti Seterusnya</p>
                     <div id="murid-aktiviti-akan-datang" class="space-y-2">
-                        <p class="text-xs text-slate-400 italic">Memuatkan...</p>
+                        <p class="text-lg text-slate-400 italic">Memuatkan...</p>
                     </div>
                 </div>
                 <!-- Lencana Saya ringkas -->
                 <div class="bg-white rounded-3xl p-5 border-4 border-slate-950 shadow-brutal space-y-2">
                     <div class="flex items-center justify-between">
-                        <p class="text-xs font-black uppercase text-slate-600">🏆 Lencana Saya</p>
-                        <button onclick="showMuridView('lencana')" class="text-[10px] font-bold text-indigo-600">Lihat Semua ›</button>
+                        <p class="text-lg font-black uppercase text-slate-600">🏆 Lencana Saya</p>
+                        <button onclick="showMuridView('lencana')" class="text-lg font-bold text-indigo-600">Lihat Semua ›</button>
                     </div>
                     <div id="murid-lencana-ringkas" class="grid grid-cols-3 gap-2"></div>
                 </div>
@@ -645,44 +645,184 @@
         <!-- ===== MODUL (semua / Unit Saya) ===== -->
         <div id="murid-view-modul" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-                <h3 class="font-black text-lg comic-font mb-3">🎨 Modul Pembelajaran PSV</h3>
-                <p class="text-xs text-slate-500 mb-3">Pilih unit untuk tonton video, baca nota, jawab kuiz & lukis di Papan Lukisan!</p>
+                <h3 class="font-black text-2xl comic-font mb-3">🎨 Modul Pembelajaran PSV</h3>
+                <p class="text-lg text-slate-500 mb-3">Pilih unit untuk tonton video, baca nota, jawab kuiz & lukis di Papan Lukisan!</p>
                 <div id="murid-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+
+        <!-- ===== MODUL PDP: PAPARAN UNIT PENUH (8 TAB, sama gaya dengan Guru) ===== -->
+        <div id="murid-view-modul-viewer" class="hidden space-y-4">
+            <div class="flex items-center justify-between gap-2">
+                <button onclick="showMuridView('modul')" class="text-lg font-black text-indigo-700">◀ Balik ke Unit Saya</button>
+                <div class="flex gap-2">
+                    <button onclick="muridModulPrevUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-lg font-black shadow-brutal-sm">◀ Sebelum</button>
+                    <button onclick="muridModulNextUnit()" class="py-2 px-4 bg-white border-2 border-slate-950 rounded-xl text-lg font-black shadow-brutal-sm">Seterus ▶</button>
+                </div>
+            </div>
+
+            <div class="relative bg-gradient-to-r from-rose-100 to-amber-100 rounded-3xl border-4 border-slate-950 shadow-brutal p-5 lg:p-6">
+                <span id="modul-badge" class="inline-block bg-rose-500 text-white text-lg font-black px-3 py-1 rounded-full uppercase mb-2">Tahun 1</span>
+                <h2 id="modul-title" class="font-black text-4xl lg:text-5xl comic-font leading-tight"></h2>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+                <button onclick="showMuridModulTab('kenali')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="kenali">01 Jom Kenali</button>
+                <button onclick="showMuridModulTab('bahasa')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="bahasa">02 Bahasa Seni</button>
+                <button onclick="showMuridModulTab('lihatperhati')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="lihatperhati">03 Lihat & Perhati</button>
+                <button onclick="showMuridModulTab('teknik')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="teknik">04 Jom Belajar</button>
+                <button onclick="showMuridModulTab('cuba')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="cuba">05 Jom Cuba</button>
+                <button onclick="showMuridModulTab('projek')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="projek">06 Projek Seni</button>
+                <button onclick="showMuridModulTab('kuiz2')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="kuiz2">07 Kuiz</button>
+                <button onclick="showMuridModulTab('galeri2')" class="mmv-tab-btn px-3 py-2 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="galeri2">08 Galeri</button>
+            </div>
+
+            <div class="bg-white rounded-3xl border-4 border-slate-950 shadow-brutal p-5 lg:p-8">
+
+                <div id="mmv-panel-kenali" class="mmv-panel space-y-3">
+                    <h3 class="font-black text-2xl comic-font">📖 Jom Kenali</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="p-3 bg-indigo-50 rounded-xl border-2 border-slate-950">
+                            <p class="text-lg font-black uppercase text-indigo-700">🎨 Bidang</p>
+                            <p id="modul-pengenalan-bidang" class="text-xl font-bold"></p>
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-xl border-2 border-slate-950">
+                            <p class="text-lg font-black uppercase text-emerald-700">🖌️ Teknik</p>
+                            <p id="modul-pengenalan-teknik" class="text-xl font-bold"></p>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-amber-50 rounded-xl border-2 border-slate-950">
+                        <p class="text-lg font-black uppercase text-amber-700">🔑 Kata Kunci</p>
+                        <p id="modul-pengenalan-katakunci" class="text-xl font-bold"></p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border-2 border-slate-950">
+                        <p class="text-lg font-black uppercase text-slate-600">🧰 Bahan Diperlukan (ringkas)</p>
+                        <p id="modul-pengenalan-bahan" class="text-xl font-bold"></p>
+                    </div>
+                </div>
+
+                <div id="mmv-panel-bahasa" class="mmv-panel hidden space-y-3">
+                    <h3 class="font-black text-2xl comic-font">🎯 Objektif & Kriteria Kejayaan</h3>
+                    <p id="modul-sk" class="text-xl font-bold text-slate-800 bg-indigo-50 p-4 rounded-xl"></p>
+                    <p id="modul-sp" class="text-lg text-slate-700 bg-slate-50 p-4 rounded-xl"></p>
+                </div>
+
+                <div id="modul-lihat-perhati" class="mmv-panel hidden space-y-3">
+                    <h3 class="font-black text-2xl comic-font">👀 Lihat & Perhati</h3>
+                    <p id="modul-lp-gambar-label" class="text-xl font-bold text-slate-700"></p>
+                    <p id="modul-lp-soalan" class="text-xl font-bold bg-indigo-50 p-3 rounded-lg border border-slate-900"></p>
+                    <div id="modul-lp-pilihan" class="grid grid-cols-2 gap-2"></div>
+                    <button onclick="semakLihatPerhati()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-lg border-2 border-slate-950">Semak Jawapan</button>
+                    <p id="modul-lp-feedback" class="hidden text-lg font-bold p-2.5 rounded-lg"></p>
+                </div>
+
+                <div id="mmv-panel-teknik" class="mmv-panel hidden space-y-4">
+                    <h3 class="font-black text-2xl comic-font">🎬 Jom Belajar Teknik</h3>
+                    <div class="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-slate-950 bg-black">
+                        <iframe id="modul-video" class="absolute inset-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                    <p id="modul-video-note" class="text-lg text-slate-400 italic"></p>
+                    <div>
+                        <p class="text-lg font-black uppercase text-indigo-700 mb-1">🧰 Alat & Bahan</p>
+                        <ul id="modul-bahan" class="list-disc pl-5 text-xl space-y-1"></ul>
+                    </div>
+                    <div>
+                        <p class="text-lg font-black uppercase text-indigo-700 mb-1">📝 Langkah</p>
+                        <ol id="modul-langkah" class="list-decimal pl-5 text-xl space-y-1"></ol>
+                    </div>
+                </div>
+
+                <div id="mmv-panel-cuba" class="mmv-panel hidden space-y-2">
+                    <h3 class="font-black text-2xl comic-font">✏️ Papan Lukisan</h3>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5">
+                            <button onclick="modulSetColor('#0f172a')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#0f172a"></button>
+                            <button onclick="modulSetColor('#ef4444')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#ef4444"></button>
+                            <button onclick="modulSetColor('#f59e0b')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#f59e0b"></button>
+                            <button onclick="modulSetColor('#10b981')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#10b981"></button>
+                            <button onclick="modulSetColor('#3b82f6')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#3b82f6"></button>
+                        </div>
+                        <div class="flex gap-1.5">
+                            <button onclick="modulClearCanvas()" class="text-lg font-black px-2.5 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Padam</button>
+                            <button onclick="modulDownloadCanvas()" class="text-lg font-black px-2.5 py-1.5 bg-amber-400 rounded-lg border border-slate-950">Muat Turun 💾</button>
+                        </div>
+                    </div>
+                    <div class="relative w-full aspect-[4/3] rounded-xl border-2 border-slate-950 bg-slate-50 overflow-hidden cursor-crosshair">
+                        <canvas id="modul-canvas" class="absolute inset-0 w-full h-full touch-none" style="touch-action:none;"></canvas>
+                    </div>
+                    <input type="range" id="modul-brush-size" min="1" max="30" value="4" class="w-full">
+                    <p id="modul-hantar-lukisan-note" class="text-lg text-slate-400 italic">Guna butang "Hantar Lukisan Papan Ini 🖼️" di tab 08 Galeri untuk hantar terus.</p>
+                </div>
+
+                <div id="modul-projek-seni" class="mmv-panel hidden space-y-2">
+                    <h3 class="font-black text-2xl comic-font">🎯 Cabaran Projek Seni</h3>
+                    <p id="modul-projek-cabaran" class="text-xl font-black"></p>
+                    <p class="text-xl text-slate-600"><span class="font-black">Bahan:</span> <span id="modul-projek-bahan"></span></p>
+                    <p class="text-xl text-slate-600"><span class="font-black">Masa:</span> <span id="modul-projek-masa"></span></p>
+                    <p class="text-xl text-slate-600"><span class="font-black">Hasil Pembelajaran:</span> <span id="modul-projek-hasil"></span></p>
+                </div>
+
+                <div id="modul-murid-quiz" class="mmv-panel hidden space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-black text-2xl comic-font">🧠 Kuiz Pantas</h3>
+                        <span id="modul-quiz-index" class="text-lg font-bold bg-slate-100 px-3 py-1.5 rounded-full border border-slate-900">1 / 10</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-3 border-2 border-slate-950 overflow-hidden">
+                        <div id="modul-quiz-progress" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full transition-all duration-500" style="width:0%"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-lg font-bold text-slate-500">
+                        <span>⭐ Skor: <span id="modul-quiz-score-live">0</span></span>
+                        <span id="modul-quiz-streak" class="hidden text-amber-500">🔥 Streak!</span>
+                    </div>
+                    <p id="modul-quiz-question" class="text-xl font-bold bg-lime-50 p-3 rounded-lg border border-slate-900 transition-all"></p>
+                    <div id="modul-quiz-options" class="grid grid-cols-1 gap-2"></div>
+                    <p id="modul-quiz-feedback" class="hidden text-lg font-bold p-2 rounded-lg"></p>
+                </div>
+
+                <div id="mmv-panel-galeri2" class="mmv-panel hidden space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-black text-2xl comic-font">📸 Galeri Unit Ini</h3>
+                        <button id="modul-hantar-lukisan-btn" onclick="hantarKaryaDariModul()" class="text-lg font-black px-2.5 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Hantar Lukisan 🖼️</button>
+                    </div>
+                    <p id="modul-galeri-feedback" class="hidden text-lg font-bold p-2 rounded-lg"></p>
+                    <div id="modul-galeri-unit" class="grid grid-cols-1 gap-2"><p class="text-lg text-slate-400 italic">Memuatkan...</p></div>
+                </div>
+
             </div>
         </div>
 
         <!-- ===== KUIZ SAYA ===== -->
         <div id="murid-view-kuiz" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
-                <h3 class="font-black text-lg comic-font">🎮 Kuiz Saya</h3>
-                <p class="text-xs text-slate-500">Kuiz boleh dijawab terus di dalam setiap unit (📖 Unit Saya → buka unit → tab Kuiz). Lulus (2/3 betul) beri +20 ⭐.</p>
-                <p class="text-[10px] text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi.</p>
-                <button onclick="showMuridView('modul')" class="mt-2 py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Pergi ke Unit Saya \u2192</button>
+                <h3 class="font-black text-2xl comic-font">🎮 Kuiz Saya</h3>
+                <p class="text-lg text-slate-500">Kuiz boleh dijawab terus di dalam setiap unit (📖 Unit Saya → buka unit → tab Kuiz). Lulus (2/3 betul) beri +20 ⭐.</p>
+                <p class="text-lg text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi.</p>
+                <button onclick="showMuridView('modul')" class="mt-2 py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Pergi ke Unit Saya \u2192</button>
             </div>
         </div>
 
         <!-- ===== KARYA SAYA ===== -->
         <div id="murid-view-karya" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-                <h3 class="font-black text-lg comic-font">🎨 Karya Saya</h3>
+                <h3 class="font-black text-2xl comic-font">🎨 Karya Saya</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Kelas</label>
-                        <select id="karya-select-class" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Kelas</label>
+                        <select id="karya-select-class" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                             <option value="">-- Sertai kelas dahulu --</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black uppercase text-slate-600 mb-1">Tajuk Karya</label>
-                        <input id="karya-tajuk" type="text" placeholder="Contoh: Gajah Menari Saya" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-sm">
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Tajuk Karya</label>
+                        <input id="karya-tajuk" type="text" placeholder="Contoh: Gajah Menari Saya" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
                     </div>
                 </div>
-                <input id="karya-file" type="file" accept="image/*" class="w-full text-xs">
-                <button onclick="hantarKarya()" class="py-2.5 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">📷 Hantar Karya</button>
+                <input id="karya-file" type="file" accept="image/*" class="w-full text-lg">
+                <button onclick="hantarKarya()" class="py-2.5 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">📷 Hantar Karya</button>
                 <p id="karya-feedback" class="hidden"></p>
 
                 <div id="murid-karya-list" class="grid grid-cols-2 md:grid-cols-3 gap-3 pt-2 border-t-2 border-dashed border-slate-200">
-                    <p class="text-xs text-slate-400 italic col-span-full">Belum ada karya dihantar.</p>
+                    <p class="text-lg text-slate-400 italic col-span-full">Belum ada karya dihantar.</p>
                 </div>
             </div>
         </div>
@@ -690,8 +830,8 @@
         <!-- ===== LENCANA SAYA (penuh) ===== -->
         <div id="murid-view-lencana" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-                <h3 class="font-black text-lg comic-font">🏆 Lencana Saya</h3>
-                <p class="text-xs text-slate-500">Kumpul Bintang Seni untuk buka lencana baharu!</p>
+                <h3 class="font-black text-2xl comic-font">🏆 Lencana Saya</h3>
+                <p class="text-lg text-slate-500">Kumpul Bintang Seni untuk buka lencana baharu!</p>
                 <div id="murid-lencana-penuh" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
             </div>
         </div>
@@ -699,7 +839,7 @@
         <!-- ===== KEMAJUAN SAYA (penuh) ===== -->
         <div id="murid-view-kemajuan" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-                <h3 class="font-black text-lg comic-font">📊 Kemajuan Saya</h3>
+                <h3 class="font-black text-2xl comic-font">📊 Kemajuan Saya</h3>
                 <div id="murid-kemajuan-detail" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
         </div>
@@ -707,18 +847,18 @@
         <!-- ===== KELAS SAYA ===== -->
         <div id="murid-view-kelas" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
-                <h3 class="font-black text-lg comic-font">🔑 Sertai Kelas</h3>
+                <h3 class="font-black text-2xl comic-font">🔑 Sertai Kelas</h3>
                 <div class="flex gap-2">
-                    <input id="join-class-code" type="text" placeholder="Contoh: SKR-2A-2026" class="flex-1 p-3 border-2 border-slate-950 rounded-xl text-sm uppercase">
-                    <button onclick="joinClass()" class="py-3 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl border-2 border-slate-950 shadow-brutal-sm">Sertai</button>
+                    <input id="join-class-code" type="text" placeholder="Contoh: SKR-2A-2026" class="flex-1 p-3 border-2 border-slate-950 rounded-xl text-xl uppercase">
+                    <button onclick="joinClass()" class="py-3 px-5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Sertai</button>
                 </div>
-                <div id="join-class-feedback" class="hidden p-3 rounded-xl border-2 text-xs font-bold"></div>
+                <div id="join-class-feedback" class="hidden p-3 rounded-xl border-2 text-lg font-bold"></div>
             </div>
 
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-                <h3 class="font-black text-lg comic-font mb-3">📚 Kelas Saya</h3>
+                <h3 class="font-black text-2xl comic-font mb-3">📚 Kelas Saya</h3>
                 <div id="murid-class-list" class="space-y-3">
-                    <p class="text-xs text-slate-400 italic">Anda belum menyertai sebarang kelas.</p>
+                    <p class="text-lg text-slate-400 italic">Anda belum menyertai sebarang kelas.</p>
                 </div>
             </div>
         </div>
@@ -726,8 +866,8 @@
         <!-- ===== BANTUAN ===== -->
         <div id="murid-view-bantuan" class="hidden space-y-4">
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
-                <h3 class="font-black text-lg comic-font">❓ Bantuan</h3>
-                <div class="space-y-2 text-xs text-slate-600">
+                <h3 class="font-black text-2xl comic-font">❓ Bantuan</h3>
+                <div class="space-y-2 text-lg text-slate-600">
                     <p><b>Macam mana nak mula?</b> Sertai kelas guna kod dari cikgu di "🔑 Kelas Saya", kemudian buka unit di "📖 Unit Saya".</p>
                     <p><b>Macam mana dapat Bintang Seni?</b> Baca modul (+5), jawab Lihat & Perhati (+10), lulus kuiz (+20), hantar karya (+20), siapkan unit penuh (+50 bonus).</p>
                     <p><b>Karya saya hilang?</b> Semak "🖼️ Karya Saya" -- karya tersimpan mengikut kelas yang disertai.</p>
@@ -736,152 +876,6 @@
             </div>
         </div>
 
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: Modul Pembelajaran (dibuka bila kad unit Kandungan PSV diklik) -->
-    <!-- Paparan besar bersaiz hampir skrin penuh, dipaparkan sebagai "slaid" satu demi satu
-         (bukan satu scroll panjang) supaya guru boleh projek terus depan kelas dan tekan
-         Seterus/Sebelum ikut rentak pengajaran. -->
-    <div id="modul-overlay" class="hidden fixed inset-0 bg-slate-900/90 z-[100] flex items-center justify-center p-0 lg:p-4">
-        <div class="bg-white w-full h-full lg:h-[95vh] lg:max-w-6xl border-4 border-slate-950 lg:rounded-3xl shadow-2xl overflow-hidden flex flex-col">
-            <div class="p-3 lg:p-5 bg-indigo-600 text-white flex items-center justify-between gap-3 shrink-0">
-                <div class="min-w-0">
-                    <span id="modul-badge" class="bg-yellow-300 text-slate-900 text-[10px] lg:text-xs font-black px-2 py-0.5 rounded-full uppercase">Tahun 1 \u2022 Unit 1</span>
-                    <h3 id="modul-title" class="font-black text-lg lg:text-2xl leading-tight mt-1 truncate">Tajuk Unit</h3>
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <span id="modul-page-indicator" class="text-[10px] lg:text-xs bg-white/20 px-2.5 py-1.5 rounded-full font-black">1 / 1</span>
-                    <button onclick="closeModulPembelajaran()" class="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center font-black">✕</button>
-                </div>
-            </div>
-
-            <!-- Viewport: hanya SATU slaid kelihatan pada satu masa -->
-            <div id="modul-slide-viewport" class="flex-1 overflow-y-auto p-4 lg:p-10 flex flex-col justify-center">
-
-                <div class="modul-slide space-y-4 lg:space-y-6 max-w-3xl mx-auto w-full text-center" data-slide="pengenalan">
-                    <span id="modul-pengenalan-badge" class="inline-block bg-yellow-300 border-2 border-slate-950 text-slate-900 text-[10px] lg:text-xs font-black px-3 py-1 rounded-full uppercase"></span>
-                    <h2 id="modul-pengenalan-tajuk" class="font-black text-2xl lg:text-4xl comic-font leading-tight"></h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-                        <div class="p-3 lg:p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
-                            <p class="text-[10px] font-black uppercase text-indigo-700">🎨 Bidang</p>
-                            <p id="modul-pengenalan-bidang" class="text-sm lg:text-lg font-bold"></p>
-                        </div>
-                        <div class="p-3 lg:p-4 bg-emerald-50 rounded-xl border-2 border-slate-950">
-                            <p class="text-[10px] font-black uppercase text-emerald-700">🖌️ Teknik</p>
-                            <p id="modul-pengenalan-teknik" class="text-sm lg:text-lg font-bold"></p>
-                        </div>
-                    </div>
-                    <div class="p-3 lg:p-4 bg-amber-50 rounded-xl border-2 border-slate-950 text-left">
-                        <p class="text-[10px] font-black uppercase text-amber-700">🔑 Kata Kunci</p>
-                        <p id="modul-pengenalan-katakunci" class="text-sm lg:text-lg font-bold"></p>
-                    </div>
-                    <div class="p-3 lg:p-4 bg-slate-50 rounded-xl border-2 border-slate-950 text-left">
-                        <p class="text-[10px] font-black uppercase text-slate-600">🧰 Bahan Diperlukan (ringkas)</p>
-                        <p id="modul-pengenalan-bahan" class="text-sm lg:text-lg font-bold"></p>
-                    </div>
-                </div>
-
-                <div class="modul-slide hidden space-y-3 lg:space-y-5 max-w-3xl mx-auto w-full" data-slide="intro">
-                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🎯 Objektif & Kriteria Kejayaan</h4>
-                    <p id="modul-sk" class="text-sm lg:text-xl font-bold text-slate-800 bg-indigo-50 p-3 lg:p-5 rounded-xl text-center"></p>
-                    <p id="modul-sp" class="text-xs lg:text-base text-slate-700 bg-slate-50 p-3 lg:p-5 rounded-xl text-center"></p>
-                </div>
-
-                <div class="modul-slide hidden space-y-3 max-w-4xl mx-auto w-full" data-slide="video">
-                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🎬 Video Demonstrasi</h4>
-                    <div class="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-slate-950 bg-black">
-                        <iframe id="modul-video" class="absolute inset-0 w-full h-full" src="" title="Video Modul" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                    </div>
-                    <p id="modul-video-note" class="text-[10px] lg:text-xs text-slate-400 italic text-center"></p>
-                </div>
-
-                <div id="modul-lihat-perhati" class="modul-slide hidden space-y-3 max-w-2xl mx-auto w-full p-4 lg:p-6 bg-sky-50 border-2 border-slate-950 rounded-xl" data-slide="lihatperhati">
-                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">👀 Lihat & Perhati</h4>
-                    <p id="modul-lp-gambar-label" class="text-sm lg:text-lg font-bold text-slate-700 text-center"></p>
-                    <p id="modul-lp-soalan" class="text-sm lg:text-lg font-bold bg-white p-3 rounded-lg border border-slate-900 text-center"></p>
-                    <div id="modul-lp-pilihan" class="grid grid-cols-2 gap-2 lg:gap-3"></div>
-                    <button onclick="semakLihatPerhati()" class="w-full py-2.5 lg:py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-lg border-2 border-slate-950">Semak Jawapan</button>
-                    <p id="modul-lp-feedback" class="hidden text-xs font-bold p-2.5 rounded-lg text-center"></p>
-                </div>
-
-                <div class="modul-slide hidden space-y-3 max-w-2xl mx-auto w-full" data-slide="notabahan">
-                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🧰 Alat & Bahan</h4>
-                    <ul id="modul-bahan" class="list-disc pl-6 lg:pl-8 text-sm lg:text-xl font-medium text-slate-800 bg-slate-50 p-4 lg:p-6 rounded-xl space-y-1.5 lg:space-y-2"></ul>
-                </div>
-
-                <!-- Slaid langkah dijana secara dinamik (bilangan berbeza ikut unit) -->
-                <div id="modul-langkah-container"></div>
-
-                <div id="modul-projek-seni" class="modul-slide hidden space-y-2 lg:space-y-3 max-w-2xl mx-auto w-full p-4 lg:p-8 bg-amber-50 border-2 border-slate-950 rounded-xl" data-slide="projek">
-                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">🎯 Cabaran Projek Seni</h4>
-                    <p id="modul-projek-cabaran" class="text-sm lg:text-xl font-black text-center"></p>
-                    <p class="text-xs lg:text-base text-slate-600"><span class="font-black">Bahan:</span> <span id="modul-projek-bahan"></span></p>
-                    <p class="text-xs lg:text-base text-slate-600"><span class="font-black">Masa:</span> <span id="modul-projek-masa"></span></p>
-                    <p class="text-xs lg:text-base text-slate-600"><span class="font-black">Hasil Pembelajaran:</span> <span id="modul-projek-hasil"></span></p>
-                </div>
-
-                <!-- GURU: Jana RPH terus -->
-                <div id="modul-guru-actions" class="modul-slide hidden space-y-3 max-w-xl mx-auto w-full p-4 lg:p-8 bg-amber-50 border-2 border-slate-950 rounded-xl" data-slide="guruaction">
-                    <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700 text-center">⚡ Jana RPH</h4>
-                    <p class="text-xs lg:text-sm font-bold text-slate-600 text-center">Sudah tonton & baca? Terus jana RPH untuk unit ini.</p>
-                    <button onclick="janaRPHDariModul()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
-                    <p id="modul-guru-rph-feedback" class="hidden text-xs font-bold p-2 rounded-lg text-center"></p>
-                </div>
-
-                <!-- MURID: Kuiz ringkas -->
-                <div id="modul-murid-quiz" class="modul-slide hidden space-y-3 max-w-xl mx-auto w-full p-4 lg:p-8 bg-lime-50 border-2 border-slate-950 rounded-xl" data-slide="quiz">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-xs lg:text-sm font-black uppercase text-slate-700">🧠 Kuiz Pantas</h4>
-                        <span id="modul-quiz-index" class="text-[10px] font-bold bg-white px-2 py-0.5 rounded-full border border-slate-900">1 / 3</span>
-                    </div>
-                    <p id="modul-quiz-question" class="text-sm lg:text-lg font-bold bg-white p-3 rounded-lg border border-slate-900"></p>
-                    <div id="modul-quiz-options" class="grid grid-cols-1 gap-2"></div>
-                    <p id="modul-quiz-feedback" class="hidden text-xs font-bold p-2 rounded-lg"></p>
-                </div>
-
-                <!-- Papan Lukisan (kedua-dua peranan) -->
-                <div class="modul-slide hidden space-y-2 max-w-3xl mx-auto w-full" data-slide="papan">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700">🖌️ Papan Lukisan</h4>
-                        <div class="flex gap-1.5">
-                            <button onclick="modulClearCanvas()" class="text-[10px] font-black px-2.5 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Padam</button>
-                            <button onclick="modulDownloadCanvas()" class="text-[10px] font-black px-2.5 py-1.5 bg-amber-400 rounded-lg border border-slate-950">Muat Turun 💾</button>
-                        </div>
-                    </div>
-                    <div class="relative w-full aspect-[4/3] rounded-xl border-2 border-slate-950 bg-slate-50 overflow-hidden cursor-crosshair">
-                        <canvas id="modul-canvas" class="absolute inset-0 w-full h-full touch-none" style="touch-action:none;"></canvas>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <button onclick="modulSetColor('#0f172a')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#0f172a"></button>
-                        <button onclick="modulSetColor('#ef4444')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#ef4444"></button>
-                        <button onclick="modulSetColor('#f59e0b')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#f59e0b"></button>
-                        <button onclick="modulSetColor('#10b981')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#10b981"></button>
-                        <button onclick="modulSetColor('#3b82f6')" class="w-7 h-7 rounded-full border-2 border-slate-950" style="background:#3b82f6"></button>
-                        <input type="range" id="modul-brush-size" min="1" max="30" value="4" class="flex-1">
-                    </div>
-                    <p id="modul-hantar-lukisan-note" class="text-[10px] text-slate-400 italic">Guna butang "Hantar Lukisan Papan Ini 🖼️" di halaman Galeri untuk hantar terus, atau muat turun untuk simpan.</p>
-                </div>
-
-                <!-- Galeri Unit Ini + PBD -->
-                <div class="modul-slide hidden space-y-2 max-w-3xl mx-auto w-full" data-slide="galeri">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-xs lg:text-sm font-black uppercase text-indigo-700">📸 Galeri Unit Ini</h4>
-                        <button id="modul-hantar-lukisan-btn" onclick="hantarKaryaDariModul()" class="hidden text-[10px] font-black px-2.5 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Hantar Lukisan Papan Ini 🖼️</button>
-                    </div>
-                    <p id="modul-galeri-feedback" class="hidden text-xs font-bold p-2 rounded-lg"></p>
-                    <div id="modul-galeri-unit" class="grid grid-cols-1 gap-2 max-h-[50vh] overflow-y-auto">
-                        <p class="text-[10px] text-slate-400 italic">Memuatkan...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Navigasi bawah: Sebelum / Seterus -->
-            <div class="p-3 lg:p-4 border-t-4 border-slate-950 bg-slate-50 flex items-center justify-between gap-3 shrink-0">
-                <button onclick="modulPrevPage()" id="modul-prev-btn" class="py-2.5 lg:py-3.5 px-4 lg:px-8 bg-white border-2 border-slate-950 rounded-xl font-black text-xs lg:text-sm shadow-brutal-sm disabled:opacity-30" disabled>◀ Sebelum</button>
-                <div id="modul-page-dots" class="hidden md:flex gap-1.5 flex-wrap justify-center"></div>
-                <button onclick="modulNextPage()" id="modul-next-btn" class="py-2.5 lg:py-3.5 px-4 lg:px-8 bg-indigo-600 hover:bg-indigo-700 text-white border-2 border-slate-950 rounded-xl font-black text-xs lg:text-sm shadow-brutal-sm">Seterus ▶</button>
             </div>
         </div>
     </div>
@@ -916,7 +910,7 @@
             onAuthStateChanged
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
         import {
-            getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, increment, collection, query, where, getDocs, serverTimestamp, addDoc, orderBy
+            getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove, increment, collection, query, where, getDocs, serverTimestamp, addDoc, orderBy, deleteDoc
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
         // NOTA: Firebase Storage TIDAK digunakan -- ia kini memerlukan pelan Blaze
         // (berbayar/berkad walaupun dalam had percuma). Gambar karya disimpan terus
@@ -1644,7 +1638,6 @@
 
         function loadDashboardForRole(role) {
             if (role === 'guru') {
-                document.getElementById('guru-email-label') && (document.getElementById('guru-email-label').innerText = currentUser.email);
                 document.getElementById('guru-name-label').innerText = (currentUser.displayName || currentUser.email || '').split(' ')[0] || 'Guru';
                 showScreen('screen-guru');
                 showGuruView('dashboard');
@@ -1703,8 +1696,8 @@
             const tree = document.getElementById('sidebar-modul-tree');
             tree.innerHTML = Object.entries(CONTENT_BY_YEAR).map(([tahun, units]) => `
                 <div>
-                    <p class="text-[10px] font-black uppercase text-slate-500 px-3 pt-2 pb-1">${tahun}</p>
-                    ${units.map(u => `<button onclick="openGuruModulViewer('${tahun}','${u.unit}')" class="w-full text-left px-3 py-1.5 rounded-lg text-[11px] font-bold text-slate-300 hover:bg-slate-800 hover:text-white truncate">${u.unit}: ${u.tajuk}</button>`).join('')}
+                    <p class="text-lg font-black uppercase text-slate-500 px-3 pt-2 pb-1">${tahun}</p>
+                    ${units.map(u => `<button onclick="openGuruModulViewer('${tahun}','${u.unit}')" class="w-full text-left px-3 py-1.5 rounded-lg text-lg font-bold text-slate-300 hover:bg-slate-800 hover:text-white truncate">${u.unit}: ${u.tajuk}</button>`).join('')}
                 </div>
             `).join('');
         }
@@ -1769,14 +1762,14 @@
             if (extras && extras.lihatPerhati) {
                 const lp = extras.lihatPerhati;
                 lpBox.innerHTML = `
-                    <p class="text-sm font-bold text-slate-700">🖼️ ${lp.gambarLabel}</p>
-                    <p class="text-sm font-bold bg-indigo-50 p-3 rounded-xl mt-2">${lp.soalan}</p>
-                    <ul class="list-disc pl-5 text-sm mt-2 space-y-1">
+                    <p class="text-xl font-bold text-slate-700">🖼️ ${lp.gambarLabel}</p>
+                    <p class="text-xl font-bold bg-indigo-50 p-3 rounded-xl mt-2">${lp.soalan}</p>
+                    <ul class="list-disc pl-5 text-xl mt-2 space-y-1">
                         ${lp.pilihan.filter(p => p.betul).map(p => `<li>${p.label}</li>`).join('')}
                     </ul>
-                    <p class="text-xs text-emerald-700 font-bold mt-2 bg-emerald-50 p-2 rounded-lg">${lp.penjelasan}</p>`;
+                    <p class="text-lg text-emerald-700 font-bold mt-2 bg-emerald-50 p-2 rounded-lg">${lp.penjelasan}</p>`;
             } else {
-                lpBox.innerHTML = `<p class="text-xs text-slate-400 italic">Belum disediakan untuk unit ini.</p>`;
+                lpBox.innerHTML = `<p class="text-lg text-slate-400 italic">Belum disediakan untuk unit ini.</p>`;
             }
 
             // 04 Jom Belajar Teknik (video + bahan + langkah)
@@ -1806,7 +1799,7 @@
                 `Rujuk SK/SP unit ini -- yang manakah paling tepat?`,
                 `Selepas menyiapkan karya, langkah penting seterusnya ialah...`,
             ];
-            document.getElementById('gmv-kuiz-preview').innerHTML = previewQ.map((q, i) => `<p class="text-xs font-bold bg-slate-50 p-2.5 rounded-lg">${i + 1}. ${q}</p>`).join('');
+            document.getElementById('gmv-kuiz-preview').innerHTML = previewQ.map((q, i) => `<p class="text-lg font-bold bg-slate-50 p-2.5 rounded-lg">${i + 1}. ${q}</p>`).join('');
             document.getElementById('gmv-rph-feedback').classList.add('hidden');
 
             // 08 Galeri & PBD
@@ -1894,7 +1887,7 @@
             const kelasSepadan = guruClassesData.filter(c => c.tahun === gmvYear);
             if (kelasSepadan.length === 0) {
                 fb.innerText = `Belum ada kelas ${gmvYear} dicipta. Sila cipta kelas dahulu di "👥 Kelas Saya".`;
-                fb.className = 'text-xs font-bold p-2 mt-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                fb.className = 'text-lg font-bold p-2 mt-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
                 fb.classList.remove('hidden');
                 return;
             }
@@ -1967,7 +1960,7 @@
                 const fb = document.getElementById('modul-galeri-feedback');
                 if (fb) {
                     fb.innerText = '🎉 Unit Lengkap! +50 ⭐ Bonus!';
-                    fb.className = 'text-xs font-bold p-2 rounded-lg bg-amber-50 border border-amber-500 text-amber-700';
+                    fb.className = 'text-lg font-bold p-2 rounded-lg bg-amber-50 border border-amber-500 text-amber-700';
                     fb.classList.remove('hidden');
                 }
             } catch (e) {
@@ -1984,18 +1977,18 @@
             const activeYear = contentListSelectedYear[containerId];
 
             const tabsHTML = `<div class="flex flex-wrap gap-2 mb-3">${years.map(y => `
-                <button onclick="renderContentList('${containerId}', '${y}')" class="px-3 py-1.5 rounded-xl border-2 border-slate-950 text-xs font-black transition-colors ${y === activeYear ? 'bg-indigo-600 text-white' : 'bg-white hover:bg-slate-50'}">${y}</button>
+                <button onclick="renderContentList('${containerId}', '${y}')" class="px-3 py-1.5 rounded-xl border-2 border-slate-950 text-lg font-black transition-colors ${y === activeYear ? 'bg-indigo-600 text-white' : 'bg-white hover:bg-slate-50'}">${y}</button>
             `).join('')}</div>`;
 
             const openFn = containerId === 'guru-content-list' ? 'openGuruModulViewer' : 'openModulPembelajaran';
             const unitsHTML = (CONTENT_BY_YEAR[activeYear] || []).map(item => `
                 <div onclick="${openFn}('${activeYear}', '${item.unit}')" class="p-3 bg-slate-50 hover:bg-yellow-50 border-2 border-slate-950 rounded-xl cursor-pointer transition-colors flex items-center justify-between gap-2 group">
                     <div>
-                        <span class="text-[9px] font-black uppercase px-2 py-0.5 bg-yellow-300 border border-slate-900 rounded-full">${activeYear} \u2022 ${item.unit}</span>
-                        <p class="font-bold text-sm mt-1">${item.tajuk}</p>
-                        <p class="text-[10px] text-slate-500">${item.teknik}</p>
+                        <span class="text-base font-black uppercase px-3 py-1.5 bg-yellow-300 border border-slate-900 rounded-full">${activeYear} \u2022 ${item.unit}</span>
+                        <p class="font-bold text-xl mt-1">${item.tajuk}</p>
+                        <p class="text-lg text-slate-500">${item.teknik}</p>
                     </div>
-                    <span class="shrink-0 text-[10px] font-black px-2.5 py-1.5 rounded-lg bg-white border-2 border-slate-950 group-hover:bg-indigo-600 group-hover:text-white transition-colors">📖 Modul</span>
+                    <span class="shrink-0 text-lg font-black px-2.5 py-1.5 rounded-lg bg-white border-2 border-slate-950 group-hover:bg-indigo-600 group-hover:text-white transition-colors">📖 Modul</span>
                 </div>`).join('');
 
             container.innerHTML = tabsHTML + `<div class="grid grid-cols-1 md:grid-cols-2 gap-3">${unitsHTML}</div>`;
@@ -2152,8 +2145,6 @@
             const teknikKeywords = item.teknik.split(/[^A-Za-zÀ-ÿ]+/).filter(w => w.length > 2);
             const kataKunci = [...new Set([bidangName, ...teknikKeywords])].slice(0, 5).join(', ');
 
-            document.getElementById('modul-pengenalan-badge').innerText = `${tahunLabel} \u2022 ${unitCode}`;
-            document.getElementById('modul-pengenalan-tajuk').innerText = item.tajuk;
             document.getElementById('modul-pengenalan-bidang').innerText = bidangName;
             document.getElementById('modul-pengenalan-teknik').innerText = item.teknik;
             document.getElementById('modul-pengenalan-katakunci').innerText = kataKunci;
@@ -2179,20 +2170,13 @@
             const nota = (extras && extras.nota) || generateNotaForUnit(item);
             document.getElementById('modul-bahan').innerHTML = nota.bahan.map(b => `<li>${b}</li>`).join('');
             document.getElementById('modul-pengenalan-bahan').innerText = nota.bahan.join(', ');
+            document.getElementById('modul-langkah').innerHTML = nota.langkah.map(s => `<li>${s}</li>`).join('');
 
-            // Setiap langkah dijana sebagai SATU slaid besar tersendiri (bukan senarai
-            // panjang), supaya guru boleh projek satu langkah pada satu masa depan kelas.
-            const langkahContainer = document.getElementById('modul-langkah-container');
-            langkahContainer.innerHTML = nota.langkah.map((step, idx) => `
-                <div class="modul-slide hidden space-y-4 max-w-2xl mx-auto w-full text-center" data-slide="langkah-${idx}">
-                    <span class="inline-block bg-indigo-600 text-white text-xs lg:text-sm font-black px-4 py-1.5 rounded-full uppercase">Langkah ${idx + 1} / ${nota.langkah.length}</span>
-                    <p class="text-lg lg:text-3xl font-bold text-slate-800 leading-snug">${step}</p>
-                </div>
-            `).join('');
-
-            // 04 & 07: guna data Master Template jika ada untuk unit ini; kalau tiada, sembunyikan
-            // (04) atau jana versi generik daripada nota sedia ada (07) supaya tak kosong terus.
+            // 03 & 06: guna data Master Template jika ada untuk unit ini; kalau tiada, sembunyikan
+            // (03) atau jana versi generik daripada nota sedia ada (06) supaya tak kosong terus.
             const hasLihatPerhati = !!(extras && extras.lihatPerhati);
+            const lpTabBtn = document.querySelector('.mmv-tab-btn[data-tab="lihatperhati"]');
+            if (lpTabBtn) lpTabBtn.classList.toggle('hidden', !hasLihatPerhati);
             if (hasLihatPerhati) renderLihatPerhati(extras.lihatPerhati);
 
             const projek = (extras && extras.projekSeni) || {
@@ -2203,110 +2187,114 @@
             document.getElementById('modul-projek-cabaran').innerText = projek.cabaran;
             document.getElementById('modul-projek-bahan').innerText = projek.bahan.join(', ');
             document.getElementById('modul-projek-masa').innerText = projek.masa;
-            document.getElementById('modul-projek-hasil').innerText = projek.hasil;
-
-            const isGuru = document.getElementById('screen-guru') && !document.getElementById('screen-guru').classList.contains('hidden');
-            document.getElementById('modul-hantar-lukisan-btn').classList.toggle('hidden', isGuru);
-            document.getElementById('modul-guru-rph-feedback').classList.add('hidden');
             document.getElementById('modul-galeri-feedback').classList.add('hidden');
-            if (!isGuru) { initModulQuiz(item); awardBacaanPertamaKali(tahunLabel, unitCode); }
-            loadGaleriUnit(tahunLabel, unitCode, isGuru);
+            initModulQuiz(item);
+            awardBacaanPertamaKali(tahunLabel, unitCode);
+            loadGaleriUnit(tahunLabel, unitCode, false);
 
-            // Susun senarai halaman ikut aliran pengajaran sebenar: pengenalan -> video ->
-            // (lihat&perhati jika ada) -> bahan -> setiap langkah -> projek -> jana
-            // RPH(guru)/kuiz(murid) -> papan lukisan -> galeri.
-            modulSlideOrder = ['pengenalan', 'intro', 'video'];
-            if (hasLihatPerhati) modulSlideOrder.push('lihatperhati');
-            modulSlideOrder.push('notabahan');
-            nota.langkah.forEach((_, idx) => modulSlideOrder.push(`langkah-${idx}`));
-            modulSlideOrder.push('projek', isGuru ? 'guruaction' : 'quiz', 'papan', 'galeri');
-
-            document.getElementById('modul-overlay').classList.remove('hidden');
-            showModulSlide(0);
-        }
-        // Senarai jujukan halaman (data-slide) untuk unit yang sedang dibuka, dan indeks semasa.
-        let modulSlideOrder = [];
-        let modulSlideIndex = 0;
-        function showModulSlide(idx) {
-            if (idx < 0 || idx >= modulSlideOrder.length) return;
-            modulSlideIndex = idx;
-            document.querySelectorAll('#modul-slide-viewport .modul-slide').forEach(el => el.classList.add('hidden'));
-            const target = document.querySelector(`#modul-slide-viewport .modul-slide[data-slide="${modulSlideOrder[idx]}"]`);
-            if (target) target.classList.remove('hidden');
-            document.getElementById('modul-slide-viewport').scrollTop = 0;
-            document.getElementById('modul-page-indicator').innerText = `${idx + 1} / ${modulSlideOrder.length}`;
-            document.getElementById('modul-prev-btn').disabled = (idx === 0);
-            const nextBtn = document.getElementById('modul-next-btn');
-            nextBtn.innerText = (idx === modulSlideOrder.length - 1) ? 'Tamat \u2713' : 'Seterus \u25b6';
-            nextBtn.disabled = (idx === modulSlideOrder.length - 1);
-            // Kanvas perlu di-resize semula sebaik halaman Papan Lukisan kelihatan
-            // (ia 0x0 selagi hidden -- lihat nota dalam initModulCanvas).
-            if (modulSlideOrder[idx] === 'papan' && !modulCanvasReady) {
-                setTimeout(() => { initModulCanvas(); modulCanvasReady = true; }, 50);
-            }
-
-            const dots = document.getElementById('modul-page-dots');
-            dots.innerHTML = modulSlideOrder.map((_, i) => `<span class="w-2 h-2 rounded-full ${i === idx ? 'bg-indigo-600' : 'bg-slate-300'}"></span>`).join('');
-        }
-        function modulNextPage() { showModulSlide(modulSlideIndex + 1); }
-        function modulPrevPage() { showModulSlide(modulSlideIndex - 1); }
-        window.modulNextPage = modulNextPage;
-        window.modulPrevPage = modulPrevPage;
-        function closeModulPembelajaran() {
-            document.getElementById('modul-overlay').classList.add('hidden');
-            document.getElementById('modul-video').src = '';
+            showMuridView('modul-viewer');
+            showMuridModulTab('kenali');
         }
 
-        // Guru: jana RPH terus dari modul -- perlukan kelas sedia ada bagi tahun unit ini
-        function janaRPHDariModul() {
-            const fb = document.getElementById('modul-guru-rph-feedback');
-            const kelasSepadan = guruClassesData.filter(c => c.tahun === activeModulYear);
-            if (kelasSepadan.length === 0) {
-                fb.innerText = `Belum ada kelas ${activeModulYear} dicipta. Sila "+ Cipta Kelas" dahulu.`;
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
-                fb.classList.remove('hidden');
-                return;
-            }
-            document.getElementById('rph-select-class').value = kelasSepadan[0].kod;
-            window.onRphClassChange();
-            document.getElementById('rph-select-unit').value = activeModulUnit;
-            window.onRphUnitChange();
-            closeModulPembelajaran();
-            document.getElementById('rph-select-unit').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        function showMuridModulTab(tab) {
+            document.querySelectorAll('.mmv-panel').forEach(p => p.classList.add('hidden'));
+            const panel = document.getElementById(`mmv-panel-${tab}`) || document.getElementById(tab === 'lihatperhati' ? 'modul-lihat-perhati' : tab === 'kuiz2' ? 'modul-murid-quiz' : tab === 'projek' ? 'modul-projek-seni' : '');
+            if (panel) panel.classList.remove('hidden');
+            document.querySelectorAll('.mmv-tab-btn').forEach(btn => {
+                const active = btn.dataset.tab === tab;
+                btn.classList.toggle('bg-indigo-600', active);
+                btn.classList.toggle('text-white', active);
+                btn.classList.toggle('bg-white', !active);
+            });
+            if (tab === 'cuba' && !modulCanvasReady) { setTimeout(() => { initModulCanvas(); modulCanvasReady = true; }, 50); }
         }
+        window.showMuridModulTab = showMuridModulTab;
+
+        function muridModulPrevUnit() { muridModulStepUnit(-1); }
+        function muridModulNextUnit() { muridModulStepUnit(1); }
+        window.muridModulPrevUnit = muridModulPrevUnit;
+        window.muridModulNextUnit = muridModulNextUnit;
+        function muridModulStepUnit(dir) {
+            const units = CONTENT_BY_YEAR[activeModulYear] || [];
+            const idx = units.findIndex(u => u.unit === activeModulUnit);
+            const nextIdx = idx + dir;
+            if (nextIdx >= 0 && nextIdx < units.length) openModulPembelajaran(activeModulYear, units[nextIdx].unit);
+            else alert(dir < 0 ? 'Ini unit pertama.' : 'Ini unit terakhir.');
+        }
+
+        // (janaRPHDariModul dibuang -- Guru kini guna janaRPHDariGmv() dalam paparan Modul PdP sendiri)
 
         // Murid: kuiz pantas 3 soalan dibina terus daripada SK/SP/teknik unit (data yang sama
         // dipaparkan dalam modul ini -- bukan tekaan berasingan, supaya kekal tepat).
-        let modulQuizQuestions = []; let modulQuizIndex = 0; let modulQuizScore = 0; let modulQuizAwarded = false;
+        let modulQuizQuestions = []; let modulQuizIndex = 0; let modulQuizScore = 0; let modulQuizAwarded = false; let modulQuizStreak = 0;
+        function shuffleOptions(qq) {
+            const correctVal = qq.a[qq.c];
+            for (let i = qq.a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [qq.a[i], qq.a[j]] = [qq.a[j], qq.a[i]];
+            }
+            qq.c = qq.a.indexOf(correctVal);
+            return qq;
+        }
+        // 10 soalan dijana daripada DATA SEBENAR unit ini sahaja (tajuk, teknik, SK/SP, bahan,
+        // bidang, tahun, nombor unit) -- tiada fakta kurikulum baharu direka, hanya disoal
+        // dalam pelbagai cara supaya lebih mencabar & interaktif.
         function initModulQuiz(item) {
+            const tahun = activeModulYear, unitCode = activeModulUnit;
+            const semuaUnitTahunIni = (CONTENT_BY_YEAR[tahun] || []);
+            const unitLain = semuaUnitTahunIni.filter(u => u.unit !== unitCode);
+            const pilihAcak = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
+
+            const key = `${tahun}|${unitCode}`;
+            const extras = MASTER_TEMPLATE_EXTRAS[key];
+            const nota = (extras && extras.nota) || generateNotaForUnit(item);
+            const bidangMatch = (item.sk || item.sp || '').match(/\(Bidang ([^)]+)\)/i);
+            const bidangName = bidangMatch ? bidangMatch[1] : 'Pendidikan Seni Visual';
+            const semuaBidang = ['Menggambar', 'Membuat Corak dan Rekaan', 'Membentuk dan Membuat Binaan', 'Mengenal Kraf Tradisional'];
+            const bahanLainMentah = unitLain.length > 0 ? (generateNotaForUnit(unitLain[Math.floor(Math.random() * unitLain.length)]).bahan) : [];
+            const bahanFallback = ['Kertas warna', 'Gunting', 'Gam', 'Pensel', 'Berus lukisan', 'Cat air', 'Tanah liat', 'Kad manila'];
+            const bahanLain = [...new Set([...bahanLainMentah, ...bahanFallback])];
+            const tajukLain = pilihAcak(unitLain.map(u => u.tajuk), 3);
+            const unitNomborLain = pilihAcak(semuaUnitTahunIni.map(u => u.unit).filter(u => u !== unitCode), 3);
+            const tahunLain = pilihAcak(Object.keys(CONTENT_BY_YEAR).filter(t => t !== tahun), 3);
+
             modulQuizQuestions = [
                 { q: `Apakah teknik utama bagi unit "${item.tajuk}"?`, a: [item.teknik, "Origami", "Kraf logam", "Fotografi"], c: 0 },
                 { q: `Rujuk SK/SP unit ini -- yang manakah PALING TEPAT?`, a: [item.sk || item.sp || '-', "Tiada kaitan dengan DSKP", "Hanya untuk peperiksaan", "Tiada Standard Kandungan"], c: 0 },
                 { q: `Selepas menyiapkan karya, langkah penting seterusnya ialah...`, a: ["Buang terus hasil karya", "Kongsi & hargai karya rakan (apresiasi)", "Simpan tanpa tunjuk sesiapa", "Tidak perlu buat apa-apa"], c: 1 },
+                { q: `Apakah tajuk unit yang sedang kamu pelajari sekarang?`, a: [item.tajuk, ...tajukLain], c: 0 },
+                { q: `Berapa langkah utama dalam aktiviti "${item.tajuk}"?`, a: [String(nota.langkah.length), String(nota.langkah.length + 2), String(Math.max(1, nota.langkah.length - 2)), String(nota.langkah.length + 5)], c: 0 },
+                { q: `Antara berikut, yang manakah BAHAN untuk unit "${item.tajuk}"?`, a: [nota.bahan[0], ...pilihAcak(bahanLain.filter(b => !nota.bahan.includes(b)), 3)], c: 0 },
+                { q: `Unit "${item.tajuk}" berada di bidang manakah?`, a: [bidangName, ...pilihAcak(semuaBidang.filter(b => b !== bidangName), 3)], c: 0 },
+                { q: `Unit ini tergolong dalam Tahun berapa?`, a: [tahun, ...tahunLain], c: 0 },
+                { q: `Unit "${item.tajuk}" ialah unit yang mana?`, a: [unitCode, ...unitNomborLain], c: 0 },
+                { q: `Tindakan yang BETUL semasa menggunakan gunting/alat tajam di kelas Seni ialah...`, a: ["Berlari sambil memegang gunting", "Guna dengan berhati-hati di bawah seliaan guru", "Berkongsi gunting sambil bergurau", "Simpan gunting dalam poket"], c: 1 },
             ];
-            // kocak pilihan supaya jawapan betul tak sentiasa (0)
-            modulQuizQuestions.forEach(qq => {
-                const correctVal = qq.a[qq.c];
-                for (let i = qq.a.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [qq.a[i], qq.a[j]] = [qq.a[j], qq.a[i]];
-                }
-                qq.c = qq.a.indexOf(correctVal);
-            });
+            modulQuizQuestions.forEach(shuffleOptions);
             modulQuizIndex = 0;
             modulQuizScore = 0;
             modulQuizAwarded = false;
+            modulQuizStreak = 0;
             loadModulQuizQuestion();
         }
         function loadModulQuizQuestion() {
+            const progressBar = document.getElementById('modul-quiz-progress');
+            const scoreLive = document.getElementById('modul-quiz-score-live');
+            if (scoreLive) scoreLive.innerText = modulQuizScore;
             if (modulQuizIndex >= modulQuizQuestions.length) {
-                const lulus = modulQuizScore >= 2; // sekurang-kurangnya 2/3 betul = lulus
-                document.getElementById('modul-quiz-question').innerText = lulus
-                    ? `\ud83c\udf89 Tahniah! Anda LULUS kuiz (${modulQuizScore}/${modulQuizQuestions.length} betul)${modulQuizAwarded ? '' : ' -- +20 \u2b50'}`
-                    : `Kuiz selesai (${modulQuizScore}/${modulQuizQuestions.length} betul). Cuba lagi untuk lulus (perlu 2/3).`;
+                const lulus = modulQuizScore >= 7; // sekurang-kurangnya 7/10 betul = lulus
+                const bintangPenuh = Math.round((modulQuizScore / modulQuizQuestions.length) * 5);
+                const starRow = '⭐'.repeat(bintangPenuh) + '☆'.repeat(5 - bintangPenuh);
+                if (progressBar) progressBar.style.width = '100%';
+                document.getElementById('modul-quiz-question').innerHTML = `
+                    <span class="block text-4xl text-center mb-1">${lulus ? '🎉' : '💪'}</span>
+                    <span class="block text-center text-2xl">${starRow}</span>
+                    <span class="block text-center mt-1">${lulus ? 'Tahniah! Anda LULUS' : 'Kuiz selesai'} (${modulQuizScore}/${modulQuizQuestions.length} betul)${lulus && !modulQuizAwarded ? ' -- +20 \u2b50' : ''}</span>
+                    ${!lulus ? '<span class="block text-center text-lg font-normal mt-1">Perlu 7/10 untuk lulus. Cuba lagi!</span>' : ''}`;
                 document.getElementById('modul-quiz-options').innerHTML = lulus ? '' :
-                    `<button onclick="restartModulQuiz()" class="col-span-2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-lg border-2 border-slate-950">Cuba Lagi \ud83d\udd04</button>`;
+                    `<button onclick="restartModulQuiz()" class="col-span-2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-lg border-2 border-slate-950">Cuba Lagi \ud83d\udd04</button>`;
                 document.getElementById('modul-quiz-index').innerText = `${modulQuizQuestions.length} / ${modulQuizQuestions.length}`;
+                if (lulus) triggerConfettiBurst();
                 if (lulus && !modulQuizAwarded) {
                     modulQuizAwarded = true;
                     tambahBintang(20);
@@ -2317,26 +2305,52 @@
             }
             const qq = modulQuizQuestions[modulQuizIndex];
             document.getElementById('modul-quiz-index').innerText = `${modulQuizIndex + 1} / ${modulQuizQuestions.length}`;
-            document.getElementById('modul-quiz-question').innerText = qq.q;
+            if (progressBar) progressBar.style.width = `${(modulQuizIndex / modulQuizQuestions.length) * 100}%`;
+            const qEl = document.getElementById('modul-quiz-question');
+            qEl.innerText = qq.q;
+            qEl.classList.remove('animate-pulse');
+            void qEl.offsetWidth; // restart animasi
+            qEl.classList.add('animate-pulse');
             document.getElementById('modul-quiz-feedback').classList.add('hidden');
             document.getElementById('modul-quiz-options').innerHTML = qq.a.map((opt, idx) =>
-                `<button onclick="submitModulQuizAnswer(${idx})" class="text-left text-[11px] font-bold p-2 bg-white border-2 border-slate-950 rounded-lg hover:bg-slate-50">${opt}</button>`
+                `<button onclick="submitModulQuizAnswer(${idx})" class="text-left text-lg font-bold p-2.5 bg-white border-2 border-slate-950 rounded-lg hover:bg-indigo-50 hover:-translate-y-0.5 transition-all">${opt}</button>`
             ).join('');
         }
         function submitModulQuizAnswer(idx) {
             const qq = modulQuizQuestions[modulQuizIndex];
             const fb = document.getElementById('modul-quiz-feedback');
+            const streakEl = document.getElementById('modul-quiz-streak');
+            document.querySelectorAll('#modul-quiz-options button').forEach(b => b.disabled = true);
             if (idx === qq.c) {
                 modulQuizScore++;
-                fb.innerText = '\u2705 Betul!';
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                modulQuizStreak++;
+                fb.innerText = modulQuizStreak >= 3 ? `✅ Betul! 🔥 ${modulQuizStreak} berturut-turut!` : '✅ Betul!';
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                if (streakEl) streakEl.classList.toggle('hidden', modulQuizStreak < 3);
             } else {
-                fb.innerText = `\u274c Kurang tepat. Jawapan betul: ${qq.a[qq.c]}`;
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                modulQuizStreak = 0;
+                if (streakEl) streakEl.classList.add('hidden');
+                fb.innerText = `❌ Kurang tepat. Jawapan betul: ${qq.a[qq.c]}`;
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
             }
+            document.getElementById('modul-quiz-score-live').innerText = modulQuizScore;
             fb.classList.remove('hidden');
             modulQuizIndex++;
-            setTimeout(loadModulQuizQuestion, 1400);
+            setTimeout(loadModulQuizQuestion, 1200);
+        }
+        // Letupan bintang ringkas guna emoji melayang (tanpa perlukan pustaka luar).
+        function triggerConfettiBurst() {
+            const panel = document.getElementById('modul-murid-quiz');
+            if (!panel) return;
+            for (let i = 0; i < 12; i++) {
+                const el = document.createElement('span');
+                el.innerText = ['⭐', '🎉', '✨'][i % 3];
+                el.style.cssText = `position:absolute;left:${Math.random() * 100}%;top:40%;font-size:20px;pointer-events:none;transition:all 1s ease-out;z-index:50;`;
+                panel.style.position = 'relative';
+                panel.appendChild(el);
+                setTimeout(() => { el.style.top = '-10%'; el.style.opacity = '0'; }, 20);
+                setTimeout(() => el.remove(), 1100);
+            }
         }
 
         // Papan Lukisan dalam modal -- versi ringkas kanvas lukis (mouse + sentuh)
@@ -2390,8 +2404,6 @@
             link.click();
         }
         window.openModulPembelajaran = openModulPembelajaran;
-        window.closeModulPembelajaran = closeModulPembelajaran;
-        window.janaRPHDariModul = janaRPHDariModul;
         window.submitModulQuizAnswer = submitModulQuizAnswer;
         function restartModulQuiz() { initModulQuiz(activeModulItem); }
         window.restartModulQuiz = restartModulQuiz;
@@ -2407,7 +2419,7 @@
             lpAnswerState = {};
             document.getElementById('modul-lp-pilihan').innerHTML = lp.pilihan.map((p, idx) => {
                 lpAnswerState[idx] = false;
-                return `<label class="flex items-center gap-1.5 text-[11px] font-bold bg-white p-2 rounded-lg border border-slate-900 cursor-pointer">
+                return `<label class="flex items-center gap-1.5 text-lg font-bold bg-white p-2 rounded-lg border border-slate-900 cursor-pointer">
                     <input type="checkbox" onchange="lpAnswerState[${idx}]=this.checked" class="w-4 h-4"> ${p.label}
                 </label>`;
             }).join('');
@@ -2423,7 +2435,7 @@
             const fb = document.getElementById('modul-lp-feedback');
             if (betul) {
                 fb.innerText = '\u2705 ' + (window._lpPenjelasan || 'Betul!') + (modulLihatPerhatiAwarded ? '' : ' (+10 \u2b50)');
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
                 const isMuridSection = document.getElementById('modul-murid-quiz') && !document.getElementById('modul-murid-quiz').classList.contains('hidden');
                 if (isMuridSection && !modulLihatPerhatiAwarded) {
                     modulLihatPerhatiAwarded = true;
@@ -2431,7 +2443,7 @@
                 }
             } else {
                 fb.innerText = '\u274c Cuba lagi -- semak semula unsur yang kelihatan pada karya.';
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
             }
             fb.classList.remove('hidden');
         }
@@ -2445,12 +2457,12 @@
         }
         async function loadGaleriUnitInto(containerId, tahunLabel, unitCode, isGuru) {
             const container = document.getElementById(containerId);
-            container.innerHTML = '<p class="text-[10px] text-slate-400 italic">Memuatkan...</p>';
+            container.innerHTML = '<p class="text-lg text-slate-400 italic">Memuatkan...</p>';
             try {
                 const q = query(collection(db, 'karya'), where('tahun', '==', tahunLabel), where('unit', '==', unitCode), orderBy('tarikh', 'desc'));
                 const snap = await getDocs(q);
                 if (snap.empty) {
-                    container.innerHTML = '<p class="text-[10px] text-slate-400 italic">Belum ada karya dihantar untuk unit ini lagi.</p>';
+                    container.innerHTML = '<p class="text-lg text-slate-400 italic">Belum ada karya dihantar untuk unit ini lagi.</p>';
                     return;
                 }
                 container.innerHTML = '';
@@ -2461,20 +2473,20 @@
                         <div class="flex gap-2 p-2 bg-white border-2 border-slate-950 rounded-xl">
                             <img src="${k.imageUrl}" class="w-16 h-16 object-cover rounded-lg border border-slate-900 shrink-0">
                             <div class="flex-1 min-w-0 space-y-1">
-                                <p class="text-[10px] font-black truncate">${k.tajuk} \u2014 <span class="text-slate-500 font-bold">${k.namaMurid}</span></p>
+                                <p class="text-lg font-black truncate">${k.tajuk} \u2014 <span class="text-slate-500 font-bold">${k.namaMurid}</span></p>
                                 ${isGuru ? `
                                     <div class="flex items-center gap-1">
-                                        <select id="tp-${d.id}" class="text-[9px] p-1 border border-slate-900 rounded">${tpOptions}</select>
-                                        <input id="ulasan-${d.id}" type="text" placeholder="Catatan PBD..." value="${(k.ulasanGuru || '').replace(/"/g, '&quot;')}" class="flex-1 text-[9px] p-1 border border-slate-900 rounded">
-                                        <button onclick="simpanUlasanPBD('${d.id}')" class="text-[9px] font-black px-2 py-1 bg-emerald-500 text-white rounded border border-slate-950">Simpan</button>
+                                        <select id="tp-${d.id}" class="text-base p-1 border border-slate-900 rounded">${tpOptions}</select>
+                                        <input id="ulasan-${d.id}" type="text" placeholder="Catatan PBD..." value="${(k.ulasanGuru || '').replace(/"/g, '&quot;')}" class="flex-1 text-base p-1 border border-slate-900 rounded">
+                                        <button onclick="simpanUlasanPBD('${d.id}')" class="text-base font-black px-3 py-1.5 bg-emerald-500 text-white rounded border border-slate-950">Simpan</button>
                                     </div>` :
-                                    (k.ulasanGuru ? `<p class="text-[9px] text-indigo-700 font-bold">💬 ${k.ulasanGuru}${k.tp ? ` (TP${k.tp})` : ''}</p>` : `<p class="text-[9px] text-slate-400 italic">Menunggu ulasan guru...</p>`)
+                                    (k.ulasanGuru ? `<p class="text-base text-indigo-700 font-bold">💬 ${k.ulasanGuru}${k.tp ? ` (TP${k.tp})` : ''}</p>` : `<p class="text-base text-slate-400 italic">Menunggu ulasan guru...</p>`)
                                 }
                             </div>
                         </div>`;
                 });
             } catch (e) {
-                container.innerHTML = `<p class="text-[10px] text-rose-600 font-bold">Ralat memuatkan galeri: ${e.message} (mungkin perlu cipta index Firestore -- ikut pautan dalam ralat console)</p>`;
+                container.innerHTML = `<p class="text-lg text-rose-600 font-bold">Ralat memuatkan galeri: ${e.message} (mungkin perlu cipta index Firestore -- ikut pautan dalam ralat console)</p>`;
             }
         }
         window.loadGaleriUnitInto = loadGaleriUnitInto;
@@ -2485,7 +2497,7 @@
                 await updateDoc(doc(db, 'karya', karyaId), { tp: Number(tp), ulasanGuru: ulasan });
                 const fb = document.getElementById('modul-galeri-feedback');
                 fb.innerText = '\u2705 Ulasan PBD disimpan.';
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
                 fb.classList.remove('hidden');
             } catch (e) {
                 alert('Ralat menyimpan ulasan: ' + e.message);
@@ -2498,19 +2510,19 @@
             const canvas = document.getElementById('modul-canvas');
             const fb = document.getElementById('modul-galeri-feedback');
             if (!canvas || !activeModulItem) return;
-            fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-slate-100 text-slate-600';
+            fb.className = 'text-lg font-bold p-2 rounded-lg bg-slate-100 text-slate-600';
             fb.innerText = 'Menghantar...';
             fb.classList.remove('hidden');
             try {
                 const imageDataUrl = canvas.toDataURL('image/jpeg', 0.7);
                 if (imageDataUrl.length > 900000) {
-                    fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                    fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
                     fb.innerText = 'Lukisan terlalu besar untuk dihantar. Cuba padam sebahagian & cuba lagi.';
                     return;
                 }
                 const kelasSepadan = muridJoinedClasses.filter(c => c.tahun === activeModulYear);
                 if (kelasSepadan.length === 0) {
-                    fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                    fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
                     fb.innerText = `Sertai kelas ${activeModulYear} dahulu sebelum hantar karya.`;
                     return;
                 }
@@ -2525,13 +2537,13 @@
                     tarikh: serverTimestamp()
                 });
                 await tambahBintang(20);
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
                 fb.innerText = 'Lukisan berjaya dihantar ke Galeri! +20 \u2b50';
                 loadGaleriUnit(activeModulYear, activeModulUnit, false);
                 modulKaryaSubmittedThisUnit = true;
                 checkUnitLengkap(activeModulYear, activeModulUnit);
             } catch (e) {
-                fb.className = 'text-[10px] font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
                 fb.innerText = 'Ralat menghantar: ' + e.message;
             }
         }
@@ -2569,13 +2581,13 @@
 
         async function loadGuruClasses() {
             const container = document.getElementById('guru-class-list');
-            container.innerHTML = '<p class="text-xs text-slate-400 italic">Memuatkan...</p>';
+            container.innerHTML = '<p class="text-lg text-slate-400 italic">Memuatkan...</p>';
             try {
                 const q = query(collection(db, 'classes'), where('guruId', '==', currentUser.uid));
                 const snap = await getDocs(q);
                 guruClassesData = [];
                 if (snap.empty) {
-                    container.innerHTML = '<p class="text-xs text-slate-400 italic">Belum ada kelas. Cipta kelas pertama anda di atas!</p>';
+                    container.innerHTML = '<p class="text-lg text-slate-400 italic">Belum ada kelas. Cipta kelas pertama anda di atas!</p>';
                     populateRphClassDropdown();
                     loadGuruKarya();
                     return;
@@ -2586,17 +2598,22 @@
                     guruClassesData.push({ kod: d.id, namaKelas: c.namaKelas, tahun: c.tahun });
                     container.innerHTML += `
                         <div class="p-4 bg-indigo-50 border-2 border-slate-950 rounded-xl space-y-1">
-                            <p class="font-black text-sm">${c.namaKelas} <span class="text-[10px] font-normal text-slate-500">(${c.tahun})</span></p>
-                            <p class="text-[10px] text-slate-500">Kod Kelas:</p>
-                            <p class="font-mono font-black text-indigo-700 text-sm">${d.id}</p>
-                            <p id="class-stats-${d.id}" class="text-[10px] font-bold text-slate-400 pt-1 border-t border-dashed border-slate-300 mt-1">Memuatkan statistik...</p>
+                            <div class="flex items-start justify-between gap-2">
+                                <p class="font-black text-xl">${c.namaKelas} <span class="text-lg font-normal text-slate-500">(${c.tahun})</span></p>
+                                <button onclick="padamKelas('${d.id}','${c.namaKelas.replace(/'/g, "\\'")}')" class="text-base font-black text-rose-500 hover:text-rose-700 shrink-0">🗑️ Padam</button>
+                            </div>
+                            <p class="text-lg text-slate-500">Kod Kelas:</p>
+                            <p class="font-mono font-black text-indigo-700 text-xl">${d.id}</p>
+                            <p id="class-stats-${d.id}" class="text-lg font-bold text-slate-400 pt-1 border-t border-dashed border-slate-300 mt-1">Memuatkan statistik...</p>
+                            <button onclick="toggleKelasMuridPanel('${d.id}')" class="w-full mt-2 py-1.5 text-lg font-black bg-white border-2 border-slate-950 rounded-lg">👥 Urus Murid</button>
+                            <div id="murid-panel-${d.id}" class="hidden mt-2 space-y-1.5 max-h-64 overflow-y-auto"></div>
                         </div>`;
                 });
                 populateRphClassDropdown();
                 loadGuruKarya();
                 guruClassesData.forEach(c => loadClassStats(c.kod, c.tahun));
             } catch (e) {
-                container.innerHTML = `<p class="text-xs text-rose-600 font-bold">Ralat memuatkan kelas: ${e.message}</p>`;
+                container.innerHTML = `<p class="text-lg text-rose-600 font-bold">Ralat memuatkan kelas: ${e.message}</p>`;
             }
         }
 
@@ -2617,11 +2634,69 @@
                 const kemajuan = totalUnit > 0 ? Math.round((unitDenganKarya.size / totalUnit) * 100) : 0;
 
                 el.innerText = `👤 ${muridCount} Murid | 📚 ${totalUnit} Unit | 📈 ${kemajuan}% Kemajuan`;
-                el.className = 'text-[10px] font-bold text-indigo-700 pt-1 border-t border-dashed border-slate-300 mt-1';
+                el.className = 'text-lg font-bold text-indigo-700 pt-1 border-t border-dashed border-slate-300 mt-1';
             } catch (e) {
                 el.innerText = 'Statistik tidak tersedia.';
             }
         }
+
+        // ---------- Urus Murid dalam Kelas (lihat senarai + keluarkan) ----------
+        function toggleKelasMuridPanel(kod) {
+            const panel = document.getElementById(`murid-panel-${kod}`);
+            const wasHidden = panel.classList.contains('hidden');
+            panel.classList.toggle('hidden');
+            if (wasHidden) loadMuridDalamKelas(kod);
+        }
+        window.toggleKelasMuridPanel = toggleKelasMuridPanel;
+
+        async function loadMuridDalamKelas(kod) {
+            const panel = document.getElementById(`murid-panel-${kod}`);
+            panel.innerHTML = '<p class="text-lg text-slate-400 italic">Memuatkan senarai murid...</p>';
+            try {
+                const snap = await getDocs(query(collection(db, 'users'), where('kelasDisertai', 'array-contains', kod)));
+                if (snap.empty) {
+                    panel.innerHTML = '<p class="text-lg text-slate-400 italic">Belum ada murid menyertai kelas ini.</p>';
+                    return;
+                }
+                panel.innerHTML = '';
+                snap.forEach((d) => {
+                    const m = d.data();
+                    panel.innerHTML += `
+                        <div class="flex items-center justify-between gap-2 p-2 bg-white border border-slate-300 rounded-lg">
+                            <div class="min-w-0">
+                                <p class="text-lg font-black truncate">${m.nama || m.email || 'Murid'}</p>
+                                <p class="text-base text-slate-400 truncate">⭐ ${m.bintang || 0}</p>
+                            </div>
+                            <button onclick="keluarkanMuridDariKelas('${kod}','${d.id}','${(m.nama || m.email || 'murid ini').replace(/'/g, "\\'")}')" class="shrink-0 text-base font-black px-3 py-1.5 bg-rose-500 text-white rounded-lg border border-slate-950">Keluarkan</button>
+                        </div>`;
+                });
+            } catch (e) {
+                panel.innerHTML = `<p class="text-lg text-rose-600 font-bold">Ralat: ${e.message}</p>`;
+            }
+        }
+
+        async function keluarkanMuridDariKelas(kod, uid, nama) {
+            if (!confirm(`Keluarkan ${nama} daripada kelas ini? Murid boleh sertai semula guna kod kelas bila-bila masa.`)) return;
+            try {
+                await updateDoc(doc(db, 'users', uid), { kelasDisertai: arrayRemove(kod) });
+                loadMuridDalamKelas(kod);
+                loadClassStats(kod, (guruClassesData.find(c => c.kod === kod) || {}).tahun);
+            } catch (e) {
+                alert('Gagal mengeluarkan murid: ' + e.message);
+            }
+        }
+        window.keluarkanMuridDariKelas = keluarkanMuridDariKelas;
+
+        async function padamKelas(kod, nama) {
+            if (!confirm(`Padam kelas "${nama}"? Murid yang sudah menyertai akan kekal ada rekod karya mereka, tetapi kelas ini tidak lagi kelihatan. Tindakan ini tidak boleh dibatalkan.`)) return;
+            try {
+                await deleteDoc(doc(db, 'classes', kod));
+                loadGuruClasses();
+            } catch (e) {
+                alert('Gagal memadam kelas: ' + e.message);
+            }
+        }
+        window.padamKelas = padamKelas;
 
         // ---------- Penjana RPH ----------
         // ---------- Dashboard PBD (guru) ----------
@@ -2668,7 +2743,7 @@
                 const maxCount = Math.max(1, ...Object.values(tpCounts));
                 analisisBox.classList.remove('hidden');
                 document.getElementById('pbd-analisis-bars').innerHTML = [1,2,3,4,5,6].map(tp => `
-                    <div class="flex items-center gap-2 text-[10px] font-bold">
+                    <div class="flex items-center gap-2 text-lg font-bold">
                         <span class="w-8 shrink-0">TP${tp}</span>
                         <div class="flex-1 bg-white border border-slate-300 rounded-full h-3 overflow-hidden">
                             <div class="bg-indigo-500 h-full" style="width:${(tpCounts[tp]/maxCount)*100}%"></div>
@@ -2687,12 +2762,12 @@
             if (!container) return;
             container.innerHTML = Object.entries(CONTENT_BY_YEAR).map(([tahun, units]) => `
                 <div>
-                    <h4 class="font-black text-sm text-indigo-700 mb-2">${tahun}</h4>
+                    <h4 class="font-black text-xl text-indigo-700 mb-2">${tahun}</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                         ${units.map(item => {
                             const extras = MASTER_TEMPLATE_EXTRAS[`${tahun}|${item.unit}`];
                             const nota = (extras && extras.nota) || generateNotaForUnit(item);
-                            return `<div class="p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-[11px]">
+                            return `<div class="p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-lg">
                                 <p class="font-black">${item.unit}: ${item.tajuk}</p>
                                 <p class="text-slate-600">${nota.bahan.join(', ')}</p>
                             </div>`;
@@ -2791,7 +2866,7 @@
         async function loadGuruKarya() {
             const container = document.getElementById('guru-karya-list');
             if (guruClassesData.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Belum ada kelas untuk menerima karya.</p>';
+                container.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Belum ada kelas untuk menerima karya.</p>';
                 return;
             }
             try {
@@ -2809,7 +2884,7 @@
                 }
 
                 if (snap.empty) {
-                    container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Belum ada karya diterima.</p>';
+                    container.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Belum ada karya diterima.</p>';
                     return;
                 }
                 container.innerHTML = '';
@@ -2819,13 +2894,13 @@
                         <div class="border-2 border-slate-950 rounded-xl overflow-hidden">
                             <img src="${k.imageUrl}" class="w-full aspect-square object-cover">
                             <div class="p-2">
-                                <p class="text-[10px] font-black truncate">${k.tajuk}</p>
-                                <p class="text-[9px] text-slate-500 truncate">${k.namaMurid}${k.unit ? ` \u2022 ${k.unit}` : ''}</p>
+                                <p class="text-lg font-black truncate">${k.tajuk}</p>
+                                <p class="text-base text-slate-500 truncate">${k.namaMurid}${k.unit ? ` \u2022 ${k.unit}` : ''}</p>
                             </div>
                         </div>`;
                 });
             } catch (e) {
-                container.innerHTML = `<p class="text-xs text-rose-600 font-bold col-span-full">Ralat memuatkan karya: ${e.message} (mungkin perlu cipta index Firestore -- ikut pautan dalam ralat console jika ada)</p>`;
+                container.innerHTML = `<p class="text-lg text-rose-600 font-bold col-span-full">Ralat memuatkan karya: ${e.message} (mungkin perlu cipta index Firestore -- ikut pautan dalam ralat console jika ada)</p>`;
             }
         }
 
@@ -2834,36 +2909,36 @@
             const mode = document.getElementById('guru-karya-mode').value;
             document.getElementById('guru-portfolio-picker').classList.toggle('hidden', mode !== 'portfolio');
             if (mode === 'semua') loadGuruKarya();
-            else document.getElementById('guru-karya-list').innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Pilih murid di atas.</p>';
+            else document.getElementById('guru-karya-list').innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Pilih murid di atas.</p>';
         }
         window.onGuruKaryaModeChange = onGuruKaryaModeChange;
 
         async function loadPortfolioMurid() {
             const uid = document.getElementById('guru-portfolio-murid').value;
             const container = document.getElementById('guru-karya-list');
-            if (!uid) { container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Pilih murid di atas.</p>'; return; }
-            container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Memuatkan portfolio...</p>';
+            if (!uid) { container.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Pilih murid di atas.</p>'; return; }
+            container.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Memuatkan portfolio...</p>';
             try {
                 const q = query(collection(db, 'karya'), where('uid', '==', uid), orderBy('tarikh', 'asc'));
                 const snap = await getDocs(q);
                 if (snap.empty) {
-                    container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Murid ini belum menghantar sebarang karya.</p>';
+                    container.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Murid ini belum menghantar sebarang karya.</p>';
                     return;
                 }
                 container.innerHTML = '<div class="col-span-full grid grid-cols-2 md:grid-cols-4 gap-3">' + [...snap.docs].map((d, idx) => {
                     const k = d.data();
                     return `
                         <div class="border-2 border-slate-950 rounded-xl overflow-hidden relative">
-                            <span class="absolute top-1 left-1 bg-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full">#${idx + 1}</span>
+                            <span class="absolute top-1 left-1 bg-indigo-600 text-white text-base font-black px-3 py-1.5 rounded-full">#${idx + 1}</span>
                             <img src="${k.imageUrl}" class="w-full aspect-square object-cover">
                             <div class="p-2">
-                                <p class="text-[10px] font-black truncate">${k.tajuk}</p>
-                                <p class="text-[9px] text-slate-500 truncate">${k.unit ? `${k.tahun} \u2022 ${k.unit}` : 'Karya umum'}${k.tp ? ` \u2022 TP${k.tp}` : ''}</p>
+                                <p class="text-lg font-black truncate">${k.tajuk}</p>
+                                <p class="text-base text-slate-500 truncate">${k.unit ? `${k.tahun} \u2022 ${k.unit}` : 'Karya umum'}${k.tp ? ` \u2022 TP${k.tp}` : ''}</p>
                             </div>
                         </div>`;
                 }).join('') + '</div>';
             } catch (e) {
-                container.innerHTML = `<p class="text-xs text-rose-600 font-bold col-span-full">Ralat: ${e.message}</p>`;
+                container.innerHTML = `<p class="text-lg text-rose-600 font-bold col-span-full">Ralat: ${e.message}</p>`;
             }
         }
         window.loadPortfolioMurid = loadPortfolioMurid;
@@ -2911,7 +2986,7 @@
             if (!tajuk) { alert('Sila masukkan tajuk karya.'); return; }
             if (!fileInput.files[0]) { alert('Sila pilih gambar karya.'); return; }
 
-            feedback.className = 'text-xs font-bold text-slate-500';
+            feedback.className = 'text-lg font-bold text-slate-500';
             feedback.innerText = 'Memampatkan & menghantar karya...';
             feedback.classList.remove('hidden');
 
@@ -2920,7 +2995,7 @@
                 const imageDataUrl = await compressImageFile(file);
 
                 if (imageDataUrl.length > 900000) { // ~900KB, jaga-jaga had 1MiB Firestore
-                    feedback.className = 'text-xs font-bold text-rose-600';
+                    feedback.className = 'text-lg font-bold text-rose-600';
                     feedback.innerText = 'Gambar masih terlalu besar selepas dimampatkan. Sila cuba gambar lain.';
                     return;
                 }
@@ -2936,13 +3011,13 @@
 
                 await tambahBintang(20); // ganjaran hantar karya
 
-                feedback.className = 'text-xs font-bold text-emerald-600';
+                feedback.className = 'text-lg font-bold text-emerald-600';
                 feedback.innerText = 'Karya berjaya dihantar! +20 ⭐ 🎉';
                 document.getElementById('karya-tajuk').value = '';
                 fileInput.value = '';
                 loadMuridKarya();
             } catch (e) {
-                feedback.className = 'text-xs font-bold text-rose-600';
+                feedback.className = 'text-lg font-bold text-rose-600';
                 feedback.innerText = 'Ralat menghantar karya: ' + e.message;
             }
         };
@@ -2954,7 +3029,7 @@
                 const q = query(collection(db, 'karya'), where('uid', '==', currentUser.uid), orderBy('tarikh', 'desc'));
                 const snap = await getDocs(q);
                 if (snap.empty) {
-                    container.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Belum ada karya dihantar.</p>';
+                    container.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Belum ada karya dihantar.</p>';
                     return;
                 }
                 container.innerHTML = '';
@@ -2963,11 +3038,11 @@
                     container.innerHTML += `
                         <div class="border-2 border-slate-950 rounded-xl overflow-hidden">
                             <img src="${k.imageUrl}" class="w-full aspect-square object-cover">
-                            <p class="p-2 text-[10px] font-black truncate">${k.tajuk}</p>
+                            <p class="p-2 text-lg font-black truncate">${k.tajuk}</p>
                         </div>`;
                 });
             } catch (e) {
-                container.innerHTML = `<p class="text-xs text-rose-600 font-bold col-span-full">Ralat: ${e.message}</p>`;
+                container.innerHTML = `<p class="text-lg text-rose-600 font-bold col-span-full">Ralat: ${e.message}</p>`;
             }
         }
 
@@ -2982,7 +3057,7 @@
                 const classSnap = await getDoc(classRef);
 
                 if (!classSnap.exists()) {
-                    feedback.className = 'p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-xs font-bold';
+                    feedback.className = 'p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-lg font-bold';
                     feedback.innerText = 'Kod kelas tidak dijumpai. Sila semak semula dengan guru anda.';
                     feedback.classList.remove('hidden');
                     return;
@@ -3008,13 +3083,13 @@
                     await tambahBintang(10); // ganjaran sertai kelas baharu (sekali sahaja)
                 }
 
-                feedback.className = 'p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 text-xs font-bold';
+                feedback.className = 'p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 text-lg font-bold';
                 feedback.innerText = `Berjaya menyertai kelas "${classSnap.data().namaKelas}"! ${sudahSertai ? '' : '+10 ⭐'} 🎉`;
                 feedback.classList.remove('hidden');
                 document.getElementById('join-class-code').value = '';
                 loadMuridClasses();
             } catch (e) {
-                feedback.className = 'p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-xs font-bold';
+                feedback.className = 'p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-lg font-bold';
                 feedback.innerText = 'Ralat: ' + e.message;
                 feedback.classList.remove('hidden');
             }
@@ -3024,14 +3099,14 @@
 
         async function loadMuridClasses() {
             const container = document.getElementById('murid-class-list');
-            container.innerHTML = '<p class="text-xs text-slate-400 italic">Memuatkan senarai kelas...</p>';
+            container.innerHTML = '<p class="text-lg text-slate-400 italic">Memuatkan senarai kelas...</p>';
 
             try {
                 const userSnap = await getDoc(doc(db, 'users', currentUser.uid));
                 const kodSenarai = (userSnap.exists() && userSnap.data().kelasDisertai) || [];
 
                 if (kodSenarai.length === 0) {
-                    container.innerHTML = '<p class="text-xs text-slate-400 italic">Anda belum menyertai sebarang kelas. Sertai kelas menggunakan kod di atas.</p>';
+                    container.innerHTML = '<p class="text-lg text-slate-400 italic">Anda belum menyertai sebarang kelas. Sertai kelas menggunakan kod di atas.</p>';
                     muridJoinedClasses = [];
                     populateKaryaClassDropdown();
                     loadMuridProgress();
@@ -3050,13 +3125,13 @@
                     const contentData = CONTENT_BY_YEAR[c.tahun] || [];
                     const contentHtml = contentData.map(item => `
                         <div class="p-2.5 bg-slate-50 border border-slate-300 rounded-lg">
-                            <span class="text-[9px] font-black text-indigo-600">${item.unit}</span>
-                            <p class="text-xs font-bold">${item.tajuk}</p>
+                            <span class="text-base font-black text-indigo-600">${item.unit}</span>
+                            <p class="text-lg font-bold">${item.tajuk}</p>
                         </div>`).join('');
 
                     container.innerHTML += `
                         <div class="p-4 bg-white border-2 border-slate-950 rounded-xl space-y-2">
-                            <p class="font-black text-sm">${c.namaKelas} <span class="text-[10px] font-normal text-slate-500">(${c.tahun} \u2022 ${kod})</span></p>
+                            <p class="font-black text-xl">${c.namaKelas} <span class="text-lg font-normal text-slate-500">(${c.tahun} \u2022 ${kod})</span></p>
                             <div class="grid grid-cols-2 gap-2 mt-2">${contentHtml}</div>
                         </div>`;
                 }
@@ -3066,13 +3141,13 @@
                 const tahunLabelEl = document.getElementById('murid-tahun-label');
                 if (tahunLabelEl) tahunLabelEl.innerText = muridJoinedClasses.length > 0 ? muridJoinedClasses[0].tahun : '';
             } catch (e) {
-                container.innerHTML = `<p class="text-xs text-rose-600 font-bold">Ralat memuatkan kelas: ${e.message}</p>`;
+                container.innerHTML = `<p class="text-lg text-rose-600 font-bold">Ralat memuatkan kelas: ${e.message}</p>`;
             }
         }
 
         // ---------- Navigasi Dashboard Murid ----------
         function showMuridView(view) {
-            const allViews = ['home', 'modul', 'kuiz', 'karya', 'lencana', 'kemajuan', 'kelas', 'bantuan'];
+            const allViews = ['home', 'modul', 'modul-viewer', 'kuiz', 'karya', 'lencana', 'kemajuan', 'kelas', 'bantuan'];
             allViews.forEach(v => {
                 const el = document.getElementById(`murid-view-${v}`);
                 if (el) el.classList.toggle('hidden', v !== view);
@@ -3127,9 +3202,9 @@
             container.innerHTML = tiers.map(t => {
                 const achieved = muridCurrentBintang >= t.min;
                 return `<div class="p-3 rounded-xl border-2 border-slate-950 text-center ${achieved ? 'bg-amber-50' : 'bg-slate-50 opacity-50'}">
-                    <span class="text-2xl">${achieved ? t.emoji : '🔒'}</span>
-                    <p class="text-[9px] font-black mt-1">${t.nama}</p>
-                    <p class="text-[8px] text-slate-400">${t.min} ⭐</p>
+                    <span class="text-4xl">${achieved ? t.emoji : '🔒'}</span>
+                    <p class="text-base font-black mt-1">${t.nama}</p>
+                    <p class="text-base text-slate-400">${t.min} ⭐</p>
                 </div>`;
             }).join('');
         }
@@ -3170,7 +3245,7 @@
                 unitTajukEl.innerText = 'Sertai kelas dahulu';
                 unitStatusEl.innerText = '';
                 unitBtn.classList.add('hidden');
-                unitCardsEl.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">Sertai kelas untuk lihat unit anda.</p>';
+                unitCardsEl.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Sertai kelas untuk lihat unit anda.</p>';
                 renderAktivitiAkanDatang();
                 return;
             }
@@ -3204,9 +3279,9 @@
                         : u.status === 'belajar' ? { bg: 'bg-sky-50', label: '🔵 Dalam Pembelajaran', text: 'text-sky-600' }
                         : { bg: 'bg-slate-50', label: '⚪ Belum Mula', text: 'text-slate-400' };
                     return `<div onclick="openModulPembelajaran('${u.tahun}','${u.unit}')" class="p-3 ${cfg.bg} border-2 border-slate-950 rounded-xl cursor-pointer hover:-translate-y-0.5 transition-transform">
-                        <p class="text-[9px] font-black text-slate-500">${u.unit}</p>
-                        <p class="text-xs font-black truncate">${u.tajuk}</p>
-                        <p class="text-[9px] font-bold ${cfg.text} mt-1">${cfg.label}</p>
+                        <p class="text-base font-black text-slate-500">${u.unit}</p>
+                        <p class="text-lg font-black truncate">${u.tajuk}</p>
+                        <p class="text-base font-bold ${cfg.text} mt-1">${cfg.label}</p>
                     </div>`;
                 }).join('');
 
@@ -3235,14 +3310,14 @@
             if (!container) return;
             const belumSelesai = muridSemuaUnitStatus.filter(u => u.status !== 'selesai').slice(0, 3);
             if (belumSelesai.length === 0) {
-                container.innerHTML = '<p class="text-xs text-emerald-600 font-bold">🎉 Semua unit siap! Tiada aktiviti tertunggak.</p>';
+                container.innerHTML = '<p class="text-lg text-emerald-600 font-bold">🎉 Semua unit siap! Tiada aktiviti tertunggak.</p>';
                 return;
             }
             container.innerHTML = belumSelesai.map(u => {
                 const teks = u.status === 'belajar' ? `Siapkan kuiz & hantar karya untuk ${u.unit}` : `Mula baca modul ${u.unit}: ${u.tajuk}`;
                 return `<div onclick="openModulPembelajaran('${u.tahun}','${u.unit}')" class="flex items-center gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-100">
-                    <span class="text-lg">📌</span>
-                    <p class="text-xs font-bold flex-1">${teks}</p>
+                    <span class="text-2xl">📌</span>
+                    <p class="text-lg font-bold flex-1">${teks}</p>
                 </div>`;
             }).join('');
         }
@@ -3252,20 +3327,20 @@
             if (!container) return;
             container.innerHTML = `
                 <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
-                    <p class="text-[10px] font-black uppercase text-indigo-700">Unit Selesai</p>
-                    <p class="text-2xl font-black">${document.getElementById('murid-progress-fraction').innerText}</p>
+                    <p class="text-lg font-black uppercase text-indigo-700">Unit Selesai</p>
+                    <p class="text-4xl font-black">${document.getElementById('murid-progress-fraction').innerText}</p>
                 </div>
                 <div class="p-4 bg-amber-50 rounded-xl border-2 border-slate-950">
-                    <p class="text-[10px] font-black uppercase text-amber-700">Mata Seni</p>
-                    <p class="text-2xl font-black">${muridCurrentBintang} ⭐</p>
+                    <p class="text-lg font-black uppercase text-amber-700">Mata Seni</p>
+                    <p class="text-4xl font-black">${muridCurrentBintang} ⭐</p>
                 </div>
                 <div class="p-4 bg-emerald-50 rounded-xl border-2 border-slate-950">
-                    <p class="text-[10px] font-black uppercase text-emerald-700">Kedudukan Kelas</p>
-                    <p class="text-2xl font-black">${document.getElementById('murid-kedudukan-kelas').innerText}</p>
+                    <p class="text-lg font-black uppercase text-emerald-700">Kedudukan Kelas</p>
+                    <p class="text-4xl font-black">${document.getElementById('murid-kedudukan-kelas').innerText}</p>
                 </div>
                 <div class="p-4 bg-rose-50 rounded-xl border-2 border-slate-950">
-                    <p class="text-[10px] font-black uppercase text-rose-700">Lencana Dicapai</p>
-                    <p class="text-2xl font-black">${document.getElementById('murid-lencana-count').innerText}</p>
+                    <p class="text-lg font-black uppercase text-rose-700">Lencana Dicapai</p>
+                    <p class="text-4xl font-black">${document.getElementById('murid-lencana-count').innerText}</p>
                 </div>`;
         }
 
