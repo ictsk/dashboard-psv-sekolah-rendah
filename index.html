@@ -1573,8 +1573,21 @@
         }
 
         // ---------- Pengesahan (Auth) ----------
+        // Domain DELIMA rasmi yang dibenarkan log masuk. Disemak DUA kali: (1) di sini
+        // (client) untuk log keluar serta-merta & mesej jelas, (2) dalam Firestore
+        // Security Rules (request.auth.token.email) supaya tak boleh dipintas walaupun
+        // seseorang memanggil Firestore terus tanpa guna UI ini.
+        const ALLOWED_EMAIL_DOMAIN = 'moe-dl.edu.my';
+        function isAllowedSchoolEmail(email) {
+            return !!email && email.toLowerCase().endsWith('@' + ALLOWED_EMAIL_DOMAIN);
+        }
+
         window.signInWithGoogleProvider = async function () {
-            try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+            try {
+                const provider = new GoogleAuthProvider();
+                provider.setCustomParameters({ hd: ALLOWED_EMAIL_DOMAIN });
+                await signInWithPopup(auth, provider);
+            }
             catch (e) { showLoginError('Log masuk Google gagal: ' + e.message); }
         };
 
@@ -1593,6 +1606,10 @@
         window.signUpWithEmail = async function () {
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
+            if (!isAllowedSchoolEmail(email)) {
+                showLoginError(`Pendaftaran hanya dibenarkan untuk e-mel rasmi @${ALLOWED_EMAIL_DOMAIN}.`);
+                return;
+            }
             try { await createUserWithEmailAndPassword(auth, email, password); }
             catch (e) { showLoginError('Pendaftaran gagal: ' + e.message); }
         };
@@ -1624,6 +1641,16 @@
                 showScreen('screen-login');
                 return;
             }
+
+            // Kunci domain -- berkuat kuasa TANPA MENGIRA kaedah log masuk (Google,
+            // Microsoft, atau e-mel/kata laluan terus).
+            if (!isAllowedSchoolEmail(user.email)) {
+                await signOut(auth);
+                showScreen('screen-login');
+                showLoginError(`Akaun "${user.email}" bukan akaun rasmi sekolah (@${ALLOWED_EMAIL_DOMAIN}). Sila log masuk dengan akaun sekolah anda.`);
+                return;
+            }
+
             currentUser = user;
             const userDocRef = doc(db, 'users', user.uid);
             const userSnap = await getDoc(userDocRef);
