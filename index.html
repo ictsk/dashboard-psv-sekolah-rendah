@@ -115,7 +115,7 @@
                 <nav class="p-3 space-y-1 text-xl font-bold">
                     <button onclick="showGuruView('dashboard')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="dashboard">🏠 Dashboard</button>
                     <button onclick="showGuruView('kelas')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kelas">👥 Kelas Saya</button>
-                    <button onclick="toggleSidebarModulTree()" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">
+                    <button onclick="showGuruView('modul'); toggleSidebarModulTree()" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">
                         <span class="flex items-center gap-2.5">📋 Modul PdP</span>
                         <span id="sidebar-modul-caret" class="text-lg transition-transform">▼</span>
                     </button>
@@ -226,10 +226,48 @@
 
         <!-- ===== MODUL PSV (senarai ringkas, guna sama seperti sebelum ini) ===== -->
         <div id="guru-view-modul" class="hidden space-y-4">
-            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-                <h3 class="font-black text-2xl comic-font mb-3">🎨 Kandungan PSV (Tahun 1, 2, 5 & 6)</h3>
-                <p class="text-lg text-slate-500 mb-3">Atau guna "📋 Modul PdP" di sidebar untuk terus ke unit tertentu.</p>
-                <div id="guru-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            <!-- Banner -->
+            <div class="relative bg-gradient-to-r from-sky-100 to-indigo-100 rounded-3xl border-4 border-slate-950 shadow-brutal p-6 lg:p-8 overflow-hidden">
+                <p class="text-lg font-black uppercase tracking-widest text-indigo-500">Modul Pembelajaran dan Pengajaran</p>
+                <div class="flex items-center gap-3 mt-1">
+                    <span class="text-4xl">🎨</span>
+                    <h2 class="font-black text-3xl lg:text-4xl comic-font">Kandungan PSV (Tahun 1, 2, 5 & 6)</h2>
+                </div>
+                <p class="text-xl text-slate-600 mt-2">Pilih tahun atau unit untuk meneroka modul lengkap berserta aktiviti, bahan dan sumber PdP.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                <!-- Pilih Tahun -->
+                <div class="lg:col-span-5 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-3xl">🎓</span>
+                        <div>
+                            <p class="font-black text-2xl comic-font">Pilih Tahun</p>
+                            <p class="text-lg text-slate-500">Klik tahun untuk lihat senarai unit dan modul.</p>
+                        </div>
+                    </div>
+                    <div id="guru-tahun-tiles" class="grid grid-cols-2 gap-3"></div>
+                </div>
+
+                <!-- Senarai Modul -->
+                <div class="lg:col-span-7 space-y-3">
+                    <div class="bg-indigo-600 text-white rounded-2xl border-4 border-slate-950 shadow-brutal p-4 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-3xl">📚</span>
+                            <div>
+                                <p class="font-black text-xl comic-font">Senarai Modul <span id="guru-modul-tahun-label">Tahun 1</span></p>
+                                <p id="guru-modul-unit-count" class="text-lg text-indigo-200">0 unit pembelajaran</p>
+                            </div>
+                        </div>
+                        <select id="guru-modul-tahun-select" onchange="pilihTahunModul(this.value)" class="text-slate-900 text-lg font-bold rounded-xl px-3 py-2 border-2 border-slate-950">
+                            <option value="Tahun 1">Tahun 1</option>
+                            <option value="Tahun 2">Tahun 2</option>
+                            <option value="Tahun 5">Tahun 5</option>
+                            <option value="Tahun 6">Tahun 6</option>
+                        </select>
+                    </div>
+                    <div id="guru-modul-unit-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                </div>
             </div>
         </div>
 
@@ -506,17 +544,73 @@
 
         <!-- ===== LAPORAN (belum dibina) ===== -->
         <div id="guru-view-laporan" class="hidden space-y-4">
-            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
-                <h3 class="font-black text-2xl comic-font">📈 Laporan</h3>
-                <p class="text-lg text-slate-500">Belum dibina lagi. Buat masa ini, guna 📊 PBD untuk analisis TP mengikut kelas.</p>
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-2xl comic-font">📈 Laporan Keseluruhan</h3>
+                <p class="text-lg text-slate-500">Ringkasan merentasi SEMUA kelas anda. Untuk analisis satu kelas sahaja, guna 📊 PBD.</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
+                        <p class="text-lg font-black uppercase text-indigo-700">Kelas</p>
+                        <p id="lap-jumlah-kelas" class="text-3xl font-black">-</p>
+                    </div>
+                    <div class="p-4 bg-emerald-50 rounded-xl border-2 border-slate-950">
+                        <p class="text-lg font-black uppercase text-emerald-700">Murid</p>
+                        <p id="lap-jumlah-murid" class="text-3xl font-black">-</p>
+                    </div>
+                    <div class="p-4 bg-amber-50 rounded-xl border-2 border-slate-950">
+                        <p class="text-lg font-black uppercase text-amber-700">Karya Dihantar</p>
+                        <p id="lap-jumlah-karya" class="text-3xl font-black">-</p>
+                    </div>
+                    <div class="p-4 bg-rose-50 rounded-xl border-2 border-slate-950">
+                        <p class="text-lg font-black uppercase text-rose-700">Belum Ditanda TP</p>
+                        <p id="lap-belum-tp" class="text-3xl font-black">-</p>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-50 border-2 border-slate-950 rounded-2xl">
+                    <p class="text-lg font-black uppercase text-slate-600 mb-2">📊 Taburan TP Keseluruhan</p>
+                    <div id="lap-tp-bars" class="space-y-1.5"></div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-lg border-collapse">
+                        <thead>
+                            <tr class="bg-slate-950 text-white text-left">
+                                <th class="p-2 rounded-tl-lg">Kelas</th>
+                                <th class="p-2">Tahun</th>
+                                <th class="p-2">Murid</th>
+                                <th class="p-2">Karya</th>
+                                <th class="p-2 rounded-tr-lg">Purata TP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lap-table-body">
+                            <tr><td colspan="5" class="p-3 text-slate-400 italic">Memuatkan...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button onclick="loadLaporanKeseluruhan()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">🔄 Muat Semula</button>
             </div>
         </div>
 
-        <!-- ===== TETAPAN (belum dibina) ===== -->
+        <!-- ===== TETAPAN ===== -->
         <div id="guru-view-tetapan" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-4">
+                <h3 class="font-black text-2xl comic-font">⚙️ Tetapan Profil</h3>
+                <div>
+                    <label class="block text-lg font-black uppercase text-slate-600 mb-1">Nama Paparan</label>
+                    <input id="tetapan-nama" type="text" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-lg">
+                </div>
+                <div>
+                    <label class="block text-lg font-black uppercase text-slate-600 mb-1">E-mel (tidak boleh diubah)</label>
+                    <input id="tetapan-email" type="text" disabled class="w-full p-2.5 border-2 border-slate-300 bg-slate-100 text-slate-500 rounded-xl text-lg">
+                </div>
+                <button onclick="simpanTetapanProfil()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">💾 Simpan</button>
+                <p id="tetapan-feedback" class="hidden text-lg font-bold p-2 rounded-lg"></p>
+            </div>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
-                <h3 class="font-black text-2xl comic-font">⚙️ Tetapan</h3>
-                <p class="text-lg text-slate-500">Belum dibina lagi.</p>
+                <h3 class="font-black text-2xl comic-font">ℹ️ Tentang Sistem</h3>
+                <p class="text-lg text-slate-600">PSV DIGITAL -- Modul Digital PdP Pendidikan Seni Visual Sekolah Rendah.</p>
+                <p class="text-lg text-slate-400">Kandungan DSKP disahkan daripada buku teks sebenar Tahun 1, 2, 5 & 6.</p>
             </div>
         </div>
 
@@ -1573,21 +1667,8 @@
         }
 
         // ---------- Pengesahan (Auth) ----------
-        // Domain DELIMA rasmi yang dibenarkan log masuk. Disemak DUA kali: (1) di sini
-        // (client) untuk log keluar serta-merta & mesej jelas, (2) dalam Firestore
-        // Security Rules (request.auth.token.email) supaya tak boleh dipintas walaupun
-        // seseorang memanggil Firestore terus tanpa guna UI ini.
-        const ALLOWED_EMAIL_DOMAIN = 'moe-dl.edu.my';
-        function isAllowedSchoolEmail(email) {
-            return !!email && email.toLowerCase().endsWith('@' + ALLOWED_EMAIL_DOMAIN);
-        }
-
         window.signInWithGoogleProvider = async function () {
-            try {
-                const provider = new GoogleAuthProvider();
-                provider.setCustomParameters({ hd: ALLOWED_EMAIL_DOMAIN });
-                await signInWithPopup(auth, provider);
-            }
+            try { await signInWithPopup(auth, new GoogleAuthProvider()); }
             catch (e) { showLoginError('Log masuk Google gagal: ' + e.message); }
         };
 
@@ -1606,10 +1687,6 @@
         window.signUpWithEmail = async function () {
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
-            if (!isAllowedSchoolEmail(email)) {
-                showLoginError(`Pendaftaran hanya dibenarkan untuk e-mel rasmi @${ALLOWED_EMAIL_DOMAIN}.`);
-                return;
-            }
             try { await createUserWithEmailAndPassword(auth, email, password); }
             catch (e) { showLoginError('Pendaftaran gagal: ' + e.message); }
         };
@@ -1642,15 +1719,6 @@
                 return;
             }
 
-            // Kunci domain -- berkuat kuasa TANPA MENGIRA kaedah log masuk (Google,
-            // Microsoft, atau e-mel/kata laluan terus).
-            if (!isAllowedSchoolEmail(user.email)) {
-                await signOut(auth);
-                showScreen('screen-login');
-                showLoginError(`Akaun "${user.email}" bukan akaun rasmi sekolah (@${ALLOWED_EMAIL_DOMAIN}). Sila log masuk dengan akaun sekolah anda.`);
-                return;
-            }
-
             currentUser = user;
             const userDocRef = doc(db, 'users', user.uid);
             const userSnap = await getDoc(userDocRef);
@@ -1668,7 +1736,7 @@
                 document.getElementById('guru-name-label').innerText = (currentUser.displayName || currentUser.email || '').split(' ')[0] || 'Guru';
                 showScreen('screen-guru');
                 showGuruView('dashboard');
-                renderContentList('guru-content-list');
+                renderGuruModulPdpPage();
                 renderSidebarModulTree();
                 loadGuruClasses();
                 renderGuruBahanList();
@@ -1707,9 +1775,90 @@
             const bc = document.getElementById('guru-breadcrumb');
             if (bc && GURU_BREADCRUMB_LABEL[view]) bc.innerText = GURU_BREADCRUMB_LABEL[view];
             if (view === 'pbd') populatePBDClassDropdown();
+            if (view === 'laporan') loadLaporanKeseluruhan();
+            if (view === 'tetapan') loadTetapanProfil();
             closeMobileSidebarIfOpen();
         }
         window.showGuruView = showGuruView;
+
+        // ---------- Laporan Keseluruhan (merentasi semua kelas guru) ----------
+        async function loadLaporanKeseluruhan() {
+            const tbody = document.getElementById('lap-table-body');
+            if (guruClassesData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-3 text-slate-400 italic">Belum ada kelas dicipta.</td></tr>';
+                ['lap-jumlah-kelas', 'lap-jumlah-murid', 'lap-jumlah-karya', 'lap-belum-tp'].forEach(id => document.getElementById(id).innerText = '0');
+                document.getElementById('lap-tp-bars').innerHTML = '';
+                return;
+            }
+            tbody.innerHTML = '<tr><td colspan="5" class="p-3 text-slate-400 italic">Memuatkan...</td></tr>';
+            document.getElementById('lap-jumlah-kelas').innerText = guruClassesData.length;
+            try {
+                let jumlahMuridSemua = 0, jumlahKaryaSemua = 0, belumTpSemua = 0;
+                const tpCountsSemua = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+                const rows = [];
+                for (const c of guruClassesData) {
+                    const muridSnap = await getDocs(query(collection(db, 'users'), where('kelasDisertai', 'array-contains', c.kod)));
+                    const karyaSnap = await getDocs(query(collection(db, 'karya'), where('kodKelas', '==', c.kod)));
+                    let jumlahTpKelas = 0, bilTpKelas = 0;
+                    karyaSnap.forEach(d => {
+                        const k = d.data();
+                        if (k.tp) { tpCountsSemua[k.tp] = (tpCountsSemua[k.tp] || 0) + 1; jumlahTpKelas += k.tp; bilTpKelas++; }
+                        else belumTpSemua++;
+                    });
+                    jumlahMuridSemua += muridSnap.size;
+                    jumlahKaryaSemua += karyaSnap.size;
+                    rows.push({ namaKelas: c.namaKelas, tahun: c.tahun, murid: muridSnap.size, karya: karyaSnap.size, purataTp: bilTpKelas > 0 ? (jumlahTpKelas / bilTpKelas).toFixed(1) : '-' });
+                }
+                document.getElementById('lap-jumlah-murid').innerText = jumlahMuridSemua;
+                document.getElementById('lap-jumlah-karya').innerText = jumlahKaryaSemua;
+                document.getElementById('lap-belum-tp').innerText = belumTpSemua;
+
+                const maxTp = Math.max(1, ...Object.values(tpCountsSemua));
+                document.getElementById('lap-tp-bars').innerHTML = [1,2,3,4,5,6].map(tp => `
+                    <div class="flex items-center gap-2 text-lg font-bold">
+                        <span class="w-10 shrink-0">TP${tp}</span>
+                        <div class="flex-1 bg-white border border-slate-300 rounded-full h-4 overflow-hidden">
+                            <div class="bg-indigo-500 h-full" style="width:${(tpCountsSemua[tp] / maxTp) * 100}%"></div>
+                        </div>
+                        <span class="w-8 text-right shrink-0">${tpCountsSemua[tp]}</span>
+                    </div>`).join('');
+
+                tbody.innerHTML = rows.map(r => `
+                    <tr class="border-b border-slate-200">
+                        <td class="p-2 font-bold">${r.namaKelas}</td>
+                        <td class="p-2">${r.tahun}</td>
+                        <td class="p-2">${r.murid}</td>
+                        <td class="p-2">${r.karya}</td>
+                        <td class="p-2">${r.purataTp}</td>
+                    </tr>`).join('');
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-rose-600 font-bold">Ralat: ${e.message}</td></tr>`;
+            }
+        }
+        window.loadLaporanKeseluruhan = loadLaporanKeseluruhan;
+
+        // ---------- Tetapan Profil ----------
+        function loadTetapanProfil() {
+            document.getElementById('tetapan-nama').value = currentUser.displayName || '';
+            document.getElementById('tetapan-email').value = currentUser.email || '';
+        }
+        async function simpanTetapanProfil() {
+            const fb = document.getElementById('tetapan-feedback');
+            const namaBaru = document.getElementById('tetapan-nama').value.trim();
+            if (!namaBaru) return;
+            try {
+                await updateDoc(doc(db, 'users', currentUser.uid), { nama: namaBaru });
+                document.getElementById('guru-name-label').innerText = namaBaru.split(' ')[0] || 'Guru';
+                fb.innerText = '✅ Profil disimpan.';
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                fb.classList.remove('hidden');
+            } catch (e) {
+                fb.innerText = 'Ralat: ' + e.message;
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                fb.classList.remove('hidden');
+            }
+        }
+        window.simpanTetapanProfil = simpanTetapanProfil;
 
         function toggleSidebarModulTree() {
             const tree = document.getElementById('sidebar-modul-tree');
@@ -2022,6 +2171,75 @@
         }
         window.renderContentList = renderContentList;
 
+        // ---------- Halaman "Modul PdP" (Guru) -- jubin Tahun + senarai unit bernombor ----------
+        const TAHUN_TILE_STYLE = {
+            "Tahun 1": { bg: "bg-indigo-600", icon: "✈️", desc: "Meneroka Dunia Seni" },
+            "Tahun 2": { bg: "bg-emerald-500", icon: "☀️", desc: "Kreativiti Tanpa Sempadan" },
+            "Tahun 5": { bg: "bg-amber-500", icon: "💡", desc: "Ekspresi dan Inovasi" },
+            "Tahun 6": { bg: "bg-rose-400", icon: "⭐", desc: "Seni untuk Masa Hadapan" },
+        };
+        const UNIT_BADGE_COLORS = ["bg-rose-400", "bg-emerald-400", "bg-amber-400", "bg-sky-400", "bg-violet-400", "bg-pink-400", "bg-lime-500", "bg-cyan-400"];
+        function iconForTeknik(teknik) {
+            const t = teknik.toLowerCase();
+            if (t.includes('capan')) return '🖐️';
+            if (t.includes('tembikar') || t.includes('picit')) return '🏺';
+            if (t.includes('batik')) return '🧣';
+            if (t.includes('tekad') || t.includes('anyaman')) return '🧺';
+            if (t.includes('wau')) return '🪁';
+            if (t.includes('gasing')) return '🌀';
+            if (t.includes('topeng')) return '🎭';
+            if (t.includes('boneka')) return '🧸';
+            if (t.includes('kolaj')) return '🖼️';
+            if (t.includes('arca') || t.includes('model') || t.includes('stabail')) return '🗿';
+            if (t.includes('tiupan')) return '🎐';
+            if (t.includes('renjis') || t.includes('percik')) return '🎨';
+            if (t.includes('resis') || t.includes('gosokan')) return '✏️';
+            if (t.includes('lukisan') || t.includes('catan')) return '🖌️';
+            if (t.includes('ikat') || t.includes('celup')) return '🌈';
+            if (t.includes('loket') || t.includes('perhiasan')) return '📿';
+            return '✨';
+        }
+        let guruModulSelectedTahun = 'Tahun 1';
+        function renderGuruModulPdpPage() {
+            const tiles = document.getElementById('guru-tahun-tiles');
+            tiles.innerHTML = Object.keys(CONTENT_BY_YEAR).map(tahun => {
+                const style = TAHUN_TILE_STYLE[tahun] || { bg: 'bg-slate-600', icon: '🎨', desc: '' };
+                return `<button onclick="pilihTahunModul('${tahun}')" class="tahun-tile p-4 ${style.bg} text-white rounded-2xl border-4 border-slate-950 shadow-brutal text-left space-y-6 hover:-translate-y-1 transition-transform" data-tahun="${tahun}">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-lg font-bold opacity-80">Tahun</p>
+                            <p class="text-4xl font-black comic-font leading-none">${tahun.replace('Tahun ', '')}</p>
+                        </div>
+                        <span class="text-3xl">${style.icon}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-lg font-bold">${style.desc}</p>
+                        <span class="w-8 h-8 rounded-full bg-white/25 flex items-center justify-center">→</span>
+                    </div>
+                </button>`;
+            }).join('');
+            pilihTahunModul(guruModulSelectedTahun);
+        }
+        function pilihTahunModul(tahun) {
+            guruModulSelectedTahun = tahun;
+            document.getElementById('guru-modul-tahun-label').innerText = tahun;
+            document.getElementById('guru-modul-tahun-select').value = tahun;
+            document.querySelectorAll('.tahun-tile').forEach(t => t.classList.toggle('ring-4', t.dataset.tahun === tahun));
+            const units = CONTENT_BY_YEAR[tahun] || [];
+            document.getElementById('guru-modul-unit-count').innerText = `${units.length} unit pembelajaran yang menarik dan interaktif`;
+            document.getElementById('guru-modul-unit-list').innerHTML = units.map((item, idx) => `
+                <div onclick="openGuruModulViewer('${tahun}','${item.unit}')" class="flex items-center gap-3 p-3 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all">
+                    <span class="shrink-0 w-10 h-10 rounded-full ${UNIT_BADGE_COLORS[idx % UNIT_BADGE_COLORS.length]} text-white font-black flex items-center justify-center text-lg border-2 border-slate-950">${String(idx + 1).padStart(2, '0')}</span>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-black text-lg truncate">${item.tajuk}</p>
+                        <p class="text-base text-slate-500 truncate">${item.teknik}</p>
+                    </div>
+                    <span class="text-2xl shrink-0">${iconForTeknik(item.teknik)}</span>
+                    <span class="shrink-0 w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-indigo-600">→</span>
+                </div>`).join('');
+        }
+        window.pilihTahunModul = pilihTahunModul;
+
         // ---------- Modul Pembelajaran (Video, Nota, Kuiz, Papan Lukisan) ----------
         // Video disahkan khusus untuk 11 unit Tahun 1 (dari portal SeniKreatif asal).
         // Tahun 2/5/6 belum ada video disahkan per-unit -- guna anggaran ikut kata kunci
@@ -2282,20 +2500,27 @@
             const bahanFallback = ['Kertas warna', 'Gunting', 'Gam', 'Pensel', 'Berus lukisan', 'Cat air', 'Tanah liat', 'Kad manila'];
             const bahanLain = [...new Set([...bahanLainMentah, ...bahanFallback])];
             const tajukLain = pilihAcak(unitLain.map(u => u.tajuk), 3);
-            const unitNomborLain = pilihAcak(semuaUnitTahunIni.map(u => u.unit).filter(u => u !== unitCode), 3);
-            const tahunLain = pilihAcak(Object.keys(CONTENT_BY_YEAR).filter(t => t !== tahun), 3);
+            // Langkah unit lain (untuk pilihan salah bagi soalan urutan langkah).
+            const langkahLain = pilihAcak(unitLain.flatMap(u => {
+                const n = MASTER_TEMPLATE_EXTRAS[`${tahun}|${u.unit}`]?.nota || generateNotaForUnit(u);
+                return n.langkah;
+            }).filter(l => !nota.langkah.includes(l)), 6);
+            const bahanBukanUnitIni = pilihAcak(bahanLain.filter(b => !nota.bahan.includes(b)), 3);
 
+            // 10 soalan mesra kanak-kanak 7 tahun -- SEMUA terus dari data unit sebenar
+            // (tajuk, teknik, bahan, langkah, bidang). SK/SP DIBUANG sebab bahasa
+            // kurikulum untuk guru, bukan untuk murid.
             modulQuizQuestions = [
                 { q: `Apakah teknik utama bagi unit "${item.tajuk}"?`, a: [item.teknik, "Origami", "Kraf logam", "Fotografi"], c: 0 },
-                { q: `Rujuk SK/SP unit ini -- yang manakah PALING TEPAT?`, a: [item.sk || item.sp || '-', "Tiada kaitan dengan DSKP", "Hanya untuk peperiksaan", "Tiada Standard Kandungan"], c: 0 },
-                { q: `Selepas menyiapkan karya, langkah penting seterusnya ialah...`, a: ["Buang terus hasil karya", "Kongsi & hargai karya rakan (apresiasi)", "Simpan tanpa tunjuk sesiapa", "Tidak perlu buat apa-apa"], c: 1 },
                 { q: `Apakah tajuk unit yang sedang kamu pelajari sekarang?`, a: [item.tajuk, ...tajukLain], c: 0 },
-                { q: `Berapa langkah utama dalam aktiviti "${item.tajuk}"?`, a: [String(nota.langkah.length), String(nota.langkah.length + 2), String(Math.max(1, nota.langkah.length - 2)), String(nota.langkah.length + 5)], c: 0 },
-                { q: `Antara berikut, yang manakah BAHAN untuk unit "${item.tajuk}"?`, a: [nota.bahan[0], ...pilihAcak(bahanLain.filter(b => !nota.bahan.includes(b)), 3)], c: 0 },
+                { q: `Antara berikut, yang manakah BAHAN untuk unit "${item.tajuk}"?`, a: [nota.bahan[0], ...bahanBukanUnitIni], c: 0 },
+                { q: `Bahan manakah TIDAK digunakan dalam unit ini?`, a: [bahanBukanUnitIni[0] || 'Kayu balak', ...pilihAcak(nota.bahan, Math.min(3, nota.bahan.length))], c: 0 },
+                { q: `Apakah LANGKAH PERTAMA dalam aktiviti "${item.tajuk}"?`, a: [nota.langkah[0], ...(langkahLain.length >= 3 ? langkahLain.slice(0, 3) : ["Baca buku cerita", "Nyanyi lagu", "Tidur sebentar"])], c: 0 },
+                { q: `Apakah LANGKAH TERAKHIR (kemasan) dalam aktiviti "${item.tajuk}"?`, a: [nota.langkah[nota.langkah.length - 1], ...(langkahLain.length >= 6 ? langkahLain.slice(3, 6) : ["Makan tengah hari", "Balik rumah", "Tonton television"])], c: 0 },
                 { q: `Unit "${item.tajuk}" berada di bidang manakah?`, a: [bidangName, ...pilihAcak(semuaBidang.filter(b => b !== bidangName), 3)], c: 0 },
-                { q: `Unit ini tergolong dalam Tahun berapa?`, a: [tahun, ...tahunLain], c: 0 },
-                { q: `Unit "${item.tajuk}" ialah unit yang mana?`, a: [unitCode, ...unitNomborLain], c: 0 },
-                { q: `Tindakan yang BETUL semasa menggunakan gunting/alat tajam di kelas Seni ialah...`, a: ["Berlari sambil memegang gunting", "Guna dengan berhati-hati di bawah seliaan guru", "Berkongsi gunting sambil bergurau", "Simpan gunting dalam poket"], c: 1 },
+                { q: `Berapa langkah utama dalam aktiviti "${item.tajuk}"?`, a: [String(nota.langkah.length), String(nota.langkah.length + 2), String(Math.max(1, nota.langkah.length - 2)), String(nota.langkah.length + 5)], c: 0 },
+                { q: `Selepas menyiapkan karya, langkah penting seterusnya ialah...`, a: ["Buang terus hasil karya", "Kongsi & hargai karya rakan (apresiasi)", "Simpan tanpa tunjuk sesiapa", "Tidak perlu buat apa-apa"], c: 1 },
+                { q: `Betul atau Salah: "${nota.bahan[0]}" ialah salah satu bahan untuk unit ini?`, a: ["Betul", "Salah"], c: 0 },
             ];
             modulQuizQuestions.forEach(shuffleOptions);
             modulQuizIndex = 0;
