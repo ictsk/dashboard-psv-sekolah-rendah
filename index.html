@@ -315,7 +315,7 @@
                             <option value="Tahun 6">Tahun 6</option>
                         </select>
                     </div>
-                    <div id="guru-modul-unit-list" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+                    <div id="guru-modul-unit-list" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></div>
                 </div>
             </div>
         </div>
@@ -842,7 +842,7 @@
                             <option value="Tahun 6">Tahun 6</option>
                         </select>
                     </div>
-                    <div id="murid-modul-unit-list" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+                    <div id="murid-modul-unit-list" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></div>
                 </div>
             </div>
         </div>
@@ -2443,9 +2443,10 @@
             const units = CONTENT_BY_YEAR[tahun] || [];
             document.getElementById('guru-modul-unit-count').innerText = `${units.length} unit pembelajaran yang menarik dan interaktif`;
             document.getElementById('guru-modul-unit-list').innerHTML = units.map((item, idx) => `
-                <div onclick="openGuruModulViewer('${tahun}','${item.unit}')" class="aspect-square flex flex-col items-center justify-center gap-1.5 p-2 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all text-center" title="${item.tajuk}">
+                <div onclick="openGuruModulViewer('${tahun}','${item.unit}')" class="min-h-[132px] flex flex-col items-center justify-center gap-1 p-2 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all text-center" title="${item.tajuk}">
                     <span class="w-9 h-9 rounded-full ${UNIT_BADGE_COLORS[idx % UNIT_BADGE_COLORS.length]} text-white font-black flex items-center justify-center text-base border-2 border-slate-950">${String(idx + 1).padStart(2, '0')}</span>
                     <span class="text-3xl">${iconForTeknik(item.teknik)}</span>
+                    <p class="text-sm font-black leading-tight line-clamp-2">${item.tajuk}</p>
                 </div>`).join('');
         }
         window.pilihTahunModul = pilihTahunModul;
@@ -2481,9 +2482,10 @@
             const units = CONTENT_BY_YEAR[tahun] || [];
             document.getElementById('murid-modul-unit-count').innerText = `${units.length} unit pembelajaran yang menarik dan interaktif`;
             document.getElementById('murid-modul-unit-list').innerHTML = units.map((item, idx) => `
-                <div onclick="openModulPembelajaran('${tahun}','${item.unit}')" class="aspect-square flex flex-col items-center justify-center gap-1.5 p-2 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all text-center" title="${item.tajuk}">
+                <div onclick="openModulPembelajaran('${tahun}','${item.unit}')" class="min-h-[132px] flex flex-col items-center justify-center gap-1 p-2 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all text-center" title="${item.tajuk}">
                     <span class="w-9 h-9 rounded-full ${UNIT_BADGE_COLORS[idx % UNIT_BADGE_COLORS.length]} text-white font-black flex items-center justify-center text-base border-2 border-slate-950">${String(idx + 1).padStart(2, '0')}</span>
                     <span class="text-3xl">${iconForTeknik(item.teknik)}</span>
+                    <p class="text-sm font-black leading-tight line-clamp-2">${item.tajuk}</p>
                 </div>`).join('');
         }
         window.pilihTahunModulMurid = pilihTahunModulMurid;
