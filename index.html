@@ -41,6 +41,19 @@
             outline-color: #6366f1;
             background: #eef2ff;
         }
+        /* Kad Imbas 3D -- Unsur Seni & Prinsip Rekaan */
+        .flashcard-perspective { perspective: 1200px; }
+        .flashcard-inner {
+            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .flashcard-flipped { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back {
+            backface-visibility: hidden;
+            position: absolute; inset: 0;
+        }
+        .flashcard-back { transform: rotateY(180deg); }
     </style>
 </head>
 <body class="bg-[#fcf8f2] text-slate-900 font-sans min-h-screen">
@@ -331,6 +344,7 @@
                 <button onclick="showGuruModulTab('projek')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="projek">06 Projek Seni</button>
                 <button onclick="showGuruModulTab('kuiz2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="kuiz2">07 Kuiz</button>
                 <button onclick="showGuruModulTab('galeri2')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="galeri2">08 Galeri & PBD</button>
+                <button onclick="showGuruModulTab('rph')" class="gmv-tab-btn px-4 py-2.5 rounded-xl border-2 border-slate-950 text-lg font-black" data-tab="rph">09 Jana RPH</button>
             </div>
 
             <!-- Tab panels -->
@@ -357,11 +371,21 @@
                 </div>
 
                 <div id="gmv-panel-bahasa" class="gmv-panel hidden space-y-4">
-                    <h3 class="font-black text-3xl comic-font">🎨 Bahasa Seni Visual (SK/SP)</h3>
-                    <p class="text-lg font-black uppercase text-indigo-700">Standard Kandungan</p>
-                    <p id="gmv-sk" class="text-xl font-bold bg-indigo-50 p-4 rounded-xl"></p>
-                    <p class="text-lg font-black uppercase text-slate-600">Standard Pembelajaran</p>
-                    <p id="gmv-sp" class="text-xl bg-slate-50 p-4 rounded-xl"></p>
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <h3 class="font-black text-3xl comic-font">🃏 Bahasa Seni Visual</h3>
+                        <div class="flex gap-2">
+                            <button onclick="filterFlashcards('gmv', 'semua')" id="gmv-filter-semua" class="fc-filter-btn px-3 py-1.5 bg-slate-950 text-white text-lg font-black rounded-lg">Semua</button>
+                            <button onclick="filterFlashcards('gmv', 'unsur')" id="gmv-filter-unsur" class="fc-filter-btn px-3 py-1.5 bg-white text-lg font-black rounded-lg border-2 border-slate-950">Unsur Seni</button>
+                            <button onclick="filterFlashcards('gmv', 'prinsip')" id="gmv-filter-prinsip" class="fc-filter-btn px-3 py-1.5 bg-white text-lg font-black rounded-lg border-2 border-slate-950">Prinsip Rekaan</button>
+                        </div>
+                    </div>
+                    <p class="text-lg text-slate-500">Ketik kad untuk terbalik & lihat maksud, jenis dan contoh.</p>
+                    <div id="gmv-flashcards-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+                    <div class="pt-3 border-t-2 border-dashed border-slate-200 space-y-2">
+                        <p class="text-lg font-black uppercase text-indigo-700">📎 SK/SP Unit Ini (rujukan)</p>
+                        <p id="gmv-sk" class="text-lg font-bold bg-indigo-50 p-3 rounded-xl"></p>
+                        <p id="gmv-sp" class="text-base bg-slate-50 p-3 rounded-xl"></p>
+                    </div>
                 </div>
 
                 <div id="gmv-panel-lihatperhati" class="gmv-panel hidden space-y-3">
@@ -418,15 +442,20 @@
                     <h3 class="font-black text-3xl comic-font">🧠 Kuiz</h3>
                     <p class="text-lg text-slate-500">Pratonton soalan kuiz yang akan dijawab murid (3 soalan, perlu 2/3 betul untuk lulus, +20 ⭐).</p>
                     <div id="gmv-kuiz-preview" class="space-y-2"></div>
-                    <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
-                        <button onclick="janaRPHDariGmv()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
-                        <p id="gmv-rph-feedback" class="hidden text-lg font-bold p-2 mt-2 rounded-lg"></p>
-                    </div>
                 </div>
 
                 <div id="gmv-panel-galeri2" class="gmv-panel hidden space-y-3">
                     <h3 class="font-black text-3xl comic-font">🖼️ Galeri & PBD</h3>
                     <div id="gmv-galeri-container" class="grid grid-cols-1 gap-2"></div>
+                </div>
+
+                <div id="gmv-panel-rph" class="gmv-panel hidden space-y-3">
+                    <h3 class="font-black text-3xl comic-font">📝 Jana RPH Untuk Unit Ini</h3>
+                    <p class="text-lg text-slate-500">Jana Rancangan Pengajaran Harian (RPH) yang telah diisi automatik mengikut kandungan unit ini -- pilih kelas, sunting jika perlu, kemudian cetak.</p>
+                    <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
+                        <button onclick="janaRPHDariGmv()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
+                        <p id="gmv-rph-feedback" class="hidden text-lg font-bold p-2 mt-2 rounded-lg"></p>
+                    </div>
                 </div>
 
             </div>
@@ -774,10 +803,47 @@
 
         <!-- ===== MODUL (semua / Unit Saya) ===== -->
         <div id="murid-view-modul" class="hidden space-y-4">
-            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal">
-                <h3 class="font-black text-2xl comic-font mb-3">🎨 Modul Pembelajaran PSV</h3>
-                <p class="text-lg text-slate-500 mb-3">Pilih unit untuk tonton video, baca nota, jawab kuiz & lukis di Papan Lukisan!</p>
-                <div id="murid-content-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            <div class="bg-white rounded-3xl p-5 lg:p-6 border-4 border-slate-950 shadow-brutal">
+                <p class="text-lg font-black uppercase tracking-widest text-indigo-500">Modul Pembelajaran dan Pengajaran</p>
+                <div class="flex items-center gap-3 mt-1">
+                    <span class="text-4xl">🎨</span>
+                    <h2 class="font-black text-3xl lg:text-4xl comic-font">Unit Saya (Tahun 1, 2, 5 & 6)</h2>
+                </div>
+                <p class="text-xl text-slate-600 mt-2">Pilih tahun atau unit untuk tonton video, baca nota, jawab kuiz & lukis di Papan Lukisan!</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                <!-- Pilih Tahun -->
+                <div class="lg:col-span-5 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-3xl">🎓</span>
+                        <div>
+                            <p class="font-black text-2xl comic-font">Pilih Tahun</p>
+                            <p class="text-lg text-slate-500">Klik tahun untuk lihat senarai unit dan modul.</p>
+                        </div>
+                    </div>
+                    <div id="murid-tahun-tiles" class="grid grid-cols-2 gap-3"></div>
+                </div>
+
+                <!-- Senarai Modul -->
+                <div class="lg:col-span-7 space-y-3">
+                    <div class="bg-indigo-600 text-white rounded-2xl border-4 border-slate-950 shadow-brutal p-4 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-3xl">📚</span>
+                            <div>
+                                <p class="font-black text-xl comic-font">Senarai Modul <span id="murid-modul-tahun-label">Tahun 1</span></p>
+                                <p id="murid-modul-unit-count" class="text-lg text-indigo-200">0 unit pembelajaran</p>
+                            </div>
+                        </div>
+                        <select id="murid-modul-tahun-select" onchange="pilihTahunModulMurid(this.value)" class="text-slate-900 text-lg font-bold rounded-xl px-3 py-2 border-2 border-slate-950">
+                            <option value="Tahun 1">Tahun 1</option>
+                            <option value="Tahun 2">Tahun 2</option>
+                            <option value="Tahun 5">Tahun 5</option>
+                            <option value="Tahun 6">Tahun 6</option>
+                        </select>
+                    </div>
+                    <div id="murid-modul-unit-list" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+                </div>
             </div>
         </div>
 
@@ -832,9 +898,21 @@
                 </div>
 
                 <div id="mmv-panel-bahasa" class="mmv-panel hidden space-y-3">
-                    <h3 class="font-black text-2xl comic-font">🎯 Objektif & Kriteria Kejayaan</h3>
-                    <p id="modul-sk" class="text-xl font-bold text-slate-800 bg-indigo-50 p-4 rounded-xl"></p>
-                    <p id="modul-sp" class="text-lg text-slate-700 bg-slate-50 p-4 rounded-xl"></p>
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <h3 class="font-black text-2xl comic-font">🃏 Bahasa Seni Visual</h3>
+                        <div class="flex gap-1.5">
+                            <button onclick="filterFlashcards('mmv', 'semua')" id="mmv-filter-semua" class="fc-filter-btn px-2.5 py-1 bg-slate-950 text-white text-base font-black rounded-lg">Semua</button>
+                            <button onclick="filterFlashcards('mmv', 'unsur')" id="mmv-filter-unsur" class="fc-filter-btn px-2.5 py-1 bg-white text-base font-black rounded-lg border-2 border-slate-950">Unsur</button>
+                            <button onclick="filterFlashcards('mmv', 'prinsip')" id="mmv-filter-prinsip" class="fc-filter-btn px-2.5 py-1 bg-white text-base font-black rounded-lg border-2 border-slate-950">Prinsip</button>
+                        </div>
+                    </div>
+                    <p class="text-base text-slate-500">Ketik kad untuk terbalik!</p>
+                    <div id="mmv-flashcards-grid" class="grid grid-cols-2 gap-3"></div>
+                    <div class="pt-2 border-t-2 border-dashed border-slate-200 space-y-1.5">
+                        <p class="text-base font-black uppercase text-indigo-700">📎 SK/SP Unit Ini</p>
+                        <p id="modul-sk" class="text-lg font-bold text-slate-800 bg-indigo-50 p-3 rounded-xl"></p>
+                        <p id="modul-sp" class="text-base text-slate-700 bg-slate-50 p-3 rounded-xl"></p>
+                    </div>
                 </div>
 
                 <div id="modul-lihat-perhati" class="mmv-panel hidden space-y-3">
@@ -1786,7 +1864,7 @@
                 showScreen('screen-murid');
                 showMuridView('home');
                 loadMuridUnitFlags();
-                renderContentList('murid-content-list');
+                renderMuridModulPdpPage();
                 loadMuridClasses();
                 loadMuridKarya();
                 refreshMuridStars();
@@ -2035,6 +2113,7 @@
                 btn.classList.toggle('bg-white', !active);
             });
             if (tab === 'cuba') setTimeout(initGmvCanvas, 50);
+            if (tab === 'bahasa') renderFlashcards('gmv');
         }
         window.showGuruModulTab = showGuruModulTab;
 
@@ -2216,6 +2295,105 @@
             "Tahun 6": { bg: "bg-rose-400", icon: "⭐", desc: "Seni untuk Masa Hadapan" },
         };
         const UNIT_BADGE_COLORS = ["bg-rose-400", "bg-emerald-400", "bg-amber-400", "bg-sky-400", "bg-violet-400", "bg-pink-400", "bg-lime-500", "bg-cyan-400"];
+
+        // ---------- Kad Imbas: Unsur Seni & Prinsip Rekaan (Bahasa Seni Visual) ----------
+        // Rangka 6 Unsur Seni + 7 Prinsip Rekaan mengikut DSKP PSV KSSR -- istilah dan
+        // definisi umum kurikulum seni visual sekolah rendah, bukan spesifik satu unit.
+        const FLASHCARDS_DATA = [
+            { id: "garisan", tajuk: "Garisan", kategori: "unsur", gradient: "from-pink-400 to-rose-400", emoji: "〰️",
+              definisi: "Laluan titik-titik bergerak dalam ruang. Unsur asas paling utama dalam menghasilkan lakaran seni lukis.",
+              jenis: "Garisan tebal, nipis, putus-putus, beralun, zig-zag, melengkung.",
+              contoh: "Lakaran urat daun, garisan pen teknikal landasan kereta api." },
+            { id: "rupa", tajuk: "Rupa", kategori: "unsur", gradient: "from-amber-400 to-orange-400", emoji: "🔷",
+              definisi: "Kawasan rata dua dimensi (2D) yang dikelilingi oleh garisan sempadan luaran. Tidak mempunyai isi padu.",
+              jenis: "Rupa Geometri (bulatan, segi tiga) & Rupa Organik (daun, haiwan).",
+              contoh: "Potongan kertas kolaj rupa rama-rama, rupa bintang." },
+            { id: "bentuk", tajuk: "Bentuk", kategori: "unsur", gradient: "from-yellow-400 to-lime-400", emoji: "🧊",
+              definisi: "Objek tiga dimensi (3D) yang mempunyai ketinggian, lebar, kedalaman serta isi padu nyata atau ilusi.",
+              jenis: "Bentuk Konkrit (3D boleh disentuh) & Bentuk Ilusi (lukisan perspektif).",
+              contoh: "Arca boneka tanah liat, model 3D kapal angkasa, lukisan kubus." },
+            { id: "jalinan", tajuk: "Jalinan", kategori: "unsur", gradient: "from-emerald-400 to-teal-400", emoji: "🧶",
+              definisi: "Kesan atau struktur permukaan sesuatu objek yang boleh dikesan melalui penglihatan visual atau sentuhan fizikal.",
+              jenis: "Jalinan Sentuh (kulit durian, tikar anyaman) & Jalinan Tampak (sisik ikan lukisan).",
+              contoh: "Gosokan duit syiling, capan bendi, anyaman kertas." },
+            { id: "ruang", tajuk: "Ruang", kategori: "unsur", gradient: "from-sky-400 to-blue-400", emoji: "🌌",
+              definisi: "Kawasan kosong di sekeliling, di dalam, atau di antara objek-objek. Mewujudkan kedalaman ilusi optik.",
+              jenis: "Ruang Nyata (fizikal bilik) & Ruang Ilusi (perspektif, tona warna).",
+              contoh: "Lukisan perspektif satu titik lenyap rumah di desaku." },
+            { id: "warna", tajuk: "Warna", kategori: "unsur", gradient: "from-violet-400 to-purple-400", emoji: "🎨",
+              definisi: "Tindak balas cahaya ke atas retina mata manusia. Dibahagikan kepada 3 kumpulan utama roda warna.",
+              jenis: "Warna Asas (merah/biru/kuning), Warna Sekunder, Warna Tertier.",
+              contoh: "Catan bunga kekwa mekar, warna harmoni & warna kontra poster." },
+            { id: "harmoni", tajuk: "Harmoni", kategori: "prinsip", gradient: "from-teal-400 to-emerald-500", emoji: "🕊️",
+              definisi: "Keserasian yang wujud daripada penggunaan unsur seni (contohnya warna berdekatan pada roda warna) supaya karya kelihatan tenang dan seimbang.",
+              jenis: "Harmoni warna, harmoni rupa, harmoni jalinan.",
+              contoh: "Karya guna warna sejuk (biru & hijau) sahaja untuk suasana tenang." },
+            { id: "kontra", tajuk: "Kontra", kategori: "prinsip", gradient: "from-red-400 to-pink-500", emoji: "⚡",
+              definisi: "Wujud apabila salah satu unsur seni bertentangan dengan unsur di sekelilingnya untuk menarik perhatian.",
+              jenis: "Kontra rupa, kontra warna (merah vs hijau), kontra jalinan.",
+              contoh: "Sebiji epal merah menyala di dalam bakul epal hijau." },
+            { id: "penegasan", tajuk: "Penegasan", kategori: "prinsip", gradient: "from-orange-400 to-rose-500", emoji: "🎯",
+              definisi: "Titik fokus atau pusat tumpuan (focal point) utama yang dicipta untuk menonjolkan sesuatu elemen utama pada karya.",
+              jenis: "Penegasan melalui perbezaan saiz, kedudukan tengah, atau tona warna.",
+              contoh: "Bulan penuh yang bersinar terang dalam lukisan malam burung pungguk." },
+            { id: "imbangan", tajuk: "Imbangan", kategori: "prinsip", gradient: "from-blue-400 to-indigo-500", emoji: "⚖️",
+              definisi: "Kesepadanan atau kestabilan visual antara unsur-unsur pada karya supaya karya tidak berat sebelah.",
+              jenis: "Imbangan Simetri (sama kiri-kanan) & Imbangan Tidak Simetri (berat berbeza tapi stabil).",
+              contoh: "Arca stabail itik yang seimbang pada tapak walaupun bentuk tak simetri." },
+            { id: "kepelbagaian", tajuk: "Kepelbagaian", kategori: "prinsip", gradient: "from-fuchsia-400 to-purple-500", emoji: "🌈",
+              definisi: "Kombinasi pelbagai unsur seni (warna, bentuk, jalinan) yang berbeza dalam satu karya untuk mengelakkan kebosanan.",
+              jenis: "Kepelbagaian warna, kepelbagaian saiz, kepelbagaian bentuk.",
+              contoh: "Susunan bunga pelbagai warna dan saiz dalam satu pasu lukisan." },
+            { id: "kesatuan", tajuk: "Kesatuan", kategori: "prinsip", gradient: "from-cyan-400 to-sky-500", emoji: "🧩",
+              definisi: "Keadaan semua unsur seni dalam karya kelihatan bersepadu dan menyeluruh sebagai satu komposisi yang lengkap.",
+              jenis: "Kesatuan melalui tema, warna, atau susunan berulang.",
+              contoh: "Semua motif bunga & daun pada batik guna tema sama supaya nampak satu." },
+            { id: "ritma", tajuk: "Ritma dan Pergerakan", kategori: "prinsip", gradient: "from-lime-400 to-green-500", emoji: "🌀",
+              definisi: "Kesan visual yang dihasilkan melalui pengulangan unsur seni (garisan, rupa, warna) secara berirama, mewujudkan kesan gerak pada karya.",
+              jenis: "Ritma berulang (pattern), ritma progresif (saiz berubah).",
+              contoh: "Susunan corak sisik ikan yang berulang-ulang pada kain batik." },
+        ];
+        let flashcardActiveFilter = { gmv: 'semua', mmv: 'semua' };
+        function renderFlashcards(prefix) {
+            const grid = document.getElementById(`${prefix}-flashcards-grid`);
+            if (!grid) return;
+            const filter = flashcardActiveFilter[prefix];
+            const cards = FLASHCARDS_DATA.filter(c => filter === 'semua' || c.kategori === filter);
+            grid.innerHTML = cards.map(c => `
+                <div class="flashcard-perspective h-40 md:h-48 cursor-pointer" onclick="flipFlashcard(this)">
+                    <div class="flashcard-inner w-full h-full border-2 border-slate-950 rounded-2xl shadow-brutal-sm">
+                        <div class="flashcard-front w-full h-full p-3 bg-gradient-to-br ${c.gradient} rounded-xl flex flex-col items-center justify-center text-center text-white">
+                            <span class="text-4xl">${c.emoji}</span>
+                            <p class="font-black text-lg comic-font mt-1">${c.tajuk}</p>
+                            <span class="text-[10px] font-bold uppercase opacity-80 mt-1">${c.kategori === 'unsur' ? 'Unsur Seni' : 'Prinsip Rekaan'}</span>
+                        </div>
+                        <div class="flashcard-back w-full h-full p-3 bg-white rounded-xl overflow-y-auto text-left">
+                            <p class="font-black text-sm text-slate-900">${c.tajuk}</p>
+                            <p class="text-[11px] text-slate-700 mt-1"><b>Maksud:</b> ${c.definisi}</p>
+                            <p class="text-[11px] text-slate-600 mt-1"><b>Jenis:</b> ${c.jenis}</p>
+                            <p class="text-[11px] text-indigo-700 italic mt-1"><b>Contoh:</b> ${c.contoh}</p>
+                        </div>
+                    </div>
+                </div>`).join('');
+        }
+        function flipFlashcard(el) {
+            el.querySelector('.flashcard-inner').classList.toggle('flashcard-flipped');
+        }
+        window.flipFlashcard = flipFlashcard;
+        function filterFlashcards(prefix, kategori) {
+            flashcardActiveFilter[prefix] = kategori;
+            ['semua', 'unsur', 'prinsip'].forEach(k => {
+                const btn = document.getElementById(`${prefix}-filter-${k}`);
+                if (btn) {
+                    btn.classList.toggle('bg-slate-950', k === kategori);
+                    btn.classList.toggle('text-white', k === kategori);
+                    btn.classList.toggle('bg-white', k !== kategori);
+                }
+            });
+            renderFlashcards(prefix);
+        }
+        window.filterFlashcards = filterFlashcards;
+
         function iconForTeknik(teknik) {
             const t = teknik.toLowerCase();
             if (t.includes('capan')) return '🖐️';
@@ -2271,6 +2449,44 @@
                 </div>`).join('');
         }
         window.pilihTahunModul = pilihTahunModul;
+
+        // ---------- Halaman "Unit Saya" (Murid) -- sama gaya jubin Tahun + kad segi empat bernombor ----------
+        let muridModulSelectedTahun = 'Tahun 1';
+        function renderMuridModulPdpPage() {
+            const tiles = document.getElementById('murid-tahun-tiles');
+            if (!tiles) return;
+            tiles.innerHTML = Object.keys(CONTENT_BY_YEAR).map(tahun => {
+                const style = TAHUN_TILE_STYLE[tahun] || { bg: 'bg-slate-600', icon: '🎨', desc: '' };
+                return `<button onclick="pilihTahunModulMurid('${tahun}')" class="tahun-tile-murid p-4 ${style.bg} text-white rounded-2xl border-4 border-slate-950 shadow-brutal text-left space-y-6 hover:-translate-y-1 transition-transform" data-tahun="${tahun}">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-lg font-bold opacity-80">Tahun</p>
+                            <p class="text-4xl font-black comic-font leading-none">${tahun.replace('Tahun ', '')}</p>
+                        </div>
+                        <span class="text-3xl">${style.icon}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-lg font-bold">${style.desc}</p>
+                        <span class="w-8 h-8 rounded-full bg-white/25 flex items-center justify-center">→</span>
+                    </div>
+                </button>`;
+            }).join('');
+            pilihTahunModulMurid(muridModulSelectedTahun);
+        }
+        function pilihTahunModulMurid(tahun) {
+            muridModulSelectedTahun = tahun;
+            document.getElementById('murid-modul-tahun-label').innerText = tahun;
+            document.getElementById('murid-modul-tahun-select').value = tahun;
+            document.querySelectorAll('.tahun-tile-murid').forEach(t => t.classList.toggle('ring-4', t.dataset.tahun === tahun));
+            const units = CONTENT_BY_YEAR[tahun] || [];
+            document.getElementById('murid-modul-unit-count').innerText = `${units.length} unit pembelajaran yang menarik dan interaktif`;
+            document.getElementById('murid-modul-unit-list').innerHTML = units.map((item, idx) => `
+                <div onclick="openModulPembelajaran('${tahun}','${item.unit}')" class="aspect-square flex flex-col items-center justify-center gap-1.5 p-2 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all text-center" title="${item.tajuk}">
+                    <span class="w-9 h-9 rounded-full ${UNIT_BADGE_COLORS[idx % UNIT_BADGE_COLORS.length]} text-white font-black flex items-center justify-center text-base border-2 border-slate-950">${String(idx + 1).padStart(2, '0')}</span>
+                    <span class="text-3xl">${iconForTeknik(item.teknik)}</span>
+                </div>`).join('');
+        }
+        window.pilihTahunModulMurid = pilihTahunModulMurid;
 
         // ---------- Modul Pembelajaran (Video, Nota, Kuiz, Papan Lukisan) ----------
         // Video disahkan khusus untuk 11 unit Tahun 1 (dari portal SeniKreatif asal).
@@ -2483,6 +2699,7 @@
                 btn.classList.toggle('text-white', active);
                 btn.classList.toggle('bg-white', !active);
             });
+            if (tab === 'bahasa') renderFlashcards('mmv');
             if (tab === 'cuba' && !modulCanvasReady) { setTimeout(() => { initModulCanvas(); modulCanvasReady = true; }, 50); }
         }
         window.showMuridModulTab = showMuridModulTab;
