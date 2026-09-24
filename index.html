@@ -3692,14 +3692,21 @@
             const container = document.getElementById(containerId);
             container.innerHTML = '<p class="text-lg text-slate-400 italic">Memuatkan...</p>';
             try {
-                const q = query(collection(db, 'karya'), where('tahun', '==', tahunLabel), where('unit', '==', unitCode), orderBy('tarikh', 'desc'));
+                // Elak perlu index composite Firestore: tapis 2 medan sahaja tanpa
+                // orderBy dalam query, kemudian susun ikut tarikh terkini di sisi klien.
+                const q = query(collection(db, 'karya'), where('tahun', '==', tahunLabel), where('unit', '==', unitCode));
                 const snap = await getDocs(q);
                 if (snap.empty) {
                     container.innerHTML = '<p class="text-lg text-slate-400 italic">Belum ada karya dihantar untuk unit ini lagi.</p>';
                     return;
                 }
+                const docsArr = snap.docs.slice().sort((a, b) => {
+                    const ta = a.data().tarikh && a.data().tarikh.toMillis ? a.data().tarikh.toMillis() : 0;
+                    const tb = b.data().tarikh && b.data().tarikh.toMillis ? b.data().tarikh.toMillis() : 0;
+                    return tb - ta;
+                });
                 container.innerHTML = '';
-                snap.forEach((d) => {
+                docsArr.forEach((d) => {
                     const k = d.data();
                     const tpOptions = [1,2,3,4,5,6].map(n => `<option value="${n}" ${k.tp == n ? 'selected' : ''}>TP${n}</option>`).join('');
                     container.innerHTML += `
@@ -4104,24 +4111,31 @@
             }
             try {
                 const kodList = guruClassesData.map(c => c.kod).slice(0, 10); // had 'in' query Firestore ialah 10
-                const q = query(collection(db, 'karya'), where('kodKelas', 'in', kodList), orderBy('tarikh', 'desc'));
+                // Elak perlu index composite ('in' + orderBy field lain): tapis sahaja,
+                // kemudian susun ikut tarikh terkini di sisi klien.
+                const q = query(collection(db, 'karya'), where('kodKelas', 'in', kodList));
                 const snap = await getDocs(q);
+                const docsArr = snap.docs.slice().sort((a, b) => {
+                    const ta = a.data().tarikh && a.data().tarikh.toMillis ? a.data().tarikh.toMillis() : 0;
+                    const tb = b.data().tarikh && b.data().tarikh.toMillis ? b.data().tarikh.toMillis() : 0;
+                    return tb - ta;
+                });
 
                 // Kumpul senarai murid unik (untuk dropdown Portfolio) daripada karya yang sama.
                 const muridMap = new Map();
-                snap.forEach((d) => { const k = d.data(); if (k.uid) muridMap.set(k.uid, k.namaMurid); });
+                docsArr.forEach((d) => { const k = d.data(); if (k.uid) muridMap.set(k.uid, k.namaMurid); });
                 const portfolioSel = document.getElementById('guru-portfolio-murid');
                 if (portfolioSel) {
                     portfolioSel.innerHTML = '<option value="">-- Pilih murid --</option>' +
                         [...muridMap.entries()].map(([uid, nama]) => `<option value="${uid}">${nama}</option>`).join('');
                 }
 
-                if (snap.empty) {
+                if (docsArr.length === 0) {
                     container.innerHTML = '<p class="text-lg text-slate-400 italic col-span-full">Belum ada karya diterima.</p>';
                     return;
                 }
                 container.innerHTML = '';
-                snap.forEach((d) => {
+                docsArr.forEach((d) => {
                     const k = d.data();
                     container.innerHTML += `
                         <div class="border-2 border-slate-950 rounded-xl overflow-hidden">
