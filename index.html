@@ -54,6 +54,16 @@
             position: absolute; inset: 0;
         }
         .flashcard-back { transform: rotateY(180deg); }
+
+        /* Kad Seni Visual (ilustrasi SVG interaktif) -- Unsur Seni & Prinsip Rekaan */
+        .perspective { perspective: 1000px; }
+        .preserve-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .backface-hidden { backface-visibility: hidden; }
+        .flip-active { transform: rotateY(180deg); }
+        .rotate-y-180 { transform: rotateY(180deg); }
     </style>
 </head>
 <body class="bg-[#fcf8f2] text-slate-900 font-sans min-h-screen">
@@ -380,7 +390,7 @@
                         </div>
                     </div>
                     <p class="text-lg text-slate-500">Ketik kad untuk terbalik & lihat maksud, jenis dan contoh.</p>
-                    <div id="gmv-flashcards-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+                    <div id="gmv-flashcards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center"></div>
                     <div class="pt-3 border-t-2 border-dashed border-slate-200 space-y-2">
                         <p class="text-lg font-black uppercase text-indigo-700">📎 SK/SP Unit Ini (rujukan)</p>
                         <p id="gmv-sk" class="text-lg font-bold bg-indigo-50 p-3 rounded-xl"></p>
@@ -907,7 +917,7 @@
                         </div>
                     </div>
                     <p class="text-base text-slate-500">Ketik kad untuk terbalik!</p>
-                    <div id="mmv-flashcards-grid" class="grid grid-cols-2 gap-3"></div>
+                    <div id="mmv-flashcards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center"></div>
                     <div class="pt-2 border-t-2 border-dashed border-slate-200 space-y-1.5">
                         <p class="text-base font-black uppercase text-indigo-700">📎 SK/SP Unit Ini</p>
                         <p id="modul-sk" class="text-lg font-bold text-slate-800 bg-indigo-50 p-3 rounded-xl"></p>
@@ -2353,33 +2363,718 @@
               jenis: "Ritma berulang (pattern), ritma progresif (saiz berubah).",
               contoh: "Susunan corak sisik ikan yang berulang-ulang pada kain batik." },
         ];
+        const VISUAL_CARDS_HTML = {
+            garisan: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-yellow-400">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-amber-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-amber-800 tracking-wide uppercase">GARISAN</h3>
+                                <span class="text-xs font-bold text-amber-600 bg-amber-100 px-3 py-1 rounded-full">(LINE)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-amber-200 shadow-inner group">
+                                <div class="absolute top-2 left-2 text-[10px] bg-yellow-100 border border-yellow-300 px-1.5 py-0.5 rounded shadow-sm text-yellow-800">Ketuk kucing! 🐱</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40">
+                                    <path d="M40 140 C 20 120, 10 90, 20 70 C 25 65, 35 70, 30 85 C 25 100, 35 120, 50 135" fill="none" stroke="#f59e0b" stroke-width="12" stroke-linecap="round"/>
+                                    <path d="M40 140 C 20 120, 10 90, 20 70" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-dasharray="3,3"/>
+                                    <ellipse cx="100" cy="135" rx="45" ry="35" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+                                    <path d="M70 125 Q 100 150 130 125" fill="none" stroke="#ec4899" stroke-width="3" class="hover:stroke-pink-600 transition-colors cursor-help"/>
+                                    <path d="M65 135 L 75 145 L 85 135 L 95 145 L 105 135 L 115 145 L 125 135 L 135 145" fill="none" stroke="#3b82f6" stroke-width="3" class="hover:stroke-blue-600 transition-colors cursor-help"/>
+                                    <polygon points="70,80 60,40 90,65" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+                                    <polygon points="73,75 67,48 85,63" fill="#fcd34d"/>
+                                    <polygon points="130,80 140,40 110,65" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+                                    <polygon points="127,75 133,48 115,63" fill="#fcd34d"/>
+                                    <circle cx="100" cy="85" r="32" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+                                    <circle cx="88" cy="80" r="3" fill="#1e293b"/>
+                                    <circle cx="112" cy="80" r="3" fill="#1e293b"/>
+                                    <circle cx="82" cy="87" r="4" fill="#fca5a5" opacity="0.7"/>
+                                    <circle cx="118" cy="87" r="4" fill="#fca5a5" opacity="0.7"/>
+                                    <polygon points="97,87 103,87 100,91" fill="#f43f5e"/>
+                                    <path d="M96 94 Q 100 98 104 94" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="65" y1="83" x2="45" y2="80" stroke="#475569" stroke-width="1.5"/>
+                                    <line x1="65" y1="89" x2="40" y2="91" stroke="#475569" stroke-width="1.5"/>
+                                    <line x1="135" y1="83" x2="155" y2="80" stroke="#475569" stroke-width="1.5"/>
+                                    <line x1="135" y1="89" x2="160" y2="91" stroke="#475569" stroke-width="1.5"/>
+                                    <circle cx="80" cy="165" r="10" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+                                    <circle cx="120" cy="165" r="10" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+                                </svg>
+                                <div class="absolute top-[35%] left-[2%] bg-amber-500 text-white text-[9px] px-1 rounded shadow cursor-pointer font-bold">Tebal ➔</div>
+                                <div class="absolute top-[18%] right-[1%] bg-amber-500 text-white text-[9px] px-1 rounded shadow cursor-pointer font-bold">➔ Nipis</div>
+                                <div class="absolute bottom-[20%] left-[1%] bg-pink-500 text-white text-[9px] px-1 rounded shadow cursor-pointer font-bold">Melengkung ➔</div>
+                                <div class="absolute bottom-[25%] right-[2%] bg-blue-500 text-white text-[9px] px-1 rounded shadow cursor-pointer font-bold">➔ Zigzag</div>
+                            </div>
+                            <div class="bg-amber-100 rounded-xl p-2.5 text-center border border-amber-200">
+                                <h4 class="text-xs font-bold text-amber-800 uppercase mb-0.5">Contoh garisan:</h4>
+                                <p class="text-xs text-amber-900 leading-relaxed font-semibold">Tebal, Nipis, Melengkung, Putus-putus, Zigzag</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-amber-700">
+                                <button class="hover:text-amber-900 flex items-center gap-1 font-bold" onclick="speakText('Garisan. Contoh garisan: tebal, nipis, melengkung, putus-putus, dan zigzag.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full text-[10px]">Unsur 1</span>
+                                <button class="hover:text-amber-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-yellow-300 pb-2 mb-3">Fakta Garisan 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Garisan</strong> ialah kesan titik yang bergerak di atas sesuatu permukaan. Ia adalah elemen paling asas untuk menghasilkan lukisan menarik!
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-amber-800 font-bold rounded-xl shadow hover:bg-yellow-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            rupa: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-orange-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-orange-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-orange-400 via-red-400 to-orange-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-orange-800 tracking-wide uppercase">RUPA</h3>
+                                <span class="text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full">(SHAPE)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-orange-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-orange-100 border border-orange-300 px-1.5 py-0.5 rounded shadow-sm text-orange-800">Ketuk bentuk! 🏠</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40">
+                                    <circle cx="40" cy="50" r="18" fill="#fcd34d" stroke="#d97706" stroke-width="2.5" class="cursor-pointer"/>
+                                    <polygon points="100,60 50,110 150,110" fill="#ef4444" stroke="#b91c1c" stroke-width="2.5" class="cursor-pointer"/>
+                                    <rect x="65" y="110" width="70" height="60" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2.5" class="cursor-pointer"/>
+                                    <path d="M 160 130 C 145 130, 140 110, 155 95 C 170 80, 190 90, 185 110 C 195 120, 185 140, 160 130 Z" fill="#22c55e" stroke="#15803d" stroke-width="2.5" class="cursor-pointer"/>
+                                    <rect x="156" y="130" width="8" height="40" fill="#78350f" stroke="#451a03" stroke-width="2"/>
+                                </svg>
+                                <div class="absolute top-[18%] left-[2%] bg-yellow-500 text-white text-[9px] px-1 rounded shadow cursor-pointer font-bold">Bulatan ➔</div>
+                                <div class="absolute top-[38%] left-[25%] bg-red-500 text-white text-[9px] px-1 rounded shadow cursor-pointer font-bold">➔ Segi Tiga</div>
+                                <div class="absolute bottom-[28%] left-[6%] bg-blue-500 text-white text-[9px] px-1 rounded shadow cursor-pointer font-bold">Segiempat ➔</div>
+                                <div class="absolute top-[16%] right-[3%] bg-green-600 text-white text-[9px] px-1 rounded shadow font-bold">➔ Rupa Organik</div>
+                            </div>
+                            <div class="bg-orange-100 rounded-xl p-2.5 text-center border border-orange-200">
+                                <h4 class="text-xs font-bold text-orange-800 uppercase mb-0.5">Contoh rupa:</h4>
+                                <p class="text-xs text-orange-900 leading-relaxed font-semibold">Segiempat, Segi Tiga, Bulatan, Rupa Organik (Daun/Pokok)</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-orange-700">
+                                <button class="hover:text-orange-900 flex items-center gap-1 font-bold" onclick="speakText('Rupa. Contoh rupa: segiempat, segi tiga, bulatan, dan rupa organik.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-orange-200 text-orange-900 px-2 py-0.5 rounded-full text-[10px]">Unsur 2</span>
+                                <button class="hover:text-orange-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-orange-400 to-red-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-orange-300 pb-2 mb-3">Fakta Rupa 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Rupa</strong> terbentuk apabila garisan hujung bertemu. Rupa bersifat 2D (rata) dan tidak mempunyai ketebalan atau isi padu.
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-orange-800 font-bold rounded-xl shadow hover:bg-orange-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            bentuk: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-pink-400">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-pink-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-pink-300 via-pink-400 to-pink-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-pink-800 tracking-wide uppercase">BENTUK</h3>
+                                <span class="text-xs font-bold text-pink-600 bg-pink-100 px-3 py-1 rounded-full">(FORM)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-pink-200 shadow-inner">
+                                <div class="absolute top-2 left-2 text-[10px] bg-pink-100 border border-pink-200 px-1.5 py-0.5 rounded shadow-sm text-pink-800">Ketuk bentuk 3D! 📦</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40">
+                                    <!-- 3D Cube -->
+                                    <g class="cursor-pointer">
+                                        <polygon points="40,110 80,110 80,150 40,150" fill="#f43f5e" stroke="#be123c" stroke-width="2"/>
+                                        <polygon points="40,110 60,90 100,90 80,110" fill="#fda4af" stroke="#be123c" stroke-width="2"/>
+                                        <polygon points="80,110 100,90 100,130 80,150" fill="#f43f5e" opacity="0.8" stroke="#be123c" stroke-width="2"/>
+                                    </g>
+                                    <!-- 3D Cone -->
+                                    <g class="cursor-pointer">
+                                        <polygon points="140,150 110,90 170,90" fill="#facc15" stroke="#a16207" stroke-width="2" transform="rotate(180 140 120)"/>
+                                        <ellipse cx="140" cy="150" rx="30" ry="8" fill="#fef08a" stroke="#a16207" stroke-width="2"/>
+                                    </g>
+                                    <!-- 3D Cylinder -->
+                                    <g class="cursor-pointer">
+                                        <rect x="85" y="30" width="35" height="45" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+                                        <ellipse cx="102.5" cy="30" rx="17.5" ry="5" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+                                        <ellipse cx="102.5" cy="75" rx="17.5" ry="5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+                                    </g>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[5%] bg-rose-600 text-white text-[9px] px-1 rounded shadow font-bold">Kubus ➔</div>
+                                <div class="absolute bottom-[10%] right-[5%] bg-yellow-600 text-white text-[9px] px-1 rounded shadow font-bold">➔ Kon</div>
+                                <div class="absolute top-[15%] left-[23%] bg-blue-600 text-white text-[9px] px-1 rounded shadow font-bold">➔ Silinder</div>
+                            </div>
+                            <div class="bg-pink-100 rounded-xl p-2.5 text-center border border-pink-200">
+                                <h4 class="text-xs font-bold text-pink-800 uppercase mb-0.5">Contoh Bentuk:</h4>
+                                <p class="text-xs text-pink-900 leading-relaxed font-semibold">Kubus (Kotak), Sfera (Bola), Silinder (Tin)</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-pink-700">
+                                <button class="hover:text-pink-900 flex items-center gap-1 font-bold" onclick="speakText('Bentuk. Objek tiga dimensi yang mempunyai isipadu dan struktur nyata seperti kotak atau bola.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-pink-200 text-pink-900 px-2 py-0.5 rounded-full text-[10px]">Unsur 5</span>
+                                <button class="hover:text-pink-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-pink-400 to-rose-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-pink-300 pb-2 mb-3">Fakta Bentuk 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    Berbeza dengan Rupa, <strong>Bentuk</strong> mempunyai struktur 3D (tiga dimensi). Ia mempunyai ketinggian, lebar, serta isipadu nyata yang boleh dipegang!
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-pink-800 font-bold rounded-xl shadow hover:bg-pink-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            jalinan: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-emerald-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-emerald-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-emerald-800 tracking-wide uppercase">JALINAN</h3>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">(TEXTURE)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-emerald-200 shadow-inner">
+                                <div class="absolute top-2 left-2 text-[10px] bg-emerald-100 border border-emerald-300 px-1.5 py-0.5 rounded shadow-sm text-emerald-800 font-bold animate-pulse">Usap haiwan! 🐰🐢</div>
+                                <div class="flex items-center gap-2 w-full px-4 justify-around">
+                                    <div class="flex flex-col items-center cursor-pointer">
+                                        <svg viewBox="0 0 100 100" class="w-16 h-16">
+                                            <ellipse cx="40" cy="25" rx="6" ry="20" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+                                            <ellipse cx="40" cy="25" rx="3" ry="12" fill="#fca5a5"/>
+                                            <ellipse cx="52" cy="25" rx="6" ry="20" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+                                            <ellipse cx="52" cy="25" rx="3" ry="12" fill="#fca5a5"/>
+                                            <ellipse cx="50" cy="65" rx="25" ry="20" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+                                            <circle cx="23" cy="65" r="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+                                            <circle cx="58" cy="45" r="18" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+                                            <circle cx="64" cy="42" r="2.5" fill="#ef4444"/>
+                                            <polygon points="68,46 72,46 70,49" fill="#f43f5e"/>
+                                            <circle cx="60" cy="48" r="3" fill="#fca5a5" opacity="0.6"/>
+                                            <circle cx="45" cy="82" r="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+                                            <circle cx="60" cy="82" r="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+                                        </svg>
+                                        <span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-1 py-0.5 rounded mt-1">Bulu Lembut</span>
+                                    </div>
+                                    <div class="flex flex-col items-center cursor-pointer">
+                                        <svg viewBox="0 0 100 100" class="w-16 h-16">
+                                            <ellipse cx="30" cy="45" rx="8" ry="16" fill="#4ade80" stroke="#16a34a" stroke-width="2" transform="rotate(-30, 30, 45)"/>
+                                            <ellipse cx="70" cy="45" rx="8" ry="16" fill="#4ade80" stroke="#16a34a" stroke-width="2" transform="rotate(30, 70, 45)"/>
+                                            <ellipse cx="50" cy="60" rx="26" ry="22" fill="#15803d" stroke="#166534" stroke-width="2"/>
+                                            <path d="M 50 38 Q 40 50 50 62 Q 60 50 50 38" fill="none" stroke="#bbf7d0" stroke-width="2"/>
+                                            <ellipse cx="50" cy="30" rx="10" ry="12" fill="#4ade80" stroke="#16a34a" stroke-width="2"/>
+                                            <circle cx="46" cy="26" r="1.5" fill="#1e293b"/>
+                                            <polygon points="48,82 52,82 50,92" fill="#4ade80" stroke="#16a34a" stroke-width="2"/>
+                                        </svg>
+                                        <span class="text-[9px] font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded mt-1">Kulit Kasar</span>
+                                    </div>
+                                </div>
+                                <div class="absolute top-[20%] left-[30%] bg-indigo-500 text-white text-[9px] px-1 rounded shadow font-bold">➔ Jalinan Sentuh</div>
+                                <div class="absolute bottom-[20%] right-[3%] bg-emerald-600 text-white text-[9px] px-1 rounded shadow font-bold">Jalinan Tampak ➔</div>
+                            </div>
+                            <div class="bg-emerald-100 rounded-xl p-2.5 text-center border border-emerald-200">
+                                <h4 class="text-xs font-bold text-emerald-800 uppercase mb-0.5">Contoh jalinan:</h4>
+                                <p class="text-xs text-emerald-900 leading-relaxed font-semibold">Bulu Lembut (Arnab), Kulit Kasar (Kura-kura)</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-emerald-700">
+                                <button class="hover:text-emerald-900 flex items-center gap-1 font-bold" onclick="speakText('Jalinan. Contoh jalinan: Bulu Lembut pada arnab, kulit kasar pada kura-kura.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full text-[10px]">Unsur 3</span>
+                                <button class="hover:text-emerald-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-emerald-300 pb-2 mb-3">Fakta Jalinan 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Jalinan</strong> merujuk kepada sifat luaran permukaan benda. Ada jalinan sentuh (boleh dirasai dengan jari) dan jalinan tampak (hanya boleh dilihat seperti lukisan).
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-emerald-800 font-bold rounded-xl shadow hover:bg-emerald-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            ruang: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-teal-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-teal-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-teal-300 via-teal-400 to-teal-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-teal-800 tracking-wide uppercase">RUANG</h3>
+                                <span class="text-xs font-bold text-teal-600 bg-teal-100 px-3 py-1 rounded-full">(SPACE)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-teal-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-teal-100 border border-teal-200 px-1.5 py-0.5 rounded shadow-sm text-teal-800">Kesan jarak kedalaman! ⛰️</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40">
+                                    <!-- Mountains (Ruang Belakang) -->
+                                    <polygon points="10,120 70,70 120,120" fill="#94a3b8" stroke="#64748b" stroke-width="1.5"/>
+                                    <polygon points="80,120 140,60 190,120" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <!-- Tiny Tree (Ruang Belakang) -->
+                                    <polygon points="170,110 165,120 175,120" fill="#16a34a"/>
+                                    <!-- Medium Tree (Ruang Tengah) -->
+                                    <polygon points="120,135 110,155 130,155" fill="#15803d"/>
+                                    <rect x="118" y="155" width="4" height="10" fill="#78350f"/>
+                                    <!-- Big Tree (Ruang Depan) -->
+                                    <polygon points="40,110 15,165 65,165" fill="#166534"/>
+                                    <rect x="35" y="165" width="10" height="20" fill="#451a03"/>
+                                </svg>
+                                <div class="absolute bottom-[8%] left-[2%] bg-emerald-800 text-white text-[9px] px-1 rounded shadow font-bold">Depan (Besar) ➔</div>
+                                <div class="absolute top-[25%] right-[2%] bg-slate-500 text-white text-[9px] px-1 rounded shadow font-bold">➔ Belakang (Kecil)</div>
+                            </div>
+                            <div class="bg-teal-100 rounded-xl p-2.5 text-center border border-teal-200">
+                                <h4 class="text-xs font-bold text-teal-800 uppercase mb-0.5">Kawasan Ruang:</h4>
+                                <p class="text-xs text-teal-900 leading-relaxed font-semibold">Ruang Depan (Dekat), Ruang Tengah, Ruang Belakang (Jauh)</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-teal-700">
+                                <button class="hover:text-teal-900 flex items-center gap-1 font-bold" onclick="speakText('Ruang. Kawasan kosong di sekeliling atau di dalam objek yang menghasilkan kesan jarak dekat dan jauh.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-teal-200 text-teal-900 px-2 py-0.5 rounded-full text-[10px]">Unsur 6</span>
+                                <button class="hover:text-teal-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-teal-300 pb-2 mb-3">Fakta Ruang 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Ruang</strong> mencipta ilusi kedalaman. Objek di hadapan kelihatan lebih besar dan jelas, manakala objek yang terletak jauh di belakang kelihatan kecil serta kabur.
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-teal-800 font-bold rounded-xl shadow hover:bg-teal-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            warna: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-purple-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-purple-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-purple-800 tracking-wide uppercase">WARNA</h3>
+                                <span class="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">(COLOUR)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-purple-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-purple-100 border border-purple-300 px-1.5 py-0.5 rounded shadow-sm text-purple-800">Tekan hirisan warna! 🎨</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40">
+                                    <circle cx="100" cy="100" r="30" fill="white" stroke="#64748b" stroke-width="1.5" z-index="10"/>
+                                    <path d="M 100 100 L 100 40 A 60 60 0 0 1 152 70 Z" fill="#ef4444" stroke="#ffffff" stroke-width="2" class="cursor-pointer"/>
+                                    <path d="M 100 100 L 152 70 A 60 60 0 0 1 152 130 Z" fill="#f97316" stroke="#ffffff" stroke-width="2" class="cursor-pointer"/>
+                                    <path d="M 100 100 L 152 130 A 60 60 0 0 1 100 160 Z" fill="#facc15" stroke="#ffffff" stroke-width="2" class="cursor-pointer"/>
+                                    <path d="M 100 100 L 100 160 A 60 60 0 0 1 48 130 Z" fill="#22c55e" stroke="#ffffff" stroke-width="2" class="cursor-pointer"/>
+                                    <path d="M 100 100 L 48 130 A 60 60 0 0 1 48 70 Z" fill="#3b82f6" stroke="#ffffff" stroke-width="2" class="cursor-pointer"/>
+                                    <path d="M 100 100 L 48 70 A 60 60 0 0 1 100 40 Z" fill="#a855f7" stroke="#ffffff" stroke-width="2" class="cursor-pointer"/>
+                                </svg>
+                                <div class="absolute top-[4%] left-[45%] text-[9px] font-bold text-red-500">Merah</div>
+                                <div class="absolute top-[20%] right-[3%] text-[9px] font-bold text-yellow-500">Kuning</div>
+                                <div class="absolute bottom-[20%] right-[3%] text-[9px] font-bold text-blue-500">Biru</div>
+                                <div class="absolute bottom-[4%] left-[45%] text-[9px] font-bold text-purple-500">Ungu</div>
+                            </div>
+                            <div class="bg-purple-100 rounded-xl p-2.5 text-center border border-purple-200">
+                                <h4 class="text-xs font-bold text-purple-800 uppercase mb-0.5">Kategori warna:</h4>
+                                <p class="text-xs text-purple-900 leading-relaxed font-semibold">
+                                    <span class="text-red-500">Primer</span> (Merah, Kuning, Biru) <br>
+                                    <span class="text-purple-600">Sekunder</span> (Jingga, Hijau, Ungu)
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-purple-700">
+                                <button class="hover:text-purple-900 flex items-center gap-1 font-bold" onclick="speakText('Warna. Warna Primer ialah Merah, Kuning, dan Biru. Warna Sekunder ialah Jingga, Hijau, dan Ungu.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-purple-200 text-purple-900 px-2 py-0.5 rounded-full text-[10px]">Unsur 4</span>
+                                <button class="hover:text-purple-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-purple-300 pb-2 mb-3">Fakta Warna 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Warna</strong> terjadi daripada tindakan cahaya. Warna Primer adalah warna asli, manakala Warna Sekunder terhasil bila dua warna primer dicampurkan!
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-purple-800 font-bold rounded-xl shadow hover:bg-purple-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            harmoni: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-sky-400">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-sky-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-sky-300 via-sky-400 to-sky-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-sky-800 tracking-wide uppercase">HARMONI</h3>
+                                <span class="text-xs font-bold text-sky-600 bg-sky-100 px-3 py-1 rounded-full">(HARMONY)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-sky-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-sky-100 border border-sky-200 px-1.5 py-0.5 rounded shadow-sm text-sky-800">Rasai ketenangan ombak! 🌊</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40 cursor-pointer">
+                                    <path d="M 10,70 Q 50,50 100,70 T 190,70" fill="none" stroke="#0ea5e9" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M 10,100 Q 50,80 100,100 T 190,100" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+                                    <path d="M 10,130 Q 50,110 100,130 T 190,130" fill="none" stroke="#7dd3fc" stroke-width="4" stroke-linecap="round"/>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[23%] bg-sky-600 text-white text-[9px] px-2 py-0.5 rounded shadow font-bold">Ulangan Corak Selari</div>
+                            </div>
+                            <div class="bg-sky-100 rounded-xl p-2.5 text-center border border-sky-200">
+                                <h4 class="text-xs font-bold text-sky-800 uppercase mb-0.5">Kesan Harmoni:</h4>
+                                <p class="text-xs text-sky-900 leading-relaxed font-semibold">Mewujudkan suasana yang aman, tenteram, damai dan selesa dipandang.</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-sky-700">
+                                <button class="hover:text-sky-900 flex items-center gap-1 font-bold" onclick="speakText('Harmoni. Keselarasan gabungan unsur seni yang nampak sepadan dan mendamaikan jiwa.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-sky-200 text-sky-900 px-2 py-0.5 rounded-full text-[10px]">Prinsip 4</span>
+                                <button class="hover:text-sky-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-sky-400 to-blue-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-sky-300 pb-2 mb-3">Fakta Harmoni 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Harmoni</strong> dicapai melalui penyusunan unsur-unsur seni yang hampir serupa (seperti ton warna senada atau bentuk sekata) untuk menghasilkan ketenteraman visual.
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-sky-800 font-bold rounded-xl shadow hover:bg-sky-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            kontra: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-indigo-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-indigo-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-indigo-300 via-indigo-400 to-indigo-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-indigo-800 tracking-wide uppercase">KONTRAS</h3>
+                                <span class="text-xs font-bold text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full">(CONTRAST)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-slate-900 rounded-2xl border-2 border-dashed border-indigo-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-indigo-900 border border-indigo-500 px-1.5 py-0.5 rounded shadow-sm text-indigo-100">Kontras tinggi! 🌟</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40 cursor-pointer">
+                                    <polygon points="100,30 120,80 170,80 130,110 150,160 100,130 50,160 70,110 30,80 80,80" fill="#facc15" stroke="#eab308" stroke-width="3"/>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[12%] bg-yellow-400 text-slate-950 text-[9px] px-2 py-0.5 rounded shadow font-bold">Warna Terang VS Latar Gelap</div>
+                            </div>
+                            <div class="bg-indigo-100 rounded-xl p-2.5 text-center border border-indigo-200">
+                                <h4 class="text-xs font-bold text-indigo-800 uppercase mb-0.5">Contoh Kontras:</h4>
+                                <p class="text-xs text-indigo-900 leading-relaxed font-semibold">Merah lwn Hijau, Hitam lwn Putih, Kasar lwn Licin</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-indigo-700">
+                                <button class="hover:text-indigo-900 flex items-center gap-1 font-bold" onclick="speakText('Kontras. Perbezaan ketara antara unsur seni yang digunakan seperti warna terang dengan warna gelap.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-indigo-200 text-indigo-900 px-2 py-0.5 rounded-full text-[10px]">Prinsip 2</span>
+                                <button class="hover:text-indigo-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-indigo-300 pb-2 mb-3">Fakta Kontras 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Kontras</strong> wujud apabila terdapat unsur seni yang berlawanan atau berbeza sepenuhnya. Ia berfungsi untuk menarik perhatian dengan serta-merta!
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-indigo-800 font-bold rounded-xl shadow hover:bg-indigo-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            penegasan: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-red-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-red-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-red-400 via-rose-400 to-red-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-red-800 tracking-wide uppercase">PENEGASAN</h3>
+                                <span class="text-xs font-bold text-red-600 bg-red-100 px-3 py-1 rounded-full">(EMPHASIS)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-red-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-red-100 border border-red-200 px-1.5 py-0.5 rounded shadow-sm text-red-800 font-bold animate-pulse">Ketuk kumbang merah! 🐞</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40 cursor-pointer">
+                                    <path d="M20,150 Q100,50 180,150 Q100,180 20,150 Z" fill="#22c55e" stroke="#15803d" stroke-width="2"/>
+                                    <line x1="20" y1="150" x2="180" y2="150" stroke="#15803d" stroke-width="2"/>
+                                    <circle cx="100" cy="135" r="22" fill="#ef4444" stroke="#000000" stroke-width="2"/>
+                                    <circle cx="92" cy="125" r="3" fill="#000000"/>
+                                    <circle cx="108" cy="125" r="3" fill="#000000"/>
+                                    <circle cx="90" cy="142" r="3" fill="#000000"/>
+                                    <circle cx="110" cy="142" r="3" fill="#000000"/>
+                                    <line x1="100" y1="113" x2="100" y2="157" stroke="#000000" stroke-width="2"/>
+                                    <ellipse cx="100" cy="111" rx="8" ry="6" fill="#000000"/>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[16%] bg-red-600 text-white text-[9px] px-2 py-0.5 rounded shadow font-bold">Kumbang Merah Menyerlah</div>
+                            </div>
+                            <div class="bg-red-100 rounded-xl p-2.5 text-center border border-red-200">
+                                <h4 class="text-xs font-bold text-red-800 uppercase mb-0.5">Tujuan Penegasan:</h4>
+                                <p class="text-xs text-red-900 leading-relaxed font-semibold">Mewujudkan pusat tumpuan (fokus) yang segera menarik perhatian.</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-red-700">
+                                <button class="hover:text-red-900 flex items-center gap-1 font-bold" onclick="speakText('Penegasan. Sesuatu yang menonjol dan berbeza daripada yang lain supaya menjadi tumpuan utama mata kita.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-red-200 text-red-900 px-2 py-0.5 rounded-full text-[10px]">Prinsip 3</span>
+                                <button class="hover:text-red-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-red-500 to-rose-600 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-red-300 pb-2 mb-3">Fakta Penegasan 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Penegasan</strong> berlaku apabila ada satu bahagian atau objek yang berbeza secara ketara, menjadikannya 'hero' dalam sesebuah karya seni!
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-red-800 font-bold rounded-xl shadow hover:bg-red-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            imbangan: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-blue-400">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-blue-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-blue-300 via-sky-400 to-blue-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-blue-800 tracking-wide uppercase">IMBANGAN</h3>
+                                <span class="text-xs font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">(BALANCE)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-blue-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-blue-100 border border-blue-200 px-1.5 py-0.5 rounded shadow-sm text-blue-800">Sentuh kepak simetri! 🦋</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40 cursor-pointer">
+                                    <path d="M 100,50 Q 50,20 50,70 Q 50,110 100,100" fill="#60a5fa" stroke="#1d4ed8" stroke-width="2"/>
+                                    <path d="M 100,50 Q 150,20 150,70 Q 150,110 100,100" fill="#60a5fa" stroke="#1d4ed8" stroke-width="2"/>
+                                    <path d="M 100,100 Q 60,110 70,130 Q 80,150 100,140" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1.5"/>
+                                    <path d="M 100,100 Q 140,110 130,130 Q 120,150 100,140" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1.5"/>
+                                    <ellipse cx="100" cy="95" rx="4" ry="45" fill="#1e3a8a"/>
+                                    <line x1="100" y1="50" x2="90" y2="30" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="100" y1="50" x2="110" y2="30" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="100" y1="20" x2="100" y2="170" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,4"/>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[25%] bg-blue-600 text-white text-[9px] px-2 py-0.5 rounded shadow font-bold">Imbangan Simetri</div>
+                            </div>
+                            <div class="bg-blue-100 rounded-xl p-2.5 text-center border border-blue-200">
+                                <h4 class="text-xs font-bold text-blue-800 uppercase mb-0.5">Jenis Imbangan:</h4>
+                                <p class="text-xs text-blue-900 leading-relaxed font-semibold">Simetri (Sama kiri/kanan), Tidak Simetri (Berbeza)</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-blue-700">
+                                <button class="hover:text-blue-900 flex items-center gap-1 font-bold" onclick="speakText('Imbangan. Keadaan stabil yang sama berat di kedua-dua belah bahagian, seperti kepak rama-rama.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-blue-200 text-blue-900 px-2 py-0.5 rounded-full text-[10px]">Prinsip 1</span>
+                                <button class="hover:text-blue-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-blue-300 pb-2 mb-3">Fakta Imbangan 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Imbangan</strong> bermaksud kesamaan dan kestabilan. Imbangan Simetri mempunyai unsur rekaan yang sama serupa di kedua-dua belah bahagian kiri dan kanan.
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-blue-800 font-bold rounded-xl shadow hover:bg-blue-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            kepelbagaian: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-yellow-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-yellow-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-amber-800 tracking-wide uppercase">KEPELBAGAIAN</h3>
+                                <span class="text-xs font-bold text-amber-600 bg-amber-100 px-3 py-1 rounded-full">(VARIETY)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-yellow-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-yellow-100 border border-yellow-200 px-1.5 py-0.5 rounded shadow-sm text-yellow-800">Ketuk pelbagai rupa! 🎨</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40 cursor-pointer">
+                                    <rect x="20" y="40" width="35" height="35" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+                                    <circle cx="150" cy="60" r="25" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+                                    <polygon points="100,120 70,170 130,170" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+                                    <path d="M 30,140 Q 50,110 70,140 T 110,140" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round"/>
+                                    <ellipse cx="150" cy="140" rx="20" ry="10" fill="#ec4899" stroke="#be185d" stroke-width="2"/>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[20%] bg-amber-500 text-white text-[9px] px-2 py-0.5 rounded shadow font-bold">Rupa & Warna Berbeza</div>
+                            </div>
+                            <div class="bg-yellow-100 rounded-xl p-2.5 text-center border border-yellow-200">
+                                <h4 class="text-xs font-bold text-yellow-800 uppercase mb-0.5">Kesan Kepelbagaian:</h4>
+                                <p class="text-xs text-yellow-900 leading-relaxed font-semibold">Menggabungkan pelbagai gaya untuk karya yang ceria dan bertenaga.</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-yellow-700">
+                                <button class="hover:text-yellow-900 flex items-center gap-1 font-bold" onclick="speakText('Kepelbagaian. Gabungan pelbagai bentuk, warna, dan garisan untuk mewujudkan suasana gembira dan menarik.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-yellow-200 text-yellow-900 px-2 py-0.5 rounded-full text-[10px]">Prinsip 5</span>
+                                <button class="hover:text-yellow-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-yellow-300 pb-2 mb-3">Fakta Kepelbagaian 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Kepelbagaian</strong> terhasil apabila kita menggunakan banyak jenis unsur seni (contohnya mencampur bentuk geometri dengan bentuk organik) supaya lukisan kita nampak aktif dan penuh kejutan!
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-yellow-800 font-bold rounded-xl shadow hover:bg-yellow-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            kesatuan: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-emerald-500">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-emerald-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-emerald-800 tracking-wide uppercase">KESATUAN</h3>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">(UNITY)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-emerald-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-emerald-100 border border-emerald-200 px-1.5 py-0.5 rounded shadow-sm text-emerald-800">Lihat corak sekeluarga! 🤝</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40 cursor-pointer">
+                                    <circle cx="100" cy="100" r="60" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="5,5"/>
+                                    <polygon points="100,30 104,38 112,38 106,44 108,52 100,47 92,52 94,44 88,38 96,38" fill="#10b981"/>
+                                    <polygon points="150,60 154,68 162,68 156,74 158,82 150,77 142,82 144,74 138,68 146,68" fill="#10b981"/>
+                                    <polygon points="160,115 164,123 172,123 166,129 168,137 160,132 152,137 154,129 148,123 156,123" fill="#10b981"/>
+                                    <polygon points="120,160 124,168 132,168 126,174 128,182 120,177 112,182 114,174 108,168 116,168" fill="#10b981"/>
+                                    <polygon points="70,150 74,158 82,158 76,164 78,172 70,167 62,172 64,164 58,158 66,158" fill="#10b981"/>
+                                    <polygon points="40,95 44,103 52,103 46,109 48,117 40,112 32,117 34,109 28,103 36,103" fill="#10b981"/>
+                                    <circle cx="100" cy="100" r="20" fill="#facc15" stroke="#eab308" stroke-width="2"/>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[23%] bg-emerald-600 text-white text-[9px] px-2 py-0.5 rounded shadow font-bold">Satu Tema Seiras</div>
+                            </div>
+                            <div class="bg-emerald-100 rounded-xl p-2.5 text-center border border-emerald-200">
+                                <h4 class="text-xs font-bold text-emerald-800 uppercase mb-0.5">Kesan Kesatuan:</h4>
+                                <p class="text-xs text-emerald-900 leading-relaxed font-semibold">Menghasilkan susunan seni yang sekata, harmoni, dan erat bersama.</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-emerald-700">
+                                <button class="hover:text-emerald-900 flex items-center gap-1 font-bold" onclick="speakText('Kesatuan. Gabungan elemen yang mempunyai tema dan idea yang sama untuk membentuk rekaan yang lengkap.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full text-[10px]">Prinsip 6</span>
+                                <button class="hover:text-emerald-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-emerald-300 pb-2 mb-3">Fakta Kesatuan 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Kesatuan</strong> dicapai apabila kesemua bahagian dalam rekaan bekerjasama secara padu untuk menyampaikan satu idea atau mesej. Karya akan kelihatan lengkap dan seimbang!
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-emerald-800 font-bold rounded-xl shadow hover:bg-emerald-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+            ritma: `<div class="w-full max-w-[280px] h-[460px] perspective group cursor-pointer" onclick="handleCardClick(this, event)">
+                    <div class="relative w-full h-full preserve-3d shadow-xl rounded-3xl border-4 border-pink-400">
+                        <div class="absolute inset-0 w-full h-full backface-hidden bg-pink-50 rounded-[20px] p-4 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-pink-300 via-pink-400 to-pink-500"></div>
+                            <div class="text-center mt-2">
+                                <h3 class="text-2xl font-black text-pink-800 tracking-wide uppercase">IRAMA</h3>
+                                <span class="text-xs font-bold text-pink-600 bg-pink-100 px-3 py-1 rounded-full">(RHYTHM)</span>
+                            </div>
+                            <div class="relative flex justify-center items-center h-48 my-2 bg-white rounded-2xl border-2 border-dashed border-pink-200 shadow-inner overflow-hidden">
+                                <div class="absolute top-2 left-2 text-[10px] bg-pink-100 border border-pink-200 px-1.5 py-0.5 rounded shadow-sm text-pink-800">Lihat burung terbang! 🐦</div>
+                                <svg viewBox="0 0 200 200" class="w-40 h-40 cursor-pointer">
+                                    <path d="M20,150 Q60,80 120,120 T180,50" fill="none" stroke="#f0f9ff" stroke-width="12" stroke-linecap="round"/>
+                                    <!-- Bird 1 (Large - close) -->
+                                    <path d="M 50,110 Q 65,95 80,110 Q 65,115 50,110 Q 35,95 50,110" fill="#ec4899" transform="rotate(-15 50 110)"/>
+                                    <!-- Bird 2 (Medium) -->
+                                    <path d="M 100,90 Q 112,77 125,90 Q 112,94 100,90 Q 88,77 100,90" fill="#ec4899" transform="rotate(-10 100 90) scale(0.8 0.8) translate(20, 10)"/>
+                                    <!-- Bird 3 (Small - far) -->
+                                    <path d="M 140,65 Q 150,55 160,65 Q 150,68 140,65 Q 130,55 140,65" fill="#ec4899" transform="rotate(-5 140 65) scale(0.6 0.6) translate(80, 30)"/>
+                                </svg>
+                                <div class="absolute bottom-[10%] left-[20%] bg-pink-600 text-white text-[9px] px-2 py-0.5 rounded shadow font-bold">Ilusi Berpindah Tempat</div>
+                            </div>
+                            <div class="bg-pink-100 rounded-xl p-2.5 text-center border border-pink-200">
+                                <h4 class="text-xs font-bold text-pink-800 uppercase mb-0.5">Kesan Pergerakan:</h4>
+                                <p class="text-xs text-pink-900 leading-relaxed font-semibold">Mencipta kesan hidup, aktif, bergetar dan melompat.</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs mt-1 text-pink-700">
+                                <button class="hover:text-pink-900 flex items-center gap-1 font-bold" onclick="speakText('Irama dan Pergerakan. Kesan visual yang kelihatan hidup, mengalir, atau bergerak seperti ombak air atau kepak burung.', event)">
+                                    <i class="fa-solid fa-volume-high text-sm"></i> Sebut
+                                </button>
+                                <span class="bg-pink-200 text-pink-900 px-2 py-0.5 rounded-full text-[10px]">Prinsip 7</span>
+                                <button class="hover:text-pink-900 flex items-center gap-1 font-bold flip-btn" onclick="flipVisualCard(this, event)">
+                                    Pusing <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-pink-400 to-rose-500 rounded-[20px] p-5 flex flex-col justify-between text-white">
+                            <div>
+                                <h4 class="font-bold border-b border-pink-300 pb-2 mb-3">Fakta Pergerakan 💡</h4>
+                                <p class="text-sm leading-relaxed mb-4">
+                                    <strong>Irama dan Pergerakan</strong> wujud apabila terdapat susunan elemen seni berulang secara konsisten untuk membimbing mata penonton menelusuri keseluruhan lukisan.
+                                </p>
+                            </div>
+                            <button class="w-full py-2 bg-white text-pink-800 font-bold rounded-xl shadow hover:bg-pink-50 transition-all flip-btn" onclick="flipVisualCard(this, event)">Kembali ke Depan</button>
+                        </div>
+                    </div>
+                </div>`,
+        };
         let flashcardActiveFilter = { gmv: 'semua', mmv: 'semua' };
         function renderFlashcards(prefix) {
             const grid = document.getElementById(`${prefix}-flashcards-grid`);
             if (!grid) return;
             const filter = flashcardActiveFilter[prefix];
             const cards = FLASHCARDS_DATA.filter(c => filter === 'semua' || c.kategori === filter);
-            grid.innerHTML = cards.map(c => `
-                <div class="flashcard-perspective h-40 md:h-48 cursor-pointer" onclick="flipFlashcard(this)">
-                    <div class="flashcard-inner w-full h-full border-2 border-slate-950 rounded-2xl shadow-brutal-sm">
-                        <div class="flashcard-front w-full h-full p-3 bg-gradient-to-br ${c.gradient} rounded-xl flex flex-col items-center justify-center text-center text-white">
-                            <span class="text-4xl">${c.emoji}</span>
-                            <p class="font-black text-lg comic-font mt-1">${c.tajuk}</p>
-                            <span class="text-[10px] font-bold uppercase opacity-80 mt-1">${c.kategori === 'unsur' ? 'Unsur Seni' : 'Prinsip Rekaan'}</span>
-                        </div>
-                        <div class="flashcard-back w-full h-full p-3 bg-white rounded-xl overflow-y-auto text-left">
-                            <p class="font-black text-sm text-slate-900">${c.tajuk}</p>
-                            <p class="text-[11px] text-slate-700 mt-1"><b>Maksud:</b> ${c.definisi}</p>
-                            <p class="text-[11px] text-slate-600 mt-1"><b>Jenis:</b> ${c.jenis}</p>
-                            <p class="text-[11px] text-indigo-700 italic mt-1"><b>Contoh:</b> ${c.contoh}</p>
-                        </div>
-                    </div>
-                </div>`).join('');
+            grid.innerHTML = cards.map(c => VISUAL_CARDS_HTML[c.id] || '').join('');
         }
-        function flipFlashcard(el) {
-            el.querySelector('.flashcard-inner').classList.toggle('flashcard-flipped');
+        // Kad Seni Visual -- flip kad (klik mana-mana bahagian kad membalikkannya,
+        // kecuali butang/bentuk yang ada onclick sendiri).
+        function handleCardClick(cardElement, event) {
+            if (event.target.closest('button')) return;
+            const preserve3dEl = cardElement.querySelector('.preserve-3d');
+            if (preserve3dEl) preserve3dEl.classList.toggle('flip-active');
+            playAudioPop();
         }
-        window.flipFlashcard = flipFlashcard;
+        window.handleCardClick = handleCardClick;
+        function flipVisualCard(btn, event) {
+            if (event) event.stopPropagation();
+            const card = btn.closest('.perspective');
+            const preserve3dEl = card && card.querySelector('.preserve-3d');
+            if (preserve3dEl) preserve3dEl.classList.toggle('flip-active');
+            playAudioPop();
+        }
+        window.flipVisualCard = flipVisualCard;
+        function speakText(text, event) {
+            if (event) event.stopPropagation();
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ms-MY';
+                utterance.rate = 0.95;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+        window.speakText = speakText;
+        let _seniAudioCtx = null;
+        function playAudioPop() {
+            try {
+                if (!_seniAudioCtx) _seniAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (_seniAudioCtx.state === 'suspended') _seniAudioCtx.resume();
+                const osc = _seniAudioCtx.createOscillator();
+                const gain = _seniAudioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(150, _seniAudioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(600, _seniAudioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.1, _seniAudioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, _seniAudioCtx.currentTime + 0.15);
+                osc.connect(gain);
+                gain.connect(_seniAudioCtx.destination);
+                osc.start();
+                osc.stop(_seniAudioCtx.currentTime + 0.15);
+            } catch (e) {}
+        }
+        window.playAudioPop = playAudioPop;
         function filterFlashcards(prefix, kategori) {
             flashcardActiveFilter[prefix] = kategori;
             ['semua', 'unsur', 'prinsip'].forEach(k => {
