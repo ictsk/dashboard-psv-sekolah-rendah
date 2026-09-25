@@ -64,9 +64,34 @@
         .backface-hidden { backface-visibility: hidden; }
         .flip-active { transform: rotateY(180deg); }
         .rotate-y-180 { transform: rotateY(180deg); }
+
+        /* ---------- Reka Bentuk Ceria & Warna-Warni untuk Murid Sekolah Rendah ---------- */
+        body {
+            background:
+                radial-gradient(circle at 8% 12%, rgba(244,114,182,0.22) 0, transparent 32%),
+                radial-gradient(circle at 92% 8%, rgba(56,189,248,0.22) 0, transparent 30%),
+                radial-gradient(circle at 15% 90%, rgba(250,204,21,0.20) 0, transparent 32%),
+                radial-gradient(circle at 88% 85%, rgba(167,139,250,0.22) 0, transparent 34%),
+                radial-gradient(circle at 50% 50%, rgba(52,211,153,0.10) 0, transparent 60%),
+                linear-gradient(135deg, #fff7ed 0%, #fdf4ff 40%, #eff6ff 70%, #fefce8 100%);
+            background-attachment: fixed;
+            background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 400% 400%;
+            animation: seniBgDrift 32s ease-in-out infinite;
+        }
+        @keyframes seniBgDrift {
+            0%   { background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0% 50%; }
+            50%  { background-position: 15% 10%, 85% 15%, 10% 85%, 90% 90%, 55% 45%, 100% 50%; }
+            100% { background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0% 50%; }
+        }
+        @keyframes seniWiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        .comic-font { animation: none; }
+        .seni-emoji-bounce { display: inline-block; animation: seniWiggle 1.8s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-[#fcf8f2] text-slate-900 font-sans min-h-screen">
+<body class="text-slate-900 font-sans min-h-screen">
 
     <!-- ============================================================ -->
     <!-- SKRIN LOG MASUK -->
@@ -74,11 +99,11 @@
     <!-- ============================================================ -->
     <!-- LANDING PAGE (pintu masuk pertama, sebelum log masuk) -->
     <!-- ============================================================ -->
-    <div id="screen-landing" class="min-h-screen bg-[#fcf8f2]">
+    <div id="screen-landing" class="min-h-screen">
         <!-- Nav -->
         <div class="flex items-center justify-between px-5 lg:px-10 py-4 border-b-2 border-slate-200">
             <h1 class="font-black text-3xl comic-font">Seni<span class="text-indigo-500">Kreatif</span></h1>
-            <button onclick="showScreen('screen-login')" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Log Masuk / Daftar</button>
+            <button onclick="showScreen('screen-login')" class="py-2.5 px-5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Log Masuk / Daftar</button>
         </div>
 
         <!-- Hero -->
@@ -87,7 +112,7 @@
             <h2 class="font-black text-4xl lg:text-6xl comic-font leading-tight">Kepada Pembelajaran Baharu</h2>
             <p class="text-xl lg:text-2xl text-slate-600 max-w-2xl mx-auto">Satu platform, pelbagai sumber, memperkasa PdP Pendidikan Seni Visual.</p>
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <button onclick="showScreen('screen-login')" class="py-3.5 px-7 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal">🚀 Mula Sekarang</button>
+                <button onclick="showScreen('screen-login')" class="py-3.5 px-7 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal">🚀 Mula Sekarang</button>
                 <a href="#senikreatif-reflektif" class="py-3.5 px-7 bg-white hover:bg-slate-50 text-slate-900 font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal">Ketahui Lebih Lanjut</a>
             </div>
         </div>
@@ -97,7 +122,7 @@
             <p class="text-xl font-black uppercase tracking-widest text-slate-400">Lahirnya</p>
             <h2 class="font-black text-5xl lg:text-6xl comic-font">Seni<span class="text-indigo-500">Kreatif</span></h2>
             <p class="text-xl text-slate-600">Modul Pembelajaran Pengajaran PSV Satu Hentian -- untuk Guru & Murid.</p>
-            <button onclick="showScreen('screen-login')" class="mt-3 py-3.5 px-8 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal">🚀 Daftar / Log Masuk Sekarang</button>
+            <button onclick="showScreen('screen-login')" class="mt-3 py-3.5 px-8 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal">🚀 Daftar / Log Masuk Sekarang</button>
         </div>
 
         <div class="text-center text-lg text-slate-400 py-6 border-t-2 border-slate-200">Seni Membentuk Insan Kreatif 🎨</div>
@@ -135,7 +160,7 @@
                 <input id="login-password" type="password" placeholder="Kata Laluan" class="w-full p-3 border-2 border-slate-950 rounded-xl text-xl">
 
                 <div class="flex gap-2">
-                    <button onclick="signInWithEmail()" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Log Masuk</button>
+                    <button onclick="signInWithEmail()" class="flex-1 py-2.5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Log Masuk</button>
                     <button onclick="signUpWithEmail()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Daftar Baharu</button>
                 </div>
             </div>
@@ -151,7 +176,7 @@
     <div id="screen-role" class="hidden min-h-screen flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md border-4 border-slate-950 rounded-3xl shadow-brutal p-8 space-y-5 text-center">
             <h2 class="font-black text-3xl comic-font">Saya seorang...</h2>
-            <button onclick="chooseRole('guru')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
+            <button onclick="chooseRole('guru')" class="w-full py-4 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
                 <i class="fa-solid fa-chalkboard-user"></i> GURU
             </button>
             <button onclick="chooseRole('murid')" class="w-full py-4 bg-rose-500 hover:bg-rose-600 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
@@ -165,27 +190,27 @@
     <!-- ============================================================ -->
     <div id="screen-guru" class="hidden min-h-screen flex">
         <!-- ===== SIDEBAR (tetap) ===== -->
-        <aside id="guru-sidebar" class="hidden lg:flex w-64 bg-slate-950 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
+        <aside id="guru-sidebar" class="hidden lg:flex w-64 bg-gradient-to-b from-indigo-700 via-purple-700 to-fuchsia-700 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
             <div>
                 <div class="p-5 border-b border-slate-800">
                     <h1 class="font-black text-3xl comic-font leading-tight">Seni<span class="text-indigo-400">Kreatif</span></h1>
                     <p class="text-base text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
                 </div>
                 <nav class="p-3 space-y-1 text-xl font-bold">
-                    <button onclick="showGuruView('dashboard')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="dashboard">🏠 Dashboard</button>
-                    <button onclick="showGuruView('kelas')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kelas">👥 Kelas Saya</button>
-                    <button onclick="showGuruView('modul'); toggleSidebarModulTree()" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">
+                    <button onclick="showGuruView('dashboard')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="dashboard">🏠 Dashboard</button>
+                    <button onclick="showGuruView('kelas')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="kelas">👥 Kelas Saya</button>
+                    <button onclick="showGuruView('modul'); toggleSidebarModulTree()" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center justify-between gap-2.5 hover:bg-white/15 transition-colors" data-view="modul">
                         <span class="flex items-center gap-2.5">📋 Modul PdP</span>
                         <span id="sidebar-modul-caret" class="text-lg transition-transform">▼</span>
                     </button>
                     <div id="sidebar-modul-tree" class="pl-3 space-y-0.5 hidden"></div>
-                    <button onclick="showGuruView('rph')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="rph">📝 RPH</button>
-                    <button onclick="showGuruView('pbd')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="pbd">📊 PBD</button>
-                    <button onclick="showGuruView('karya')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="karya">🖼️ Galeri Karya</button>
-                    <button onclick="showGuruView('bahan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="bahan">📂 Bahan PdP</button>
-                    <button onclick="showGuruView('kuiz')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kuiz">🧠 Kuiz</button>
-                    <button onclick="showGuruView('laporan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="laporan">📈 Laporan</button>
-                    <button onclick="showGuruView('tetapan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="tetapan">⚙️ Tetapan</button>
+                    <button onclick="showGuruView('rph')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="rph">📝 RPH</button>
+                    <button onclick="showGuruView('pbd')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="pbd">📊 PBD</button>
+                    <button onclick="showGuruView('karya')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="karya">🖼️ Galeri Karya</button>
+                    <button onclick="showGuruView('bahan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="bahan">📂 Bahan PdP</button>
+                    <button onclick="showGuruView('kuiz')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="kuiz">🧠 Kuiz</button>
+                    <button onclick="showGuruView('laporan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="laporan">📈 Laporan</button>
+                    <button onclick="showGuruView('tetapan')" class="sidebar-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="tetapan">⚙️ Tetapan</button>
                 </nav>
             </div>
             <div class="p-5 text-lg text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif</div>
@@ -274,7 +299,7 @@
                             <option value="Tahun 6">Tahun 6</option>
                         </select>
                     </div>
-                    <button onclick="createClass()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">+ Cipta Kelas</button>
+                    <button onclick="createClass()" class="py-2.5 px-5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">+ Cipta Kelas</button>
                 </div>
 
                 <div id="guru-class-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -463,7 +488,7 @@
                     <h3 class="font-black text-3xl comic-font">📝 Jana RPH Untuk Unit Ini</h3>
                     <p class="text-lg text-slate-500">Jana Rancangan Pengajaran Harian (RPH) yang telah diisi automatik mengikut kandungan unit ini -- pilih kelas, sunting jika perlu, kemudian cetak.</p>
                     <div class="p-4 bg-indigo-50 rounded-xl border-2 border-slate-950">
-                        <button onclick="janaRPHDariGmv()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
+                        <button onclick="janaRPHDariGmv()" class="w-full py-3 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-xl rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH Untuk Unit Ini</button>
                         <p id="gmv-rph-feedback" class="hidden text-lg font-bold p-2 mt-2 rounded-lg"></p>
                     </div>
                 </div>
@@ -503,7 +528,7 @@
                         <textarea id="rph-sp" rows="2" placeholder="Contoh: 1.1.1 Murid dapat mengenal pasti..." class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl"></textarea>
                     </div>
                 </div>
-                <button onclick="generateRPH()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH</button>
+                <button onclick="generateRPH()" class="py-2.5 px-5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">⚡ Jana RPH</button>
 
                 <div id="rph-preview" class="hidden border-2 border-slate-300 p-5 rounded-2xl bg-slate-50 space-y-2 text-lg">
                     <div class="text-center border-b-2 border-slate-900 pb-2 mb-2">
@@ -708,7 +733,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button onclick="loadLaporanKeseluruhan()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">🔄 Muat Semula</button>
+                <button onclick="loadLaporanKeseluruhan()" class="py-2.5 px-5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">🔄 Muat Semula</button>
             </div>
         </div>
 
@@ -724,7 +749,7 @@
                     <label class="block text-lg font-black uppercase text-slate-600 mb-1">E-mel (tidak boleh diubah)</label>
                     <input id="tetapan-email" type="text" disabled class="w-full p-2.5 border-2 border-slate-300 bg-slate-100 text-slate-500 rounded-xl text-lg">
                 </div>
-                <button onclick="simpanTetapanProfil()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">💾 Simpan</button>
+                <button onclick="simpanTetapanProfil()" class="py-2.5 px-5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">💾 Simpan</button>
                 <p id="tetapan-feedback" class="hidden text-lg font-bold p-2 rounded-lg"></p>
             </div>
             <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-2">
@@ -744,21 +769,21 @@
     <!-- ============================================================ -->
     <div id="screen-murid" class="hidden min-h-screen flex">
         <!-- ===== SIDEBAR (tetap) ===== -->
-        <aside id="murid-sidebar" class="hidden lg:flex w-64 bg-slate-950 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
+        <aside id="murid-sidebar" class="hidden lg:flex w-64 bg-gradient-to-b from-indigo-700 via-purple-700 to-fuchsia-700 text-white shrink-0 flex-col justify-between h-screen sticky top-0 overflow-y-auto">
             <div>
                 <div class="p-5 border-b border-slate-800">
                     <h1 class="font-black text-3xl comic-font leading-tight">Seni<span class="text-indigo-400">Kreatif</span></h1>
                     <p class="text-base text-slate-400 uppercase tracking-wider mt-0.5">Pendidikan Seni Visual Sekolah Rendah</p>
                 </div>
                 <nav class="p-3 space-y-1 text-xl font-bold">
-                    <button onclick="showMuridView('home')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="home">🏠 Laman Utama</button>
-                    <button onclick="showMuridView('modul')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="modul">📖 Unit Saya</button>
-                    <button onclick="showMuridView('kuiz')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kuiz">🎮 Kuiz Saya</button>
-                    <button onclick="showMuridView('karya')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="karya">🖼️ Karya Saya</button>
-                    <button onclick="showMuridView('lencana')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="lencana">🏆 Lencana Saya</button>
-                    <button onclick="showMuridView('kemajuan')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kemajuan">📊 Kemajuan Saya</button>
-                    <button onclick="showMuridView('kelas')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="kelas">🔑 Kelas Saya</button>
-                    <button onclick="showMuridView('bantuan')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-slate-800 transition-colors" data-view="bantuan">❓ Bantuan</button>
+                    <button onclick="showMuridView('home')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="home">🏠 Laman Utama</button>
+                    <button onclick="showMuridView('modul')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="modul">📖 Unit Saya</button>
+                    <button onclick="showMuridView('kuiz')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="kuiz">🎮 Kuiz Saya</button>
+                    <button onclick="showMuridView('karya')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="karya">🖼️ Karya Saya</button>
+                    <button onclick="showMuridView('lencana')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="lencana">🏆 Lencana Saya</button>
+                    <button onclick="showMuridView('kemajuan')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="kemajuan">📊 Kemajuan Saya</button>
+                    <button onclick="showMuridView('kelas')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="kelas">🔑 Kelas Saya</button>
+                    <button onclick="showMuridView('bantuan')" class="msb-nav-btn w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-2.5 hover:bg-white/15 transition-colors" data-view="bantuan">❓ Bantuan</button>
                 </nav>
             </div>
             <div class="p-5 text-lg text-slate-500 border-t border-slate-800 italic leading-relaxed">Seni Membentuk<br>Insan Kreatif 🎨</div>
@@ -826,7 +851,7 @@
                 <p class="text-lg font-black uppercase text-slate-600">📚 Unit Saya</p>
                 <p id="murid-unit-saya-tajuk" class="font-black text-2xl">Memuatkan...</p>
                 <p id="murid-unit-saya-status" class="text-lg font-bold text-emerald-600"></p>
-                <button id="murid-unit-saya-btn" onclick="teruskanBelajar()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Teruskan Belajar \u2192</button>
+                <button id="murid-unit-saya-btn" onclick="teruskanBelajar()" class="w-full py-2.5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Teruskan Belajar \u2192</button>
             </div>
 
             <!-- Pilih Unit Saya: senarai unit dengan status -->
@@ -976,7 +1001,7 @@
                     <div id="modul-lp-gambar-galeri" class="hidden grid grid-cols-3 gap-2"></div>
                     <p id="modul-lp-soalan" class="text-xl font-bold bg-indigo-50 p-3 rounded-lg border border-slate-900"></p>
                     <div id="modul-lp-pilihan" class="grid grid-cols-2 gap-2"></div>
-                    <button onclick="semakLihatPerhati()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-lg border-2 border-slate-950">Semak Jawapan</button>
+                    <button onclick="semakLihatPerhati()" class="w-full py-2.5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-xl rounded-lg border-2 border-slate-950">Semak Jawapan</button>
                     <p id="modul-lp-feedback" class="hidden text-lg font-bold p-2.5 rounded-lg"></p>
                 </div>
 
@@ -1061,7 +1086,7 @@
                 <h3 class="font-black text-2xl comic-font">🎮 Kuiz Saya</h3>
                 <p class="text-lg text-slate-500">Kuiz boleh dijawab terus di dalam setiap unit (📖 Unit Saya → buka unit → tab Kuiz). Lulus (2/3 betul) beri +20 ⭐.</p>
                 <p class="text-lg text-slate-400 italic">Rekod kuiz berasingan (soalan mana dijawab, bila) belum disimpan lagi.</p>
-                <button onclick="showMuridView('modul')" class="mt-2 py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Pergi ke Unit Saya \u2192</button>
+                <button onclick="showMuridView('modul')" class="mt-2 py-2.5 px-5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Pergi ke Unit Saya \u2192</button>
             </div>
         </div>
 
@@ -2056,7 +2081,7 @@
             tree.innerHTML = Object.entries(CONTENT_BY_YEAR).map(([tahun, units]) => `
                 <div>
                     <p class="text-lg font-black uppercase text-slate-500 px-3 pt-2 pb-1">${tahun}</p>
-                    ${units.map(u => `<button onclick="openGuruModulViewer('${tahun}','${u.unit}')" class="w-full text-left px-3 py-1.5 rounded-lg text-lg font-bold text-slate-300 hover:bg-slate-800 hover:text-white truncate">${u.unit}: ${u.tajuk}</button>`).join('')}
+                    ${units.map(u => `<button onclick="openGuruModulViewer('${tahun}','${u.unit}')" class="w-full text-left px-3 py-1.5 rounded-lg text-lg font-bold text-slate-300 hover:bg-white/15 hover:text-white truncate">${u.unit}: ${u.tajuk}</button>`).join('')}
                 </div>
             `).join('');
         }
@@ -2364,6 +2389,10 @@
             "Tahun 6": { bg: "bg-rose-400", icon: "⭐", desc: "Seni untuk Masa Hadapan" },
         };
         const UNIT_BADGE_COLORS = ["bg-rose-400", "bg-emerald-400", "bg-amber-400", "bg-sky-400", "bg-violet-400", "bg-pink-400", "bg-lime-500", "bg-cyan-400"];
+        const UNIT_CARD_STYLES = [
+            "bg-rose-50 border-rose-400", "bg-emerald-50 border-emerald-400", "bg-amber-50 border-amber-400", "bg-sky-50 border-sky-400",
+            "bg-violet-50 border-violet-400", "bg-pink-50 border-pink-400", "bg-lime-50 border-lime-500", "bg-cyan-50 border-cyan-400"
+        ];
 
         // ---------- Kad Imbas: Unsur Seni & Prinsip Rekaan (Bahasa Seni Visual) ----------
         // Rangka 6 Unsur Seni + 7 Prinsip Rekaan mengikut DSKP PSV KSSR -- istilah dan
@@ -3209,7 +3238,7 @@
             const units = CONTENT_BY_YEAR[tahun] || [];
             document.getElementById('guru-modul-unit-count').innerText = `${units.length} unit pembelajaran yang menarik dan interaktif`;
             document.getElementById('guru-modul-unit-list').innerHTML = units.map((item, idx) => `
-                <div onclick="openGuruModulViewer('${tahun}','${item.unit}')" class="min-h-[132px] flex flex-col items-center justify-center gap-1 p-2 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all text-center" title="${item.tajuk}">
+                <div onclick="openGuruModulViewer('${tahun}','${item.unit}')" class="min-h-[132px] flex flex-col items-center justify-center gap-1 p-2 border-[3px] ${UNIT_CARD_STYLES[idx % UNIT_CARD_STYLES.length]} rounded-2xl cursor-pointer hover:-translate-y-1 hover:shadow-brutal-sm transition-all text-center" title="${item.tajuk}">
                     <span class="w-9 h-9 rounded-full ${UNIT_BADGE_COLORS[idx % UNIT_BADGE_COLORS.length]} text-white font-black flex items-center justify-center text-base border-2 border-slate-950">${String(idx + 1).padStart(2, '0')}</span>
                     <span class="text-3xl">${iconForTeknik(item.teknik)}</span>
                     <p class="text-sm font-black leading-tight line-clamp-2">${item.tajuk}</p>
@@ -3248,7 +3277,7 @@
             const units = CONTENT_BY_YEAR[tahun] || [];
             document.getElementById('murid-modul-unit-count').innerText = `${units.length} unit pembelajaran yang menarik dan interaktif`;
             document.getElementById('murid-modul-unit-list').innerHTML = units.map((item, idx) => `
-                <div onclick="openModulPembelajaran('${tahun}','${item.unit}')" class="min-h-[132px] flex flex-col items-center justify-center gap-1 p-2 bg-white border-2 border-slate-950 rounded-2xl cursor-pointer hover:bg-indigo-50 hover:-translate-y-0.5 transition-all text-center" title="${item.tajuk}">
+                <div onclick="openModulPembelajaran('${tahun}','${item.unit}')" class="min-h-[132px] flex flex-col items-center justify-center gap-1 p-2 border-[3px] ${UNIT_CARD_STYLES[idx % UNIT_CARD_STYLES.length]} rounded-2xl cursor-pointer hover:-translate-y-1 hover:shadow-brutal-sm transition-all text-center" title="${item.tajuk}">
                     <span class="w-9 h-9 rounded-full ${UNIT_BADGE_COLORS[idx % UNIT_BADGE_COLORS.length]} text-white font-black flex items-center justify-center text-base border-2 border-slate-950">${String(idx + 1).padStart(2, '0')}</span>
                     <span class="text-3xl">${iconForTeknik(item.teknik)}</span>
                     <p class="text-sm font-black leading-tight line-clamp-2">${item.tajuk}</p>
@@ -3564,7 +3593,7 @@
                     <span class="block text-center mt-1">${lulus ? 'Tahniah! Anda LULUS' : 'Kuiz selesai'} (${modulQuizScore}/${modulQuizQuestions.length} betul)${lulus && !modulQuizAwarded ? ' -- +20 \u2b50' : ''}</span>
                     ${!lulus ? '<span class="block text-center text-lg font-normal mt-1">Perlu 7/10 untuk lulus. Cuba lagi!</span>' : ''}`;
                 document.getElementById('modul-quiz-options').innerHTML = lulus ? '' :
-                    `<button onclick="restartModulQuiz()" class="col-span-2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-lg border-2 border-slate-950">Cuba Lagi \ud83d\udd04</button>`;
+                    `<button onclick="restartModulQuiz()" class="col-span-2 py-2.5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-black text-lg rounded-lg border-2 border-slate-950">Cuba Lagi \ud83d\udd04</button>`;
                 document.getElementById('modul-quiz-index').innerText = `${modulQuizQuestions.length} / ${modulQuizQuestions.length}`;
                 if (lulus) triggerConfettiBurst();
                 if (lulus && !modulQuizAwarded) {
