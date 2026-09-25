@@ -163,6 +163,17 @@
                     <button onclick="signInWithEmail()" class="flex-1 py-2.5 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Log Masuk</button>
                     <button onclick="signUpWithEmail()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">Daftar Baharu</button>
                 </div>
+
+                <div class="flex items-center gap-2 py-1">
+                    <div class="flex-1 h-px bg-slate-200"></div>
+                    <span class="text-lg text-slate-400 font-bold">ATAU</span>
+                    <div class="flex-1 h-px bg-slate-200"></div>
+                </div>
+
+                <button onclick="signInAsGuest()" class="w-full py-3 px-4 bg-gradient-to-r from-amber-400 to-emerald-400 hover:from-amber-500 hover:to-emerald-500 text-slate-900 font-black text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm flex items-center justify-center gap-2">
+                    🎓 Pensyarah/Tetamu: Cuba Tanpa Daftar
+                </button>
+                <p class="text-base text-slate-400 -mt-1">Untuk penilai/pensyarah -- terus lihat platform tanpa emel & kata laluan.</p>
             </div>
 
             <div id="login-error" class="hidden p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 text-lg font-bold text-left"></div>
@@ -1202,7 +1213,7 @@
         import {
             getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup,
             createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
-            onAuthStateChanged
+            onAuthStateChanged, signInAnonymously
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
         import {
             getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove, increment, collection, query, where, getDocs, serverTimestamp, addDoc, orderBy, deleteDoc
@@ -1900,15 +1911,28 @@
 
         window.signOutUser = async function () {
             await signOut(auth);
+            guestDisplayName = null;
             showScreen('screen-landing');
+        };
+
+        // ---------- Log masuk tetamu/pensyarah (tanpa daftar emel & kata laluan) ----------
+        let guestDisplayName = null;
+        window.signInAsGuest = async function () {
+            const nama = prompt('Selamat mencuba SeniKreatif! Sila masukkan nama anda (untuk paparan sahaja):', 'Pensyarah');
+            guestDisplayName = (nama && nama.trim()) ? nama.trim() : 'Tetamu Demo';
+            try {
+                await signInAnonymously(auth);
+            } catch (e) {
+                showLoginError('Log masuk tetamu gagal: ' + e.message + ' (mungkin log masuk tanpa nama belum diaktifkan dalam Firebase Console -- Authentication -> Sign-in method -> Anonymous)');
+            }
         };
 
         // ---------- Pemilihan peranan (kali pertama sahaja) ----------
         window.chooseRole = async function (role) {
             try {
                 await setDoc(doc(db, 'users', currentUser.uid), {
-                    email: currentUser.email,
-                    nama: currentUser.displayName || currentUser.email,
+                    email: currentUser.email || null,
+                    nama: currentUser.displayName || guestDisplayName || currentUser.email || 'Pengguna',
                     peranan: role,
                     tarikhDaftar: serverTimestamp()
                 });
@@ -1940,14 +1964,14 @@
 
         function loadDashboardForRole(role) {
             if (role === 'guru') {
-                document.getElementById('guru-name-label').innerText = (currentUser.displayName || currentUser.email || '').split(' ')[0] || 'Guru';
+                document.getElementById('guru-name-label').innerText = (currentUser.displayName || guestDisplayName || currentUser.email || '').split(' ')[0] || 'Guru';
                 showScreen('screen-guru');
                 showGuruView('dashboard');
                 renderGuruModulPdpPage();
                 renderSidebarModulTree();
                 loadGuruClasses();
                 renderGuruBahanList();
-                document.getElementById('rph-guru-name').value = currentUser.displayName || currentUser.email;
+                document.getElementById('rph-guru-name').value = currentUser.displayName || guestDisplayName || currentUser.email || '';
                 document.getElementById('rph-date').value = new Date().toISOString().slice(0, 10);
             } else {
                 const namaDepan = (currentUser.displayName || 'Pelukis Kecil').split(' ')[0];
@@ -3778,7 +3802,7 @@
                 const snap = await getDoc(doc(db, 'users', currentUser.uid));
                 if (snap.exists() && snap.data().nama) return snap.data().nama;
             } catch (e) {}
-            return currentUser.displayName || currentUser.email;
+            return currentUser.displayName || guestDisplayName || currentUser.email || 'Pengguna';
         }
         async function loadGaleriUnit(tahunLabel, unitCode, isGuru) {
             return loadGaleriUnitInto('modul-galeri-unit', tahunLabel, unitCode, isGuru);
@@ -4603,7 +4627,7 @@
                 const sudahSertai = (userSnapBefore.exists() && (userSnapBefore.data().kelasDisertai || []).includes(kod));
 
                 await setDoc(doc(db, 'classes', kod, 'students', currentUser.uid), {
-                    nama: currentUser.displayName || currentUser.email,
+                    nama: currentUser.displayName || guestDisplayName || currentUser.email || 'Pengguna',
                     emel: currentUser.email,
                     tarikhSertai: serverTimestamp()
                 });
