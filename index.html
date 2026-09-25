@@ -519,22 +519,32 @@
                     <p><b>Standard Kandungan (SK):</b><br><span id="rph-out-sk" contenteditable="true" class="block p-1.5">-</span></p>
                     <p><b>Standard Pembelajaran (SP):</b><br><span id="rph-out-sp" contenteditable="true" class="block p-1.5">-</span></p>
                     <p><b>Objektif:</b> <span id="rph-out-objektif" contenteditable="true"></span></p>
-                    <p><b>Aktiviti PdPc:</b></p>
-                    <ol id="rph-out-steps" contenteditable="true" class="list-decimal pl-5 space-y-1"></ol>
+
+                    <div class="mt-2 p-3 bg-amber-50 border-2 border-slate-900 rounded-xl">
+                        <p class="font-black uppercase text-lg text-amber-800 mb-1">🎯 Kotak Aktiviti PdPc</p>
+                        <ol id="rph-out-steps" contenteditable="true" class="list-decimal pl-5 space-y-1"></ol>
+                    </div>
 
                     <div class="pt-3 mt-2 border-t-2 border-dashed border-slate-300 space-y-2">
-                        <p class="font-black uppercase text-lg">Refleksi PdPc</p>
-                        <div>
-                            <p class="font-bold text-lg text-emerald-700">✅ Kekuatan</p>
-                            <textarea id="rph-refleksi-kekuatan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-lg" placeholder="Tulis selepas sesi selesai..."></textarea>
-                        </div>
-                        <div>
-                            <p class="font-bold text-lg text-rose-700">⚠️ Kelemahan</p>
-                            <textarea id="rph-refleksi-kelemahan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-lg" placeholder="Tulis selepas sesi selesai..."></textarea>
-                        </div>
-                        <div>
-                            <p class="font-bold text-lg text-indigo-700">🔄 Cadangan Penambahbaikan</p>
-                            <textarea id="rph-refleksi-penambahbaikan" rows="2" class="w-full p-2 border border-slate-300 rounded-lg text-lg" placeholder="Tulis selepas sesi selesai..."></textarea>
+                        <p class="font-black uppercase text-lg">🔍 Refleksi SWOT PdPc</p>
+                        <p class="text-base text-slate-400 normal-case font-normal -mt-1">Isi selepas sesi PdPc selesai dijalankan.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <div class="p-2 bg-emerald-50 border-2 border-emerald-600 rounded-xl">
+                                <p class="font-bold text-lg text-emerald-700">💪 S -- Kekuatan (Strengths)</p>
+                                <textarea id="rph-swot-s" rows="2" class="w-full p-2 border border-emerald-300 rounded-lg text-lg bg-white" placeholder="Apa yang berjalan lancar?"></textarea>
+                            </div>
+                            <div class="p-2 bg-rose-50 border-2 border-rose-600 rounded-xl">
+                                <p class="font-bold text-lg text-rose-700">⚠️ W -- Kelemahan (Weaknesses)</p>
+                                <textarea id="rph-swot-w" rows="2" class="w-full p-2 border border-rose-300 rounded-lg text-lg bg-white" placeholder="Apa yang perlu diperbaiki?"></textarea>
+                            </div>
+                            <div class="p-2 bg-sky-50 border-2 border-sky-600 rounded-xl">
+                                <p class="font-bold text-lg text-sky-700">🚀 O -- Peluang (Opportunities)</p>
+                                <textarea id="rph-swot-o" rows="2" class="w-full p-2 border border-sky-300 rounded-lg text-lg bg-white" placeholder="Peluang/idea untuk sesi akan datang?"></textarea>
+                            </div>
+                            <div class="p-2 bg-amber-50 border-2 border-amber-600 rounded-xl">
+                                <p class="font-bold text-lg text-amber-700">🚧 T -- Ancaman/Cabaran (Threats)</p>
+                                <textarea id="rph-swot-t" rows="2" class="w-full p-2 border border-amber-300 rounded-lg text-lg bg-white" placeholder="Halangan/cabaran yang dijangka?"></textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -596,6 +606,41 @@
                 <div id="guru-karya-list" class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <p class="text-lg text-slate-400 italic col-span-full">Belum ada karya diterima.</p>
                 </div>
+            </div>
+
+            <!-- Muat naik bagi pihak murid (untuk murid yang tiada akses peranti/akaun sendiri) -->
+            <div class="bg-white rounded-3xl p-6 border-4 border-slate-950 shadow-brutal space-y-3">
+                <h3 class="font-black text-2xl comic-font">📤 Muat Naik Karya Bagi Pihak Murid</h3>
+                <p class="text-lg text-slate-500">Gunakan ini untuk murid yang tiada telefon/akaun sendiri -- guru muat naik gambar karya dan tetapkan nama murid terus.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Pilih Kelas</label>
+                        <select id="gu-select-class" onchange="onGuUploadClassChange()" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
+                            <option value="">-- Cipta kelas dahulu --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Nama Murid</label>
+                        <select id="gu-select-murid" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
+                            <option value="">-- Pilih kelas dahulu --</option>
+                        </select>
+                        <label class="flex items-center gap-1.5 text-base font-bold mt-1.5">
+                            <input type="checkbox" id="gu-nama-manual-toggle" onchange="toggleGuUploadNamaManual()" class="w-4 h-4">
+                            Murid tiada dalam senarai / belum berdaftar -- taip nama sendiri
+                        </label>
+                        <input id="gu-nama-manual" type="text" placeholder="Taip nama murid..." class="hidden w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl mt-1.5">
+                    </div>
+                    <div>
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Tajuk Karya</label>
+                        <input id="gu-tajuk" type="text" placeholder="Contoh: Tembikar Comel" class="w-full p-2.5 border-2 border-slate-950 rounded-xl text-xl">
+                    </div>
+                    <div>
+                        <label class="block text-lg font-black uppercase text-slate-600 mb-1">Gambar Karya</label>
+                        <input id="gu-file" type="file" accept="image/*" class="w-full p-2 border-2 border-slate-950 rounded-xl text-lg bg-white">
+                    </div>
+                </div>
+                <button onclick="hantarKaryaOlehGuru()" class="py-2.5 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl border-2 border-slate-950 shadow-brutal-sm">📤 Muat Naik Karya</button>
+                <p id="gu-upload-feedback" class="hidden text-lg font-bold p-2 rounded-lg"></p>
             </div>
         </div>
 
@@ -1912,6 +1957,7 @@
             const bc = document.getElementById('guru-breadcrumb');
             if (bc && GURU_BREADCRUMB_LABEL[view]) bc.innerText = GURU_BREADCRUMB_LABEL[view];
             if (view === 'pbd') populatePBDClassDropdown();
+            if (view === 'karya') populateGuUploadClassDropdown();
             if (view === 'laporan') loadLaporanKeseluruhan();
             if (view === 'tetapan') loadTetapanProfil();
             closeMobileSidebarIfOpen();
@@ -3688,9 +3734,119 @@
         // ---------- 09 & 10: Galeri per-unit + Ulasan/TP PBD (guru) ----------
         // Guna medan `tahun` & `unit` pada dokumen 'karya' (hanya wujud untuk karya yang
         // dihantar terus dari Modul Pembelajaran) supaya boleh ditapis khusus unit ini.
+        // Format Firestore Timestamp (medan `tarikh`) kepada teks tarikh+masa mudah dibaca.
+        function formatTarikhKarya(tarikh) {
+            if (!tarikh || !tarikh.toDate) return 'Tarikh belum direkod';
+            const d = tarikh.toDate();
+            return d.toLocaleDateString('ms-MY', { day: '2-digit', month: 'short', year: 'numeric' }) +
+                ', ' + d.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' });
+        }
+        // Ambil nama PROFIL murid terkini daripada Firestore (users/{uid}.nama) supaya
+        // konsisten dengan nama yang disahkan/dibetulkan guru, bukan sekadar nama akaun
+        // log masuk (Google/Microsoft/emel) semasa mendaftar dahulu.
+        async function ambilNamaProfilMurid() {
+            try {
+                const snap = await getDoc(doc(db, 'users', currentUser.uid));
+                if (snap.exists() && snap.data().nama) return snap.data().nama;
+            } catch (e) {}
+            return currentUser.displayName || currentUser.email;
+        }
         async function loadGaleriUnit(tahunLabel, unitCode, isGuru) {
             return loadGaleriUnitInto('modul-galeri-unit', tahunLabel, unitCode, isGuru);
         }
+        // ---------- Suka & Komen Karya (semua pengguna log masuk boleh suka & komen) ----------
+        function renderSukaKomenBlock(karyaId, k) {
+            const suka = k.suka || [];
+            const liked = currentUser && suka.includes(currentUser.uid);
+            return `
+                <div class="mt-1.5 pt-1.5 border-t border-slate-200 flex items-center gap-3">
+                    <button id="suka-btn-${karyaId}" onclick="toggleSukaKarya('${karyaId}')" class="flex items-center gap-1 text-base font-black transition-colors ${liked ? 'text-rose-600' : 'text-slate-400'}">
+                        <span id="suka-icon-${karyaId}">${liked ? '❤️' : '🤍'}</span><span id="suka-count-${karyaId}">${suka.length}</span>
+                    </button>
+                    <button onclick="toggleKomenBox('${karyaId}')" class="text-base font-black text-indigo-500">💬 Komen</button>
+                </div>
+                <div id="komen-box-${karyaId}" class="hidden mt-1 space-y-1.5">
+                    <div id="komen-list-${karyaId}" class="space-y-1 max-h-32 overflow-y-auto"></div>
+                    <div class="flex gap-1">
+                        <input id="komen-input-${karyaId}" type="text" placeholder="Tulis komen..." onkeydown="if(event.key==='Enter'){event.preventDefault();hantarKomenKarya('${karyaId}');}" class="flex-1 text-base p-1.5 border border-slate-900 rounded-lg">
+                        <button onclick="hantarKomenKarya('${karyaId}')" class="text-base font-black px-2.5 py-1 bg-indigo-500 text-white rounded-lg border border-slate-950 shrink-0">Hantar</button>
+                    </div>
+                </div>`;
+        }
+
+        async function toggleSukaKarya(karyaId) {
+            try {
+                const ref = doc(db, 'karya', karyaId);
+                const snap = await getDoc(ref);
+                if (!snap.exists()) return;
+                const suka = snap.data().suka || [];
+                const sudahSuka = suka.includes(currentUser.uid);
+                await updateDoc(ref, { suka: sudahSuka ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid) });
+                const newCount = sudahSuka ? Math.max(0, suka.length - 1) : suka.length + 1;
+                const btn = document.getElementById(`suka-btn-${karyaId}`);
+                const icon = document.getElementById(`suka-icon-${karyaId}`);
+                const countEl = document.getElementById(`suka-count-${karyaId}`);
+                if (icon) icon.innerText = sudahSuka ? '🤍' : '❤️';
+                if (countEl) countEl.innerText = newCount;
+                if (btn) { btn.classList.toggle('text-rose-600', !sudahSuka); btn.classList.toggle('text-slate-400', sudahSuka); }
+            } catch (e) {
+                alert('Ralat: ' + e.message);
+            }
+        }
+        window.toggleSukaKarya = toggleSukaKarya;
+
+        function toggleKomenBox(karyaId) {
+            const box = document.getElementById(`komen-box-${karyaId}`);
+            if (!box) return;
+            const wasHidden = box.classList.contains('hidden');
+            box.classList.toggle('hidden');
+            if (wasHidden) loadKomenKarya(karyaId);
+        }
+        window.toggleKomenBox = toggleKomenBox;
+
+        async function loadKomenKarya(karyaId) {
+            const listEl = document.getElementById(`komen-list-${karyaId}`);
+            if (!listEl) return;
+            listEl.innerHTML = '<p class="text-sm text-slate-400 italic">Memuatkan komen...</p>';
+            try {
+                const q = query(collection(db, 'karya', karyaId, 'komen'), orderBy('tarikh', 'asc'));
+                const snap = await getDocs(q);
+                if (snap.empty) {
+                    listEl.innerHTML = '<p class="text-sm text-slate-400 italic">Belum ada komen. Jadi yang pertama!</p>';
+                    return;
+                }
+                listEl.innerHTML = snap.docs.map(d => {
+                    const kk = d.data();
+                    const teks = (kk.teks || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return `<p class="text-base bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><span class="font-black">${kk.nama || 'Pengguna'}:</span> ${teks}</p>`;
+                }).join('');
+            } catch (e) {
+                listEl.innerHTML = `<p class="text-sm text-rose-600">Ralat memuatkan komen: ${e.message}</p>`;
+            }
+        }
+        window.loadKomenKarya = loadKomenKarya;
+
+        async function hantarKomenKarya(karyaId) {
+            const input = document.getElementById(`komen-input-${karyaId}`);
+            if (!input) return;
+            const teks = input.value.trim();
+            if (!teks) return;
+            input.value = '';
+            try {
+                const nama = await ambilNamaProfilMurid();
+                await addDoc(collection(db, 'karya', karyaId, 'komen'), {
+                    uid: currentUser.uid,
+                    nama: nama,
+                    teks: teks,
+                    tarikh: serverTimestamp()
+                });
+                loadKomenKarya(karyaId);
+            } catch (e) {
+                alert('Ralat menghantar komen: ' + e.message);
+            }
+        }
+        window.hantarKomenKarya = hantarKomenKarya;
+
         async function loadGaleriUnitInto(containerId, tahunLabel, unitCode, isGuru) {
             const container = document.getElementById(containerId);
             container.innerHTML = '<p class="text-lg text-slate-400 italic">Memuatkan...</p>';
@@ -3717,6 +3873,7 @@
                             <img src="${k.imageUrl}" onclick="openImageLightbox(this.src)" class="w-16 h-16 object-cover rounded-lg border border-slate-900 shrink-0 cursor-zoom-in">
                             <div class="flex-1 min-w-0 space-y-1">
                                 <p class="text-lg font-black truncate">${k.tajuk} \u2014 <span class="text-slate-500 font-bold">${k.namaMurid}</span></p>
+                                <p class="text-base text-slate-400">\ud83d\uddd3\ufe0f ${formatTarikhKarya(k.tarikh)}</p>
                                 ${isGuru ? `
                                     <div class="flex items-center gap-1">
                                         <select id="tp-${d.id}" class="text-base p-1 border border-slate-900 rounded">${tpOptions}</select>
@@ -3725,6 +3882,7 @@
                                     </div>` :
                                     (k.ulasanGuru ? `<p class="text-base text-indigo-700 font-bold">💬 ${k.ulasanGuru}${k.tp ? ` (TP${k.tp})` : ''}</p>` : `<p class="text-base text-slate-400 italic">Menunggu ulasan guru...</p>`)
                                 }
+                                ${renderSukaKomenBlock(d.id, k)}
                             </div>
                         </div>`;
                 });
@@ -3771,7 +3929,7 @@
                 }
                 await addDoc(collection(db, 'karya'), {
                     uid: currentUser.uid,
-                    namaMurid: currentUser.displayName || currentUser.email,
+                    namaMurid: await ambilNamaProfilMurid(),
                     kodKelas: kelasSepadan[0].kod,
                     tahun: activeModulYear,
                     unit: activeModulUnit,
@@ -4088,10 +4246,11 @@
             document.getElementById('rph-out-sp').innerText = document.getElementById('rph-sp').value.trim() || '(belum diisi -- klik untuk taip terus di sini)';
             document.getElementById('rph-out-objektif').innerText = `Pada akhir pembelajaran, murid dapat menghasilkan karya "${unit.tajuk}" menggunakan teknik ${unit.teknik} serta mengenali Bahasa Seni Visual berkaitan.`;
 
-            // Kosongkan Refleksi setiap kali RPH baharu dijana (refleksi khusus untuk sesi ini)
-            document.getElementById('rph-refleksi-kekuatan').value = '';
-            document.getElementById('rph-refleksi-kelemahan').value = '';
-            document.getElementById('rph-refleksi-penambahbaikan').value = '';
+            // Kosongkan Refleksi SWOT setiap kali RPH baharu dijana (refleksi khusus untuk sesi ini)
+            document.getElementById('rph-swot-s').value = '';
+            document.getElementById('rph-swot-w').value = '';
+            document.getElementById('rph-swot-o').value = '';
+            document.getElementById('rph-swot-t').value = '';
 
             const steps = [
                 'Guru mempamerkan contoh visual dan membincangkan Bahasa Seni Visual berkaitan.',
@@ -4146,6 +4305,8 @@
                             <div class="p-2">
                                 <p class="text-lg font-black truncate">${k.tajuk}</p>
                                 <p class="text-base text-slate-500 truncate">${k.namaMurid}${k.unit ? ` \u2022 ${k.unit}` : ''}</p>
+                                <p class="text-sm text-slate-400">\ud83d\uddd3\ufe0f ${formatTarikhKarya(k.tarikh)}</p>
+                                ${renderSukaKomenBlock(d.id, k)}
                             </div>
                         </div>`;
                 });
@@ -4184,6 +4345,8 @@
                             <div class="p-2">
                                 <p class="text-lg font-black truncate">${k.tajuk}</p>
                                 <p class="text-base text-slate-500 truncate">${k.unit ? `${k.tahun} \u2022 ${k.unit}` : 'Karya umum'}${k.tp ? ` \u2022 TP${k.tp}` : ''}</p>
+                                <p class="text-sm text-slate-400">\ud83d\uddd3\ufe0f ${formatTarikhKarya(k.tarikh)}</p>
+                                ${renderSukaKomenBlock(d.id, k)}
                             </div>
                         </div>`;
                 }).join('') + '</div>';
@@ -4192,6 +4355,94 @@
             }
         }
         window.loadPortfolioMurid = loadPortfolioMurid;
+
+        // ---------- Muat Naik Karya Bagi Pihak Murid (guru, untuk murid tiada akses) ----------
+        function populateGuUploadClassDropdown() {
+            const sel = document.getElementById('gu-select-class');
+            if (!sel) return;
+            if (guruClassesData.length === 0) {
+                sel.innerHTML = '<option value="">-- Cipta kelas dahulu --</option>';
+                return;
+            }
+            sel.innerHTML = '<option value="">-- Pilih kelas --</option>' + guruClassesData.map(c => `<option value="${c.kod}">${c.namaKelas} (${c.tahun})</option>`).join('');
+            document.getElementById('gu-select-murid').innerHTML = '<option value="">-- Pilih kelas dahulu --</option>';
+        }
+        window.populateGuUploadClassDropdown = populateGuUploadClassDropdown;
+
+        async function onGuUploadClassChange() {
+            const kod = document.getElementById('gu-select-class').value;
+            const sel = document.getElementById('gu-select-murid');
+            if (!kod) { sel.innerHTML = '<option value="">-- Pilih kelas dahulu --</option>'; return; }
+            sel.innerHTML = '<option value="">Memuatkan senarai murid...</option>';
+            try {
+                const snap = await getDocs(query(collection(db, 'users'), where('kelasDisertai', 'array-contains', kod)));
+                if (snap.empty) {
+                    sel.innerHTML = '<option value="">-- Tiada murid dalam kelas ini --</option>';
+                    return;
+                }
+                sel.innerHTML = '<option value="">-- Pilih murid --</option>' +
+                    snap.docs.map(d => `<option value="${d.id}" data-nama="${(d.data().nama || d.data().email || 'Murid').replace(/"/g, '&quot;')}">${d.data().nama || d.data().email || 'Murid'}</option>`).join('');
+            } catch (e) {
+                sel.innerHTML = '<option value="">-- Ralat memuatkan murid --</option>';
+            }
+        }
+        window.onGuUploadClassChange = onGuUploadClassChange;
+
+        function toggleGuUploadNamaManual() {
+            const manual = document.getElementById('gu-nama-manual-toggle').checked;
+            document.getElementById('gu-select-murid').classList.toggle('hidden', manual);
+            document.getElementById('gu-nama-manual').classList.toggle('hidden', !manual);
+        }
+        window.toggleGuUploadNamaManual = toggleGuUploadNamaManual;
+
+        async function hantarKaryaOlehGuru() {
+            const fb = document.getElementById('gu-upload-feedback');
+            const kod = document.getElementById('gu-select-class').value;
+            const tajuk = document.getElementById('gu-tajuk').value.trim();
+            const fileInput = document.getElementById('gu-file');
+            const manual = document.getElementById('gu-nama-manual-toggle').checked;
+            const muridSel = document.getElementById('gu-select-murid');
+            const namaMurid = manual ? document.getElementById('gu-nama-manual').value.trim() : (muridSel.selectedOptions[0] ? muridSel.selectedOptions[0].dataset.nama : '');
+            const uidMurid = manual ? null : (muridSel.value || null);
+
+            if (!kod) { alert('Sila pilih kelas dahulu.'); return; }
+            if (!namaMurid) { alert('Sila pilih atau taip nama murid.'); return; }
+            if (!tajuk) { alert('Sila masukkan tajuk karya.'); return; }
+            if (!fileInput.files[0]) { alert('Sila pilih gambar karya.'); return; }
+
+            fb.className = 'text-lg font-bold p-2 rounded-lg bg-slate-100 text-slate-600';
+            fb.innerText = 'Memampatkan & memuat naik...';
+            fb.classList.remove('hidden');
+            try {
+                const kelas = guruClassesData.find(c => c.kod === kod);
+                const imageDataUrl = await compressImageFile(fileInput.files[0]);
+                if (imageDataUrl.length > 900000) {
+                    fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                    fb.innerText = 'Gambar masih terlalu besar selepas dimampatkan. Sila cuba gambar lain.';
+                    return;
+                }
+                await addDoc(collection(db, 'karya'), {
+                    uid: uidMurid,
+                    namaMurid: namaMurid,
+                    kodKelas: kod,
+                    tahun: kelas ? kelas.tahun : null,
+                    tajuk: tajuk,
+                    imageUrl: imageDataUrl,
+                    tarikh: serverTimestamp(),
+                    dimuatNaikOlehGuru: true
+                });
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-700';
+                fb.innerText = `✅ Karya "${tajuk}" untuk ${namaMurid} berjaya dimuat naik!`;
+                document.getElementById('gu-tajuk').value = '';
+                fileInput.value = '';
+                document.getElementById('gu-nama-manual').value = '';
+                if (document.getElementById('guru-karya-mode').value === 'semua') loadGuruKarya();
+            } catch (e) {
+                fb.className = 'text-lg font-bold p-2 rounded-lg bg-rose-50 border border-rose-500 text-rose-700';
+                fb.innerText = 'Ralat memuat naik: ' + e.message;
+            }
+        }
+        window.hantarKaryaOlehGuru = hantarKaryaOlehGuru;
 
         function populateKaryaClassDropdown() {
             const sel = document.getElementById('karya-select-class');
@@ -4252,7 +4503,7 @@
 
                 await addDoc(collection(db, 'karya'), {
                     uid: currentUser.uid,
-                    namaMurid: currentUser.displayName || currentUser.email,
+                    namaMurid: await ambilNamaProfilMurid(),
                     kodKelas: kod,
                     tajuk: tajuk,
                     imageUrl: imageDataUrl,
@@ -4288,7 +4539,12 @@
                     container.innerHTML += `
                         <div class="border-2 border-slate-950 rounded-xl overflow-hidden">
                             <img src="${k.imageUrl}" onclick="openImageLightbox(this.src)" class="w-full aspect-square object-cover cursor-zoom-in">
-                            <p class="p-2 text-lg font-black truncate">${k.tajuk}</p>
+                            <div class="p-2">
+                                <p class="text-lg font-black truncate">${k.tajuk}</p>
+                                <p class="text-base text-slate-500 truncate">${k.namaMurid || ''}</p>
+                                <p class="text-sm text-slate-400">🗓️ ${formatTarikhKarya(k.tarikh)}</p>
+                                ${renderSukaKomenBlock(d.id, k)}
+                            </div>
                         </div>`;
                 });
             } catch (e) {
